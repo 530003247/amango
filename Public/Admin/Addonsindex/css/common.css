@@ -1,0 +1,32 @@
+@charset "utf-8";
+/**/
+.module{padding:15px 15px 15px 0;}
+.module li{position:relative; margin-left:15px !important;}
+.module-priority{vertical-align:middle; height:30px; line-height:30px;cursor:pointer;}
+span.module-priority{cursor:default;}
+.module-priority select{vertical-align:middle; width:inherit; margin:0;}
+.module-pic{width:100%;min-height:135px; /*max-height:200px;*/overflow:hidden;position:relative;}
+.module-pic img{display:block; min-height:135px; margin:0 auto;width:100%;}
+.module-button{padding:9px 0; height:30px; line-height:30px;}
+.module-button .popover{width:auto;left:auto;top:auto;bottom:0;right:0;margin:0;margin-bottom:55px;line-height:20px;}
+.module-button .popover-content {padding:5px 10px; overflow:hidden;}
+.module-button .popover .arrow{left:85%;}
+.module-button .popover select{width:100%;}
+.module-detail{position:absolute;bottom:0;filter:Alpha(opacity=70);background:#000;background:rgba(0, 0, 0, 0.7);width:100%;font-family:arial,宋体b8b\4f53,sans-serif;}
+.module-detail p{padding:0 9px; margin:0;}
+.module-detail h5{color:#FFF;font-weight:normal;padding:0 9px;}
+.module-detail h5 small,.module-detail p{color:#CCC;}
+p.module-brief{margin-bottom:10px;}
+p.module-description{display:none;padding:3px;}
+.module .item{border-bottom:1px #DDD dotted;margin-bottom:10px; padding-bottom:5px;}
+.module .media .pull-right{margin-bottom:0;width:140px;overflow:hidden;}
+.module .media .pull-right .input-prepend{float:right;}
+.module .media .pull-right .input-prepend .add-on{padding:0 5px; height:23px; line-height:23px;}
+.module .media .pull-right .input-prepend select{padding:1px; height:25px; line-height:25px;}
+.module .module-set{text-align:right; margin-top:6px;float:right;}
+.module .module-set a{margin-left:5px;}
+.module .media-body span{margin-top:6px; display:inline-block;}
+.module .media-object{display:inline-block; float:left; margin-right:10px; width:48px; height:48px; overflow:hidden;}
+.module .media-heading{font-weight:normal; font-size:16px;}
+.module .media-description{display:none; margin-top:5px; overflow:hidden; background:#EEE; padding:5px; color:#666;}
+.module div.alert{font-size:14px; font-weight:600; margin-bottom:10px;}
