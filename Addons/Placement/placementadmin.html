@@ -1,0 +1,55 @@
+<div class="main-title cf">
+		<h2>插件配置 [ 信息植入 ]</h2>
+	</div>
+	<form action="{:addons_url('Placement://Placement/saveconfig')}" class="form-horizontal" method="post">
+					<table>
+					<tr>
+						<td><label class="item-label">开始时间段:<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="placement_start" class="text input-medium time"  placeholder="请选择开始日期" />
+					</div>
+					    </td>
+						<td><label class="item-label">截止时间段<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="placement_end" class="text input-medium time"  placeholder="请选择截止日期" />
+					</div>
+					    </td>
+					</tr>
+					<tr>
+						<td><label class="item-label">关键词组<span class="check-tips"></span></label>
+                    <div class="controls">
+				   {:W('Formfields/show', array(array('type'=>'laiyuan',name=>'placement_keygroup','extra'=>'调用【关键词分组】','sortfields'=>'id,id,keywordcate_name','default'=>'1'), '','add',array('class'=>'select','id'=>'placement_keygroup','style'=>'width:250px;'),''))}
+                 </div></td>
+						<td><label class="item-label">用户组<span class="check-tips"></span></label>
+                    <div class="controls">
+				   {:W('Formfields/show', array(array('type'=>'laiyuan',name=>'placement_usergroup','extra'=>'调用【会员组】','sortfields'=>'id,followercate_title,followercate_name','default'=>'1'), '','add',array('class'=>'select','id'=>'placement_usergroup','style'=>'width:250px;'),''))}
+					</div></td>
+					</tr>
+					<tr>
+                   <td><label class="item-label">植入响应体<span class="check-tips"></span></label>
+                    <div class="controls">
+				  {:W('Formfields/show', array(array('type'=>'laiyuan',name=>'placement_add','extra'=>'调用【响应内容】','sortfields'=>'id,id,response_name'), '','add',array('class'=>'select','id'=>'placement_add','style'=>'width:250px;'),''))}
+			        </div></td>
+                    
+					</tr>
+				</table>
+				<br>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+        </div>
+<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+	var $j = jQuery.noConflict();
+	$j(function(){
+    $j(".time").datetimepicker({
+	     language: 'zh',
+	     startView: 0,
+		 format: 'hh:ii'
+		 });
+    });
+</script>
