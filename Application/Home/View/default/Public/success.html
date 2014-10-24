@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+    <title>跳转提示</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+	<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/amui/Home/css/main.css" media="all" />
+</head>
+<body>
+	<div class="container page_200" style="min-width: 100%;">
+	<div class="body">
+           <label><?php echo($message); ?></label><br>
+        <p class="jump">
+           <a id="href"  href="<?php echo($jumpUrl); ?>">立即跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b>
+        </p>
+	</div>
+    </div>
+<script type="text/javascript">
+(function(){
+var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+var interval = setInterval(function(){
+	var time = --wait.innerHTML;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script>
+</body>
+</html>

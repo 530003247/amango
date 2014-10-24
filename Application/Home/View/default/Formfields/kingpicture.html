@@ -1,0 +1,38 @@
+<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+	<script type="text/javascript">
+	//图片上传
+	KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true,
+				          uploadJson : "{:U('File/kindupload',array('session_id'=>session_id(),'type'=>'picture','filepeth'=>MODULE_NAME))}",
+				     fileManagerJson : '__STATIC__/kindeditor/php/file_manager_json.php',
+				});
+				//单图文上传
+				K("#image1_{$field['name']}").click(function() {
+					editor.loadPlugin("image", function() {
+						editor.plugin.imageDialog({
+							clickFn : function(url, title, width, height, border, align) {
+								K("#url1_{$field['name']}").val(url);
+								K("#one_pic_{$field['name']}").attr('src',url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+    });
+</script>
+<eq name="type" value="add">
+                                <div class="controls">
+                                    <a class="btn btn-mini" id="image1_{$field['name']}">上传</a> <input name="{$field.name}" class="text input-8x" type="text" id="url1_{$field['name']}">
+									<br>
+										<div class="upload-pre-item"><br><img height="200" width="400" src="__ROOT__{$data[$field['name']]}" id="one_pic_{$field['name']}"/></div>
+								
+								</div>
+<else/>
+                                <div class="controls">
+                                   <a class="btn btn-mini" id="image1_{$field['name']}">上传</a> <input name="{$field.name}" class="text input-8x" type="text" id="url1_{$field['name']}" value="{$data[$field['name']]}" >
+									<br>
+										<div class="upload-pre-item"><br><img height="200" width="400" src="__ROOT__{$data[$field['name']]}" id="one_pic_{$field['name']}"/></div>
+								</div>
+</eq>

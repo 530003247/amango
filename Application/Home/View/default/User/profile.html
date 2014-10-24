@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="__PUBLIC__/amui/amui.all.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/amui/Home/profile/app.css"/>
+
+</head>
+<body>
+
+<header class="func-header" style="background: url('__PUBLIC__/amui/Home/img/WP.jpg') no-repeat;background-size: 100% 100%">
+    <!-- 上显示为头部的背景图片，修改url中的图片 -->
+    <div id="bg-mask">
+        <div id="my-info">
+            <img src="__PUBLIC__/amui/Home/img/WP.jpg"/>
+            <!-- 上为用户头像 -->
+<amango:userinfo name="info" userid="" >
+        <span>{$info.nickname}</span>
+</amango:userinfo>
+        </div>
+        <div class="shortcut-panel">
+            <div class="shortcut-content">
+                <a href="#">
+                    <div class="shortcut-title">我的发布</div>
+                    <div class="shortcut-value"></div>
+                </a>
+            </div>
+            <div class="shortcut-content">
+                <a href="#">
+                    <div class="shortcut-title">我的积分</div>
+                    <div class="shortcut-value"></div>
+                </a>
+            </div>
+            <div class="shortcut-content">
+                <a href="#">
+                    <div class="shortcut-title">我的收藏</div>
+                    <div class="shortcut-value"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="main-content col-sm-12 my-function">
+    <ul>
+<amango:addonsuserlist name="addon">
+        <li class="col-sm-4">
+            <div class="function-content">
+                <a class="func-anchor-content" href="{:addons_url($addon['name'].'://Home/profile')}">
+                    <span class="new-msg-num">{:Amango_Tips('addons',$addon['name'])}</span>
+
+                    <div class="function-img">
+                        <img src="__ROOT__/Addons/{$addon['name']}/icon.png" alt=""/>
+                    </div>
+                    <div class="function-title">{$addon.profilename}</div>
+                </a>
+            </div>
+        </li>
+</amango:addonsuserlist>
+    </ul>
+</div>
+</body>
+</html>

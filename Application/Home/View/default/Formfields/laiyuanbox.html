@@ -1,0 +1,13 @@
+<eq name="type" value="add">
+                                <volist name=":parse_laiyuan_attr($field['extra'])" id="vo">
+                                	<label class="checkbox">
+                                    <input type="checkbox" value="{$vo.1}" cate="{$vo.0}" name="{$field.name}[]">{$vo.2}
+                                	</label>
+                                </volist>
+<else/>
+                                <volist name=":parse_laiyuan_attr($field['extra'])" id="vo">
+                                	<label class="checkbox">
+                                    <input type="checkbox" value="{$vo.1}" cate="{$vo.0}" name="{$field.name}[]" <in name="vo[1]" value="$data[$field['name']]" >checked="checked"</in>>{$vo.2}
+                                	</label>
+                                </volist>
+</eq>

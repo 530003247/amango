@@ -1,0 +1,76 @@
+<if condition="$Share neq ''"> 
+ <script type="text/javascript">
+ 	        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        window.shareData = {  
+           "imgUrl": "{$Share.ImgUrl}", 
+            "timeLineLink": "{$Share.TimeLink}",
+            "sendFriendLink": "{$Share.FriendLink}",
+            "weiboLink": "{$Share.WeiboLink}",
+            "tTitle": "{$Share.tTitle}",
+            "tContent": "{$Share.tContent}",
+            "fTitle": "{$Share.fTitle}",
+            "fContent": "{$Share.fContent}",
+            "wContent": "{$Share.wContent}" 
+        };
+        // 发送给好友
+        WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+            WeixinJSBridge.invoke('sendAppMessage', { 
+                "img_url": window.shareData.imgUrl,
+                "img_width": "640",
+                "img_height": "640",
+                "link": window.shareData.sendFriendLink,
+                "desc": window.shareData.fContent,
+                "title": window.shareData.fTitle
+            }, function (res) {
+                _report('send_msg', res.err_msg);
+            })
+        });
+
+        // 分享到朋友圈
+        WeixinJSBridge.on('menu:share:timeline', function (argv) {
+            WeixinJSBridge.invoke('shareTimeline', {
+                "img_url": window.shareData.imgUrl,
+                "img_width": "640",
+                "img_height": "640",
+                "link": window.shareData.timeLineLink,
+                "desc": window.shareData.tContent,
+                "title": window.shareData.tTitle
+            }, function (res) {
+                _report('timeline', res.err_msg);
+            });
+        });
+
+        // 分享到微博
+        WeixinJSBridge.on('menu:share:weibo', function (argv) {
+            WeixinJSBridge.invoke('shareWeibo', {
+                "content": window.shareData.wContent,
+                "url": window.shareData.weiboLink,
+            }, function (res) {
+                _report('weibo', res.err_msg);
+            });
+        });
+        }, false)
+    </script>
+</if>
+<if condition="$HideAll neq ''"> 
+  <script> 
+  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+  WeixinJSBridge.call('hideToolbar');
+  WeixinJSBridge.call('hideOptionMenu');
+  });
+</script>
+</if>
+<if condition="$HideBar eq ''"> 
+   <script>
+   document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+   WeixinJSBridge.call('hideToolbar');
+   });
+   </script>
+</if>
+<if condition="$HideMenu neq ''"> 
+   <script> 
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu');
+    });
+   </script>
+</if>
