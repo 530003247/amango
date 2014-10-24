@@ -1,0 +1,1126 @@
+<extend name="Public/base" />
+
+<block name="body">
+
+<link href="__ROOT__/Public/Admin/item_addkeyword/css/common.css" rel="stylesheet" type="text/css">
+<link href="__ROOT__/Public/Admin/item_addkeyword/css/wxm_appmsg.css" rel="stylesheet" type="text/css">
+<script src="__ROOT__/Public/Admin/item_addkeyword/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__ROOT__/Public/Admin/item_addkeyword/script/utils.min.js"></script>
+
+			<link rel="stylesheet" href="__STATIC__/tipsy/tipsy.css" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+			<script charset="utf-8" src="__STATIC__/tipsy/jquery.tipsy.js"></script>
+		<style>
+			.ke-icon-diyview {
+				background-image: url("__STATIC__/kindeditor/150.gif");
+				width: 16px;
+				height: 16px;
+			}
+		</style>
+<!--------自定义工具栏    Start---------->
+<script>
+KindEditor.plugin('diyview', function(K) {
+	var self = this, name = 'diyview';
+        function click(value) {
+			 var cmd = self.cmd;
+				 if (value === 'adv_strikethrough') {
+						cmd.wrap('<span style="background-color:#e53333;text-decoration:line-through;"></span>');
+					} else {
+						cmd.wrap('<span class="' + value + '"></span>');
+					}
+					cmd.select();
+					self.hideMenu();
+		}
+	self.clickToolbar(name, function() {
+				    var menu = self.createMenu({
+						name : name,
+						width :450
+					});
+				    menu.addItem({
+						title : '(微站链接)&nbsp;&nbsp;[类型:编号:标题]&nbsp;&nbsp;(常用类型:vote;huodon;article;diy)',
+					    click : function() {
+						self.hideMenu();
+				html = '<div style="padding:20px;">' +
+					//url
+					'<div class="ke-dialog-row">' +
+					'<label for="keType" style="width:60px;">链接类型</label>' +
+					'<select id="keType" onchange="oc(\'keType\',\'keList\');" class="msg-input"><volist name="cate_list['parent']" id="val"><option disabled>==={$val.title}===</option><notempty name="cate_list['sub'][$val['id']]"><volist name="cate_list['sub'][$val['id']]" id="sval"><option value="{$sval.id}">&nbsp;&nbsp;&nbsp;&nbsp;{$sval.title}</option><notempty name="cate_list['sub'][$sval['id']]"><volist name="cate_list['sub'][$sval['id']]" id="ssval"><option value="{$ssval.id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$ssval.title}</option></volist></notempty></volist></notempty></volist></select></div>' +
+					//type
+					'<div class="ke-dialog-row"">' +
+					'<label for="keList" style="width:60px;">内容编号</label>' +
+					'<select class="msg-input" type="text" id="keList" name="keList" value="" style="width:80%;"></select>' +
+					'</div>' +
+					'<div class="ke-dialog-row">' +
+					'<label for="keytitle" style="width:60px;">链接标题</label>' +
+					'<input class="msg-input" type="text" id="keytitle" name="url" value="" style="width:80%;" /></div>' +
+					'</div>',
+				            dialog = self.createDialog({
+					            name : name,
+					            width : 600,
+					            title : '(微站链接)&nbsp;&nbsp;[类型:编号:标题]&nbsp;&nbsp;(类型:article)',
+					            body : html,
+					            yesBtn : {
+						        name : '确定生成链接',
+							        click : function(e) {
+											var keytype = K("#keType").val();
+											var kelist = K("#keList").val();
+											var keytitle = K("#keytitle").val();
+											var keycate = $("#keType").find("option:selected").attr('cate');
+										    if(keytype=='null'){
+						                        alert('请选择帖子所属栏目!');
+											} 
+											if(kelist==''){
+						                        alert('请选择帖子ID!');
+											}
+											if(keytitle==''){
+						                        keytitle = $("#keList").find("option:selected").text();
+											}
+											if(keytitle==''){
+						                        alert('链接标题不能为空!');
+											}
+										    if(keytype!='null'&&kelist!=''&&keytitle!=''&&keycate!=''){
+										   			self.insertHtml("<a href='{:U('Home/Index/index','','',true)}/id/"+kelist+"'>"+keytitle+"</a>").hideDialog().focus();
+										    }
+						            }
+					            }
+				            })
+						}
+				    });
+					menu.addItem({
+						title : '(关联用户)&nbsp;&nbsp;[类型:用户(组)名]',
+						click : function() {
+						self.hideMenu();
+							html = '<div style="padding:20px;">' +
+							//url
+							'<div class="ke-dialog-row">' +
+							'<label for="keType" style="width:70px;">@类型</label>' +
+							'<select id="keType" name="type"><option value="user">用户名</option><option value="group">用户组</option></select></div>' +
+							'<div class="ke-dialog-row">' +
+							'<label for="keytitle" style="width:70px;">用户(组)标识</label>' +
+							'<input class="ke-input-text" type="text" id="keytitle" name="url" value="" style="width:70%;" /><br>(默认为列表标题)</div>' +
+							'</div>',
+							dialog = self.createDialog({
+								name : name,
+								width : 450,
+								title : '(关联用户)&nbsp;&nbsp;[类型:用户(组)名]&nbsp;&nbsp;(常用类型:user;group)',
+								body : html,
+								yesBtn : {
+									name : '确定@他(他们)',
+									click : function(e) {
+										var keytype = K("#keType").val();
+										var keytitle = K("#keytitle").val();
+											if(keytitle==''){
+					                        alert('链接标题不能为空!');
+										    } else {
+											self.insertHtml("<a href='{:U('Home/Index/index','','',true)}/id/"+keytype+"&signature=AMANGO_SIG&uid="+keytitle+"'>"+keytitle+"</a>").hideDialog().focus();
+										    }
+									}
+								}
+							})
+						}
+					});
+					menu.addItem({
+						title : '(外部链接)&nbsp;&nbsp;[链接:描述]',
+						click : function() {
+						self.hideMenu();
+							html = '<div style="padding:20px;">' +
+									//url
+									'<div class="ke-dialog-row">' +
+									'<label for="wai_url" style="width:100px;">外部链接</label>' +
+									'<input class="ke-input-text" type="text" id="wai_url" name="url" value="" style="width:70%;" />(必须添加头部http://或者https://)</div>' +
+									'<div class="ke-dialog-row">' +
+									'<label for="wai_miaosu" style="width:100px;">链接描述</label>' +
+									'<input class="ke-input-text" type="text" id="wai_miaosu" name="url" value="" style="width:70%;" /</div>' +
+									'</div>',
+							dialog = self.createDialog({
+								name : name,
+								width : 450,
+								title : '(外部链接)&nbsp;&nbsp;【您的链接|描述】',
+								body : html,
+									yesBtn : {
+										name : '生成外部链接',
+										click : function(e) {
+										var keytype = K("#wai_url").val();
+										var keytitle = K("#wai_miaosu").val();
+											if(keytitle==''){
+					                        alert('链接标题不能为空!');
+										    } else {
+											        if(keytype.indexOf("?")>0){
+					                                  self.insertHtml("<a href='"+keytype+"&signature=AMANGO_SIG'>"+keytitle+"</a>").hideDialog().focus();
+													} else {
+											          self.insertHtml("<a href='"+keytype+"?signature=AMANGO_SIG'>"+keytitle+"</a>").hideDialog().focus();
+													}
+											}
+										}
+									}
+			               })
+						}
+					});
+		});
+});
+</script>
+<!--------自定义工具栏    End---------->
+<script>
+				var editor;
+				var replyeditor;
+				KindEditor.lang({
+                                diyview : '快捷操作'
+                });
+				KindEditor.ready(function(K) {
+				    //激活关键词
+					editor = K.create('textarea[name="keyword_content"]', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+					items : ['emoticons','|','plainpaste','clearhtml','about'],
+                pasteType : "1",
+			   newlineTag : "br",
+			     htmlTags : {a : ['href'],'br' : [],img : ['src', 'alt']},
+				  width:'100%',
+               filterMode : true,
+			   resizeMode : 1,
+					});
+					//文本回复
+				replyeditor = K.create('#keyword_text', {
+					allowImageUpload : false,
+					items : ['emoticons','diyview','|','hr','template','|','plainpaste','clearhtml','fullscreen','about'],
+                pasteType : "1",
+			   newlineTag : "br",
+			     htmlTags : {a : ['href'],hr : [],'br' : [],img : ['src', 'alt']},
+				  width:'100%',
+               filterMode : true, //不会过滤HTML代码
+			   resizeMode : 1, //编辑器只能调整高度
+			  afterChange : function() {
+						K('.word_count1').html(this.count());
+						K('.word_count2').html(this.count('text'));
+					}
+				   });
+				});
+	//图片上传
+	KindEditor.ready(function(K) {
+	           
+				var editor = K.editor({
+					allowFileManager : true,
+				          uploadJson : "{:U('File/kindupload',array('session_id'=>session_id(),'type'=>'picture','filepeth'=>MODULE_NAME))}",
+					 fileManagerJson : "{:U('File/kindmanageimg')}",
+				     	 amangoFiles : "{:Amango_Scanfiles('Picture')}",
+				});
+				//单图文上传
+				K('#image1').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							clickFn : function(url, title, width, height, border, align) {
+							alert(url);
+								K('#url1').val(url);
+								K('#one_pic').attr('src',url);
+								if (K('#url1').val()!='')
+								{
+								  	K('#singlenews .default-tip').hide();
+								} else {
+                                    K('#singlenews .default-tip').show();
+								}
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+		      //多图文上传图片
+			  K('#duo_image').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							clickFn : function(url, title, width, height, border, align) {
+								K('#duo_url').val(url);
+								var p = K("#duotw_id").val();
+								//duotw_id
+								if (K('#duo_url').val()!=''&&p!='')
+								{
+                                    K('#appmsgItem'+p+' #duo_picurl').val(url);
+									K('#appmsgItem'+p+' .i-img').attr('src',url);
+									K('#appmsgItem'+p+' .default-tip').hide();
+								  	K('#appmsgItem'+p+' .i-img').show();
+								} else {
+							    	K('#appmsgItem'+p+' #duo_picurl').val(url);
+								  	K('#appmsgItem'+p+' .i-img').hide();
+								}
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+    });
+	$(function() { 
+		$('.tip').tipsy({gravity: 'nw'});
+	});
+//清除单图文
+function clear_dantw(){
+			          $('#dan_title').val('');    $('#singlenews .appmsgItem .i-title').html('');
+                      $('#dan_desc').val('');     $('#singlenews .appmsgItem .i-desc').html('');
+                      $('#singlenews #one_pic').attr('src','');   $('#singlenews .appmsgItem .default-tip').show();
+                      $('#url1').val('');         $('#dan_url').val(''); 
+}
+//单图文  一键替换
+ $('#dan_tzid').live('click',function(){
+	     var data=new Object();
+		  data.cateid = $('#dan_lmid option:selected').val();                //父级
+		  data.cate   = $("#dan_lmid").find("option:selected").attr('cate'); //子级
+		  data.id     = $('#dan_tzid option:selected').val();                //单项
+		  $.post('{:U("Keywordview/ajax_info")}',data,function(d){
+			 if(d.status!=0){
+			          var backparam = d.msg;
+					  clear_dantw();
+			          $('#dan_title').val(backparam[0]);    $('#singlenews .appmsgItem .i-title').html(backparam[0]);
+                      $('#dan_desc').val(backparam[2]);     $('#singlenews .appmsgItem .i-desc').html(backparam[2]);
+                      $('#singlenews #one_pic').attr('src',backparam[1]);   $('#singlenews .appmsgItem .default-tip').hide();
+                      $('#url1').val(backparam[1]);                                                        //$('#dan_url').val('__WAP__/wap.php?m='+data.cateid+'&a=index&signature=AMANGO_SIG&id='+data.cate+'&uid='+data.id);
+					  $('#dan_url').val(backparam[3]);
+             }else{
+	             alert(d.errmsg);
+			 }
+		 },'json');
+  });
+  //清除多图文
+    function clear_duotw(){
+   	          var p = $("#duotw_id").val();
+			      if(p!=''){
+                      $('#title').val('');
+			          $("#duo_url").val('');
+					  $("#url").val('');
+                                    $('#multinews #appmsgItem'+p+' .i-title').html('');
+                                    $("#multinews #appmsgItem"+p+" #wailian").val('');
+									$("#appmsgItem"+p+" #tieziid").val('');
+                                    $('#appmsgItem'+p+' #duo_picurl').val('');
+									$('#appmsgItem'+p+' .i-img').attr('src','');
+									$('#appmsgItem'+p+' .default-tip').show();
+                                    $('#appmsgItem'+p+' .i-img').hide();	
+				  }
+	}
+       //多图文  一键替换
+	   $('#tiezi').live('change',function(){
+	      var p = $("#duotw_id").val();
+		  if(p==''){
+               alert('请先选择要编辑的图文子项');
+		  }
+		           clear_duotw();//清除多图文残余
+	           var data = new Object();
+		    data.cate   = $("#duo_lmid").find("option:selected").attr('cate');
+		    data.cateid = $('#duo_lmid option:selected').val();
+		    data.id     = $('#tiezi option:selected').val();
+            if(data.id=='rand'||data.id=='news'){
+					  clear_dantw();
+                      $("#appmsgItem"+p+" #lanmuid").val(data.cate+','+data.cateid);
+                      $("#appmsgItem"+p+" #tieziid").val(data.id);
+
+			}
+		 $.post('{:U("Keywordview/ajax_info")}',data,function(d){
+			 if(d.status!=0){
+			          var backparam = d.msg;
+					  clear_dantw();//清除单图文残余
+                      //面板显示内容
+                      $('#title').val(backparam[2]);
+			          $("#duo_url").val(backparam[1]);
+                      $("#url").val(backparam[3]);
+                      //item隐藏内容
+                      $('#multinews #appmsgItem'+p+' .i-title').html(backparam[2]);
+                      $("#multinews #appmsgItem"+p+" #wailian").val(backparam[3]);
+            				if (p!=''){
+                                    $('#appmsgItem'+p+' #duo_picurl').val(backparam[1]);
+									$('#appmsgItem'+p+' .i-img').attr('src',backparam[1]);
+									$('#appmsgItem'+p+' .default-tip').hide();
+								  	$('#appmsgItem'+p+' .i-img').show();
+							} else {
+							    	$('#appmsgItem'+p+' #duo_picurl').val('');
+								  	$('#appmsgItem'+p+' .i-img').hide();
+							}
+                      $("#appmsgItem"+p+" #lanmuid").val(data.cateid);
+                      $("#appmsgItem"+p+" #tieziid").val(data.id);
+             }else{
+	                  alert(d.errmsg);
+			 }
+		 },'json');
+         });
+</script>
+    <!-- 表单 -->
+    <div class="main-title cf">
+        <h2>新增 关键词 </h2>
+    </div>
+    <!-- 标签页导航 -->
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+			<li data-tab="tab1"><a href="javascript:void(0);" class="tip" title="关键词的基本参数,例如时间,周期,上下文继承等等...">Step1 基本参数</a></li><li data-tab="tab2" ><a href="javascript:void(0);" class="tip" title="用户在手机微信发送的信息,常见有文本,图片,语音,链接...">Step2 用户请求</a></li><li data-tab="tab3" ><a href="javascript:void(0);" class="tip" title="我们在微信上回复用户的信息,一般是文本,图片,语音...">Step3 微信响应</a></li><li data-tab="tab4" ><a href="javascript:void(0);"class="tip" title="系统后台处理该关键词激活的情景,额外执行的行为...">Step4 情景/行为激活</a></li></ul>
+    <div class="tab-content">
+    <!-- 表单 
+    <form id="form" action="/newmango/index.php?s=/admin/think/add/model/5.html" method="post" class="form-horizontal">-->
+        <!-- 基础文档模型 -->
+		<div id="tab1" class="tab-pane in tab1">
+					<div class="sys-info">
+				<table>
+					<tr>
+						<td><label class="item-label">开始时间<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="keyword_start" class="text input-medium time" value='<php>echo date("Y-m-d h:i", time());</php>' placeholder="请选择开始日期" /></div></td>
+
+						<td><label class="item-label">截止日期<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="keyword_end" class="text input-medium time" value='<php>echo date("Y-m-d h:i", time()+126144000);</php>' placeholder="请选择截止日期" /></div></td>
+					</tr>
+					<tr>
+						<td><label class="item-label">继承上级<span class="check-tips"></span></label>
+                    <div class="controls">
+						{:W('Formfields/show', array(array('type'=>'laiyuan','extra'=>'调用【关键词列表】','sortfields'=>'id,id,keyword_rules','default'=>'1'), '','add',array('id'=>'keyword_top','class'=>'input-medium','style'=>'width:250px;')))}
+                 </div></td>
+						<td>                    <label class="item-label">下文继承<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <select id="keyword_down">
+                                    <option value="1" selected>开启</option><option value="0" >关闭</option></select></div></td>
+					</tr>
+					<tr>
+                   <td><label class="item-label">关键词组<span class="check-tips"></span></label>
+                    <div class="controls">
+				   {:W('Formfields/show', array(array('type'=>'laiyuan',name=>'keyword_group','extra'=>'调用【关键词分组】','sortfields'=>'id,id,keywordcate_name'), '','add',array('class'=>'select','id'=>'keyword_group','style'=>'width:250px;'),''))}
+			        </div></td>
+                    <td><label class="item-label">缓存时间<span class="check-tips">（单位:秒）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-medium" id="keyword_cache" value="" placeholder="0">                    </div>
+					</tr>
+				</table>
+           </div>
+     </div><div id="tab2" class="tab-pane  tab2">
+	 		<div class="sys-info">
+				<table>
+					<tr>
+						<td><label class="item-label">请求类型<span class="check-tips">(用户发送哪种类型的请求)</span></label>
+                    <div class="controls">
+						{:W('Formfields/show', array(array('type'=>'laiyuan',name=>'keyword_post','extra'=>'调用【用请求类型】'), '','add',array('class'=>'select',id=>'keyword_post','style'=>'width:250px;')))}
+                         </div></td>
+						<td><label class="item-label">回复规则<span class="check-tips">(系统采用哪种规则去回复)</span></label>
+                    <div class="controls">
+						{:W('Formfields/show', array(array('type'=>'laiyuan',name=>'keyword_reply','extra'=>'调用【匹配规则】'), '','add',array('class'=>'select',id=>'keyword_reply','style'=>'width:250px;'),'equel'))}</div></td>
+					</tr>
+				</table>
+           </div>
+<div class="form-item cf">
+                    <label class="item-label">关键词内容<span class="check-tips">(请勿从外文复制粘贴)</span></label>
+                    <div class="controls">
+                        <label class="textarea">
+                                <textarea name="keyword_content" id="wordsreply"></textarea>
+                               </label>                    </div>
+                </div>        </div><div id="tab3" class="tab-pane  tab3">
+				<div class="form-item cf">
+                    <div class="controls">回复简介&nbsp;&nbsp;<input type="text" class="text input-large" id="response_name" value="" placeholder="简要说明该微信响应的作用，方便调用"></div>
+                </div>
+				<div class="form-item cf"><br>
+                    <label class="item-label">回复类型<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <a class="btn btn-xlarge" data-event="Text"><h3>+ 纯 文 本</h3></a> <a class="btn btn-xlarge" data-event="Dantw"><h3>+ 单 图 文</h3></a><a class="btn btn-xlarge" data-event="Duotw"><h3>+ 多 图 文</h3></a><a class="btn btn-xlarge" data-event="Api"><h3>+ 第 三 方</h3></a><a class="btn btn-xlarge" data-event="Music"><h3>+ 音 乐</h3></a><a class="btn btn-xlarge" disabled><h3>+ 图 片</h3></a><a class="btn btn-xlarge" disabled><h3>+ 视 频</h3><a class="btn btn-xlarge" disabled><h3>+ 语 音</h3></a></a><input type="hidden" id="replytype" value=""></div>
+
+                </div>
+            <div class="form-item">
+<!-----------------------------------纯文本回复   Start-------------------------------------><br>
+                  <div id="txtnews" class="news">请勿从外文复制粘贴
+                               <textarea name="keyword_text" id="keyword_text"></textarea>
+				  </div>
+<!-----------------------------------纯文本回复   End--------------------------------------->
+<!-----------------------------------单图文回复   Start------------------------------------->
+                   <div id="singlenews" class="news" style="display: none;">
+							<div class="z oh msg-edit">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item appmsgItem">
+											<h4 class="msg-t"> <span class="i-title"> </span> </h4>
+											<p class="msg-meta"><span class="msg-date"></span></p>
+											<div class="cover">
+												<p class="default-tip" style="">单图文回复</p>
+												<img src="" class="i-img" id="one_pic"> </div>
+											<p class="msg-text i-desc"></p>
+											<div class="i-content" style="display:none"></div>
+											<div class="i-url" style="display:none"></div>
+											<div class="i-wz" style="display:none"></div>
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>
+								</div>
+								<div style="margin-top: -245px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+										 <label for="" class="block">标题 （字数建议控制在10字以内）</label>
+											<input class="text input-8x" id="dan_title" value="" placeholder="默认标题为空" type="text">
+											<label for="" class="block"><span id="upload-tip" class="upload-tip r">图片建议尺寸：720像素 * 400像素</span>封面 （默认为空  取自帖子文章中的图片链接）</label>
+                                                       <a class="btn btn-mini" id="image1">上传</a> <input class="text input-8x" type="text" id="url1" value="" >
+											 <label for="" class="block">摘要 （字数建议控制在30字以内）</label>
+												<textarea name="" id="dan_desc" placeholder="默认摘要内容为空" class="msg-txta"></textarea>
+											<label for="" class="block">内容来源  （必须选择  取自微网站的栏目）</label>
+						<select class="select" onchange="oc('dan_lmid','dan_tzid');" name="dan_lmid" id="dan_lmid">
+						<!----TODO  暂时关闭 任意模块读取   仅限图文读取
+                                <volist name="parentlist" id="vo">
+                                    <option value="{$vo.id}" cate="{$vo.data_table}">{$vo.data_name}&nbsp;&nbsp;|&nbsp;&nbsp;{$vo.nums}&nbsp;记录</option>
+                                </volist>
+						------>
+			<volist name="cate_list['parent']" id="val">
+            <option disabled>==={$val.title}===</option>
+            	<notempty name="cate_list['sub'][$val['id']]">
+                <volist name="cate_list['sub'][$val['id']]" id="sval">
+                <option value="{$sval.id}">&nbsp;&nbsp;&nbsp;&nbsp;{$sval.title}</option>
+                    <notempty name="cate_list['sub'][$sval['id']]">
+                    <volist name="cate_list['sub'][$sval['id']]" id="ssval">
+                    <option value="{$ssval.id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$ssval.title}</option>
+                    </volist>
+                    </notempty>
+                </volist>
+            	</notempty>
+            </volist>
+            	         </select>
+											<label for="" class="block">帖子编号 </label>
+											<select class="select" type="text" id="dan_tzid"> </select>
+											<div id="url-block">
+												<label for="" class="block">链接 （<a id="url-block-link" href="javascript:addtag('#singlenews #dan_url','http://');">外部链接</a> | <a id="url-block-link" href="javascript:addtag('#singlenews #dan_url','http://test.amango.net/wap.php?m=模块名&a=函数名&msg=自定义参数');">微站模式</a> | <a id="url-block-link" href="javascript:addtag('#singlenews #dan_url','http://test.amango.net/wap.php?m=diymodules&a=页面编号');">自定义模式</a>）</label>
+												<input class="text input-10x" id="dan_url" value="" type="text">
+											</div>
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+							</div>
+						</div>
+                </div>      
+<!-----------------------------------单图文回复   End--------------------------------------->
+<!-----------------------------------多图文回复   Start------------------------------------->
+           <div id="multinews" class="news" style="display: none;">
+		   					<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#912CEE">图文模式</font>:&nbsp;&nbsp;<input type="radio" value="gaoji" name="dt_reply_type">
+							高级&nbsp;&nbsp;
+							<input type="radio" value="basic" name="dt_reply_type" checked="">
+							基本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="basic_dtw" >显示:&nbsp;&nbsp;
+							<select id="fast_dtw_cateid">
+						<!----TODO  暂时关闭 任意模块读取   仅限图文读取
+                                <volist name="parentlist" id="vo">
+                                    <option value="{$vo.id}" cate="{$vo.data_table}">{$vo.data_name}&nbsp;&nbsp;|&nbsp;&nbsp;{$vo.nums}&nbsp;记录</option>
+                                </volist>
+						------>
+			<volist name="cate_list['parent']" id="val">
+            <option disabled>==={$val.title}===</option>
+            	<notempty name="cate_list['sub'][$val['id']]">
+                <volist name="cate_list['sub'][$val['id']]" id="sval">
+                <option value="{$sval.id}">&nbsp;&nbsp;&nbsp;&nbsp;{$sval.title}</option>
+                    <notempty name="cate_list['sub'][$sval['id']]">
+                    <volist name="cate_list['sub'][$sval['id']]" id="ssval">
+                    <option value="{$ssval.id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$ssval.title}</option>
+                    </volist>
+                    </notempty>
+                </volist>
+            	</notempty>
+            </volist>
+							</select>&nbsp;&nbsp;下&nbsp;&nbsp;<select id="fast_dtw_id">
+            <option value="news">最新</option>
+            <option value="rand">随机</option>
+          </select>&nbsp;&nbsp;帖子&nbsp;&nbsp;<select id="fast_dtw_num">
+            <option value="2">2</option>   <option value="3">3</option>
+            <option value="4">4</option>   <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>   <option value="8">8</option>
+          </select>&nbsp;&nbsp;条</span></div>
+                  <div class="msg-edit" style="display:none">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item multi-msg">
+											<div id="appmsgItem1" class="appmsgItem">
+												<p class="msg-meta"> <span class="msg-date"></span> </p>
+												<div class="cover">
+													<p class="default-tip" style="">多图文回复</p>
+											<input type="hidden" id="lanmuid" value="">
+											<input type="hidden" id="tieziid" value="">
+											<input type="hidden" id="wailian" value="">
+											<input type="hidden" id="duo_picurl" value="">
+													<h4 class="msg-t"> <span class="i-title">标题</span> </h4>
+													<ul class="abs tc sub-msg-opr">
+														<li class="b-dib sub-msg-opr-item"> <a href="javascript:;" class="th icon18 iconEdit" data-rid="1">编辑</a> </li>
+													</ul>
+													<img src="" class="i-img" style="display:none">
+												 </div>
+											</div>
+											<div class="rel sub-msg-item appmsgItem" id="appmsgItem2"> <span class="thumb"> <span class="default-tip" style="">缩略图</span> <img src="" class="i-img" style="display:none"> </span>
+											<input type="hidden" id="lanmuid" value="">
+											<input type="hidden" id="tieziid" value="">
+											<input type="hidden" id="wailian" value="">
+											<input type="hidden" id="duo_picurl" value="">
+												<h4 class="msg-t"> <span class="i-title">标题</span> </h4>
+												<ul class="abs tc sub-msg-opr">
+													<li class="b-dib sub-msg-opr-item"> <a href="javascript:;" class="th icon18 iconEdit" data-rid="2">编辑</a> </li>
+													<li class="b-dib sub-msg-opr-item"> <a href="javascript:;" class="th icon18 iconDel" data-rid="2">删除</a> </li>
+												</ul>
+											</div>											
+											<div class="sub-add"> <a href="javascript:;" class="block tc sub-add-btn"><span class="vm dib sub-add-icon"></span>增加一条</a> </div>
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>			
+								</div>
+								<div style="margin-top: -425px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+											<label for="" class="block">正在编辑:  第 <a id="setbiaoqi">1</a> 条图文子项</label>
+											默认标题
+											<input class="text input-8x" id="title" type="text">
+											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面</label>            <a class="btn btn-mini" id="duo_image">上传</a> <input class="text input-8x" type="text" id="duo_url" value="" >  					
+											<label for="" class="block">引用 数据模型<span id="upload-tip" class="upload-tip r" style="color:blue; ">(已添加,但未出现?请检查模型中【URL重写】是否完整)</span></label>
+									 	    <select class="select" onchange="oc('duo_lmid','tiezi');" name="wz" id="duo_lmid">
+                               <!----TODO  暂时关闭 任意模块读取   仅限图文读取
+							    <volist name="parentlist" id="vo">
+                                    <option value="{$vo.id}" cate="{$vo.data_table}">{$vo.data_name}&nbsp;&nbsp;|&nbsp;&nbsp;{$vo.nums}&nbsp;记录</option>
+                                </volist>
+							   ------>
+		  <volist name="cate_list['parent']" id="val">
+            <option disabled>==={$val.title}===</option>
+            	<notempty name="cate_list['sub'][$val['id']]">
+                <volist name="cate_list['sub'][$val['id']]" id="sval">
+                <option value="{$sval.id}">&nbsp;&nbsp;&nbsp;&nbsp;{$sval.title}</option>
+                    <notempty name="cate_list['sub'][$sval['id']]">
+                    <volist name="cate_list['sub'][$sval['id']]" id="ssval">
+                    <option value="{$ssval.id}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$ssval.title}</option>
+                    </volist>
+                    </notempty>
+                </volist>
+            	</notempty>
+            </volist>
+								</select>
+										    <label for="" class="block">详细 数据列表</label>
+											<select class="select" type="text" id="tiezi"> </select>
+											<div id="url-block">
+											 <input class="msg-input" id="duotw_id" value="" type="hidden">
+											 <label for="" class="block">外部链接:<a id="url-block-link" href="javascript:addduotag('#appmsgItem1','http://');">外部链接</a> | <a id="url-block-link" href="javascript:addduotag('#appmsgItem1','http://test.amango.net/wap.php?m=模块名&a=函数名&msg=自定义参数');">微站模式</a> | <a id="url-block-link" href="javascript:addduotag('#appmsgItem1','http://test.amango.net/wap.php?m=diymodules&a=页面编号');">自定义模式</a></label>
+												<input class="text input-8x" id="url" type="text">
+											</div>
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+								</div>
+								<br>
+							</div>
+<!-----------------------------------多图文回复    End--------------------------------------->
+<!-----------------------------------Api接口回复   Start------------------------------------->
+                        <div id="apinews" class="news" style="display: none;">
+							<div class="z oh msg-edit">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item appmsgItem">
+											<h4 class="msg-t"> <span class="i-title"> </span> </h4>
+											<p class="msg-meta"><span class="msg-date">2014-04-15</span></p>
+											<div class="cover">
+												<p class="default-tip" style="">第三方接口</p>
+												<img src="" class="i-img" style="display:none"> </div>
+											<p class="msg-text i-desc"></p>
+											<div class="i-content" style="display:none"></div>
+											<div class="i-url" style="display:none"></div>
+											<div class="i-wz" style="display:none"></div>
+
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>
+								</div>
+								<div style="margin-top: -245px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+<label for="apimodel" class="block">模块类型&nbsp;:&nbsp;&nbsp;<input type="radio" value="local" name="model_type" checked="">
+							<font class="tip" title="调用安装的模块进行消息处理">模块插件&nbsp;&nbsp;</font>
+							<input type="radio" value="cloud" name="model_type">
+							<font class="tip" title="调用云端接口(或者第三方接口)进行消息处理">云端接口&nbsp;&nbsp;</font>
+							<input type="radio" value="behavior" name="model_type">
+							<font class="tip" title="监听关键词行为并进行消息处理">行为监听&nbsp;&nbsp;</font>
+</label>模块信息&nbsp;:&nbsp;&nbsp;<select class="select" name="apireply" id="apireply" style="width:80%;">
+			<volist name="localapi" id="val">
+			   <option value="{$val.id}" data="local">{$val.title}&nbsp;&nbsp;(&nbsp;{$val.name}&nbsp;|&nbsp;{$val.description})</option>
+            </volist>
+</select><!--
+												<label for="" class="block">模块附加参数</label>
+												<input class="msg-input" id="dan_url" value="" type="text">			-->	
+												<div id="url-block">	附加参数(为空则不传递)	
+												<label class="textarea input-midl">
+											<textarea id="param"></textarea></label>
+											<label for="" class="block"><font color="red">参数</font>&nbsp;&nbsp;<font color="green">键名:键值</font><br>											
+</label>
+											</div>
+												
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+							</div>
+						</div>
+<!-----------------------------------Api接口回复   End--------------------------------------->
+<!-----------------------------------Music接口回复   Start------------------------------------->
+                        <div id="musicnews" class="news" style="display: none;">
+							<div class="z oh msg-edit">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item appmsgItem">
+											<h4 class="msg-t"> <span class="i-title"> </span> </h4>
+											<p class="msg-meta"><span class="msg-date">2014-04-15</span></p>
+											<div class="cover">
+												<p class="default-tip" style="">音乐回复</p>
+												<img src="" class="i-img" style="display:none"> </div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<audio id="musicplayer" src="../media/AirReview-Landmarks-02-ChasingCorporate.mp3" type="audio/mp3" controls="controls"></audio>
+											<p class="msg-text i-desc"></p>
+											<div class="i-content" style="display:none"></div>
+											<div class="i-url" style="display:none"></div>
+											<div class="i-wz" style="display:none"></div>
+
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>
+								</div>
+								<div style="margin-top: -245px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+<label for="apimodel" class="block">音乐描述 <input class="text input-8x" type="text" id="music_desc" value="" > </label>
+<label for="apimodel" class="block">普通链接 <input class="text input-8x" type="text" id="music_common" value="" > </label>
+<label for="apimodel" class="block">高清链接 <input class="text input-8x" type="text" id="music_hq" value="" > </label>
+<label for="apimodel" class="block">缩略图ID <input class="text input-8x" type="text" id="music_thumb" value="" > </label>
+											<div id="url-block">音乐标题
+												<label class="textarea input-midl">
+												<textarea class="text input-8x" id="music_title" value="" placeholder="默认标题为空"></textarea>
+												</label>
+											</div>
+												
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+							</div>
+						</div>
+<!-----------------------------------Music接口回复   End--------------------------------------->
+						</div>
+								          <div id="tab4" class="tab-pane  tab4">
+			<div class="sys-info">
+				<table>
+					<tr>
+						<td><label class="item-label">禁止Tag列表<span class="check-tips">（微信将不显示标签）<a class="item" href="/newmango/index.php?s=/Admin/Think/lists/model/tagslists.html" target="_blank">>>标签列表</a></span> </label><div class="controls">
+			<label class="textarea input-midl">
+				<textarea id="denytag_keyword"></textarea>
+			</label>				
+			</div></td><!--
+						<td><label class="item-label">激活前执行行为<span class="check-tips">（将会提前激活下列行为）</span> </label><div class="controls">
+			<label class="textarea input-midl">
+				<textarea id="before_keyword"></textarea>
+			</label>				
+			</div></td>-->
+						<td><label class="item-label">激活行为<span class="check-tips">（激活关键词会激活下列行为）</span> </label><div class="controls">
+			<label class="textarea input-midl">
+				<textarea id="after_keyword">Keywordcount</textarea>
+			</label>				
+			</div></td>
+					</tr>
+					<tr>
+						<td><label class="item-label">菜单按钮情景<span class="check-tips">（自动切换菜单模式）</span> </label><div class="controls">
+				    <select id="click_model" class="input-midl">
+					              <option value="0">不启用按钮模式</option>
+					             <volist name="clickmenu" id="val">
+			                      <option value="{$val.id}">编号:{$val.id}-{$val.title}</option>
+                                 </volist>                             </select> 
+			</div></td>
+						<td><label class="item-label">模块锁定情景<span class="check-tips">（自动锁定情景模式）</span> </label><div class="controls">
+			<select class="select" name="lock_model" id="lockmodel">
+			<option value="">其他关联方式</option>
+			<volist name="localapi" id="val">
+			   <option value="{$val.id}">{$val.title}-{$val.name}-index</option>
+            </volist>
+</select>
+									<input class="text input-4x" id="lock_model1" value=""  placeholder="插件名/插件操作">
+			</div></td>
+					</tr>
+				</table>
+</div>
+                 </div>
+		   </div>
+
+        <div class="form-item cf" id="send">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" creattype="all" target-form="form-horizontal">一键生成关键词模型</button>
+            <a class="btn btn-return" href="javascript:;">撤销</a>
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" creattype="post" target-form="form-horizontal">仅生成请求规则</button>
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" creattype="response" target-form="form-horizontal">仅生成微信响应</button>
+        </div>
+    </div>
+</div>
+</block> 
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="__STATIC__/artDialog/lib/sea.js"></script>
+<script>
+seajs.config({
+  alias: {
+    "jquery": "jquery-1.10.2.js"
+  }
+});
+</script>
+<script type="text/javascript">
+/* 提交表单 */
+//$('#submit').click(function(){
+$('#send button').click(function(){
+	     var data=new Object();
+		 //通用参数
+		 data.creattype    =$(this).attr('creattype');
+		 data.keyword_start=$('input[name=keyword_start]').val();
+		 data.keyword_end  =$('input[name=keyword_end]').val();
+		 data.keyword_top  =$('#keyword_top option:selected').val();
+		 data.keyword_down =$('#keyword_down option:selected').val();
+         data.keyword_group=$('#keyword_group option:selected').attr('cate');
+         data.keyword_cache=$('#keyword_cache').val();
+         data.keyword_post =$('#keyword_post option:selected').val();
+         data.keyword_reply=$('#keyword_reply option:selected').val();
+		 data.response_name=$('#response_name').val();
+         //通用执行
+		 data.denytag_keyword =$('#denytag_keyword').val();
+         //data.before_keyword  =$('#before_keyword').val();
+         data.after_keyword   =$('#after_keyword').val();
+         data.click_model     =$('#click_model option:selected').val();
+         data.lock_model      =$('#lock_model').val();
+
+              data.keyword = editor.html();
+             data.replytype=$('#replytype').val();
+	   if(data.creattype==''){
+         alert('请选择要创建的类型?\n关键词模型|请求规则|微信响应');return false;
+	   }
+	   //通用检查
+       if(data.replytype==''){
+	     alert('请选择回复类型');return false;
+       }
+	   if(data.keyword_post==''){
+	     alert('用户请求类型不能为空');return false;
+       }
+	   switch(data.replytype)
+       {
+        case 'Text':
+           data.replyinfo = replyeditor.html();
+           break;
+        case 'Dantw':
+		   data.replace=$('#dan_title').val()+','+$('#url1').val()+','+$('#dan_desc').val()+','+$('#dan_url').val();
+		   data.yireply=$('#dan_lmid option:selected').val()+','+$('#dan_tzid').val();
+		   if(data.replace==',,,'&&data.yireply==',,'){
+	          alert('单图文回复:请选择完善图文信息');return false;
+           }
+           break;
+        case 'Duotw':
+           count=$('#multinews .appmsgItem').size();
+		   var msgitem=new Array();
+		   $('#multinews .appmsgItem').each(function(i,n){
+			 var r_id=$(this).find('.iconEdit').attr('data-rid');
+             contitle=$('#multinews #appmsgItem'+r_id+' .i-title').html();
+			 conlpic = $("#appmsgItem"+r_id+" .i-img").attr('src');
+             conlmid = $("#appmsgItem"+r_id+" #lanmuid").val();
+			 contzcate = $("#appmsgItem"+r_id+" #lanmuid").val();
+             contzid = $("#appmsgItem"+r_id+" #tieziid").val();
+             conurl = $("#appmsgItem"+r_id+" #wailian").val();
+			 // msgitem[r_id] = contitle+','+conlmid+','+contzid+','+conurl;
+			 msgitem[i]={title:contitle,lmid:conlmid,tzid:contzid,url:conurl,conurl:conlpic};
+	       });	
+		   data.msgitem=msgitem;
+           break;
+        case 'basic':
+          data.cateid = $('#fast_dtw_cateid option:selected').val();
+		    data.cate = $("#fast_dtw_cateid").find("option:selected").attr('cate');
+		      data.id = $('#fast_dtw_id option:selected').val();
+		     data.num = $('#fast_dtw_num option:selected').val();
+           break;
+        case 'Api':
+           data.apiid = $('#apireply option:selected').val();
+		   data.apimodel = $("#apireply").find("option:selected").attr('data');
+		   data.param=$('#param').val();
+           break;
+        case 'Music':
+           data.musictitle = $('#music_title').val();
+		   data.musicdesc  = $("#music_desc").val();
+		   data.musicurl   = $('#music_common').val();
+		   data.musichqurl = $('#music_hq').val();
+		   data.musicthumb = $('#music_thumb').val();
+           break;
+        default:
+          alert('暂时无法生成【'+data.replytype+'】类型回复');return false;
+       }
+		 //alert(data.keyword);
+         //$('#form').submit();
+		$.post('{:U(addkeyword)}',data,function(d){
+			 if(d.status!=0){
+			      alert(d.msg);
+			  	  //window.location.href="/admin.php?m=Keywordview&a=index";
+             }else{
+	              alert(d.errmsg);
+			 }
+		},'json');
+});
+	$('a[data-event]').on('click', function () {
+	  var replytype = $(this).attr('data-event');
+	  if(replytype=='Duotw'){
+	     replytype='basic';
+	  }
+	  $('#replytype').val(replytype);
+	});
+//显示切换  不采用tab  不与上级相同
+	$('a[data-event=Text]').on('click', function () {
+	    $('#txtnews').show();
+		$('#singlenews').hide();
+		$('#multinews').hide();
+		$('#apinews').hide();
+		$('#musicnews').hide();
+	});
+	$('a[data-event=Dantw]').on('click', function () {
+	    $('#txtnews').hide();
+		$('#singlenews').show();
+		$('#multinews').hide();
+		$('#apinews').hide();
+		$('#musicnews').hide();
+	});
+    $('a[data-event=Duotw]').on('click', function () {
+	    $('#txtnews').hide();
+		$('#singlenews').hide();
+		$('#multinews').show();
+		$('#apinews').hide();
+		$('#musicnews').hide();
+	});
+	$('a[data-event=Api]').on('click', function () {
+	    $('#txtnews').hide();
+		$('#singlenews').hide();
+		$('#multinews').hide();
+		$('#musicnews').hide();
+		$('#apinews').show();
+	});
+	$('a[data-event=Music]').on('click', function () {
+	    $('#txtnews').hide();
+		$('#singlenews').hide();
+		$('#multinews').hide();
+		$('#apinews').hide();
+		$('#musicnews').show();
+	});
+ $('input[name=dt_reply_type]').click(function(){
+    dt_reply_type=$(this).val();
+    if(dt_reply_type=='gaoji'){
+	$('#replytype').val('Duotw');
+      $('#multinews .msg-edit').show();	
+      $('#multinews .clr').show();	
+	  $('#multinews .msg-btn').show();	
+      $('#basic_dtw').hide();	
+	}
+    if(dt_reply_type=='basic'){
+	$('#replytype').val(dt_reply_type);
+      $('#multinews .msg-edit').hide();
+      $('#multinews .clr').hide();	
+	  $('#multinews .msg-btn').hide();	
+      $('#basic_dtw').show();
+    }
+  });
+$(function(){
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    showTab();
+});
+</script>
+<!----------------------数据可视化  Start----------------------->
+<script>
+function addtag(wz,nr){
+    $(wz).val(nr);
+}
+/*   单图文  Start*/
+  //标题
+  $('#dan_title').live('keyup',function(){
+	  $('#singlenews .appmsgItem .i-title').html($(this).val());
+   });
+  //摘要
+  $('#dan_desc').live('keyup',function(){
+	  $('#singlenews .appmsgItem .i-desc').html($(this).val());
+   });
+/*   单图文  End*/
+
+/*3    多图文 start*/	
+    var appmsgitem_count=$('#multinews .appmsgItem').size();  
+    var current_rid=1;  //编辑区域的data-rid
+	var title=new Array(); //标题数组
+    var url=new Array();   //外链
+	var pic=new Array();   //图片链接
+	var content=new Array();  //正文
+	var wz=new Array(); //关联微站
+	var time=formatDate(new Date(), "yyyy年MM月dd日");
+    $('.msg-date').html(time);
+  $('.appmsgItem').live({'mouseenter':function(){
+	  $(this).addClass('sub-msg-opr-show');
+  },'mouseleave':function(){
+	  $(this).removeClass('sub-msg-opr-show');
+  }
+  });
+  $(".sub-add").click(function () {
+             
+			count=$('#multinews .appmsgItem').size();
+
+            if (count >= 8){
+				 alert("你最多只可以加入8条图文消息");
+			}else{  
+			  appmsgitem_count++;         
+			  str=''+
+			  '<div id="appmsgItem'+appmsgitem_count+'" class="rel sub-msg-item appmsgItem">'+
+			  ' <span class="thumb">'+
+			  '                 <span style="" class="default-tip">缩略图</span>'+
+			  '                 <img style="display:none" class="i-img" src="">'+
+			  ' </span>'+
+			  '  <input type="hidden" id="lanmuid" value=""/><input type="hidden" id="tieziid" value=""/><input type="hidden" id="wailian" value=""/><input type="hidden" id="duo_picurl" value=""/><h4 class="msg-t">'+
+			  '                    <span class="i-title">标题</span>'+
+			  '       </h4>'+
+			  '       <ul class="abs tc sub-msg-opr">'+
+			  '         <li class="b-dib sub-msg-opr-item">'+
+			  '           <a data-rid="'+appmsgitem_count+'" class="th icon18 iconEdit" href="javascript:;">编辑</a>'+
+			  '         </li>'+
+			  '         <li class="b-dib sub-msg-opr-item">'+
+			  '           <a data-rid="'+appmsgitem_count+'" class="th icon18 iconDel" href="javascript:;">删除</a>'+
+			  '         </li>'+
+			  '       </ul>     </div>';
+              $(str).insertBefore($(this));
+			}
+
+   });
+   $('.iconDel').live('click',function(){
+	  rid=$(this).attr('data-rid');
+	  count=$('#multinews .appmsgItem').size();
+	  if(confirm("确认删除此图文子项？")){
+	    if(count>2){
+	      $('#appmsgItem'+rid).remove();
+	    }else{
+		  alert('多图文中,子项不能少于2条');  
+	    }
+	  }
+   });
+   $('.iconEdit').live('click',function(){
+	   var r = 580,
+	   j = $("#multinews .msg-preview").offset().top;
+	   p=$(this).attr('data-rid');
+	   $("#duotw_id").val(p);
+	   $("#setbiaoqi").html(p);
+	   $("#zituwen").html(p);  
+	pl=$('#multinews #appmsgItem'+p+' .i-title').text();
+	//暂时停掉图片   $('#multinews #msgEditArea #pic').val(pic[current_rid]);
+	wl=$("#appmsgItem"+p+" #wailian").val();
+	pic=$('#multinews #appmsgItem'+p+' .i-img').attr('src');
+	tzid=$("#appmsgItem"+p+" #tieziid").val();
+	lmid=$("#appmsgItem"+p+" #lanmuid").val();
+	   $('#title').val(pl);
+	   $('#url').val(wl);
+       $('#tiezi').val(tzid);
+       $('#duo_lmid').val(lmid);
+	   $('#duo_url').val(pic);
+	   alert("第"+p+"条建立成功！在右侧完善内容"); 
+	   t=$('#multinews #appmsgItem'+$(this).attr('data-rid'));
+       i = t.outerHeight();
+       n > 4 ? ($("#multinews #msgEditArea").css("margin-top", t.offset().top - j - r + i + 30 + "px"), $("#multinews #msgEditArea .a-out").css("margin-top", r - i / 2 - 54 + "px"), $("#msgEditArea .a-in").css("margin-top", r - i / 2 - 54 + "px")) : ($("#multinews #msgEditArea").css("margin-top", t.offset().top - j + 30 + "px"), $("#multinews #msgEditArea .a-out").css("margin-top", "0px"), $("#multinews #msgEditArea .a-in").css("margin-top", "0px"))
+   });
+ //监听 标题 帖子引用栏目id 链接
+   $('#title').live('keyup',function(){
+      	      var titl = $("#duotw_id").val();
+	  $('#appmsgItem'+titl+' .i-title').html($(this).val());
+   });
+   $('#duo_lmid').live('change',function(){
+      	      var titl = $("#duotw_id").val();
+		$("#appmsgItem"+titl+" #lanmuid").val($(this).val());
+   });
+   $('#tiezi').live('keyup',function(){
+              var titl = $("#duotw_id").val();
+		$("#appmsgItem"+titl+" #tieziid").val($(this).val());
+   });
+   $('#url').live('keyup',function(){
+          	  var titl = $("#duotw_id").val();
+		$("#appmsgItem"+titl+" #wailian").val($(this).val());
+   });
+function formatDate(e,t){var n=e.getFullYear(),r="0"+(e.getMonth()+1);r=r.substring(r.length-2);var i="0"+e.getDate();i=i.substring(i.length-2);var s="0"+e.getHours();s=s.substring(s.length-2);var o="0"+e.getMinutes();return o=o.substring(o.length-2),t.replace("yyyy",n).replace("MM",r).replace("dd",i).replace("hh",s).replace("mm",o)}
+function addduotag(wz,nr){
+   var p = $("#duotw_id").val();
+    $('#appmsgItem'+p+' #wailian').val(nr);
+	$('#url').val(nr);
+}
+function oc(zdid,selid){
+		   var cate = $("#"+zdid).find("option:selected").attr('cate');
+           var ad   = $("#"+zdid).val();
+	       var optonstr = "";
+		   var data = new Object();
+        data.cateid = ad;
+		  data.cate = cate;
+	//排除news  rand 提交
+	if(ad!="news"||ad!="rand"){
+	   $.post('{:U("Keywordview/ajax_list")}',data,function(d){
+	    if(d.status!=0){
+		   $("#"+selid).html('');
+		   if(d.msg!=''){
+              $.each(d.msg, function(i,item){
+			    optonstr = "<option value=\""+item[0]+"\">【"+item[1]+"】"+item[2]+"</option>"+optonstr;
+               });
+			   if(zdid=="duo_lmid"||zdid=="dan_lmid"){
+			  optonstr = "<option value=\"news\">最新资源</option><option value=\"rand\">随机资源</option>"+optonstr;
+			   }
+             $("#"+selid).html(optonstr);
+		   }
+        }else{
+			   alert(d.errmsg);
+			   $("#"+selid).html('');
+			 }
+		},'json');
+	}
+}
+/*3    Api类型选择 start*/	
+   $('input[name=model_type]').live('click',function(){
+        $("#apireply").html('');
+   	            var data = new Object();
+		    var optonstr = "";
+		  data.modeltype = $('input[name=model_type]:checked').val();
+	   $.post('{:U("Keywordview/ajax_apilist")}',data,function(d){
+	    if(d.status!=0){
+              $.each(d.msg, function(i,item){
+			    optonstr = "<option value=\""+item[0]+"\" data=\""+d.type+"\">&nbsp;"+item[2]+"&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;请求&nbsp;"+item[1]+"&nbsp;&nbsp;|&nbsp;&nbsp;回复&nbsp;"+item[3]+"&nbsp;&nbsp;)</option>"+optonstr;
+               });
+             $("#apireply").html(optonstr);
+        }else{
+			   alert(d.errmsg);
+			   $("#apireply").html('');
+			 }
+		},'json');
+
+   });
+ /*   Music  Start*/
+  //标题
+  $('#music_title').live('keyup',function(){
+	  $('#musicnews .appmsgItem .i-title').html($(this).val());
+   });
+  $('#music_common').live('keyup',function(){
+	  $('#musicplayer').attr('src',$(this).val());
+   });
+/*   Music  End*/
+
+</script>
+<!----------------------数据可视化  End----------------------->
+</block>

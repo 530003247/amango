@@ -1,0 +1,166 @@
+<extend name="Public/base" />
+
+<block name="body">
+<link href="__ROOT__/Public/Admin/Addonsindex/css/common.css" rel="stylesheet" type="text/css">
+<link href="__ROOT__/Public/Admin/Addonsindex/css/bootstrap.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/Public/Admin/Addonsindex/script/jquery-1.7.2.min.js"></script>
+<style>
+.module .thumbnails li{}
+.submit-btn {
+    color: #fff;
+    background-color: #CC3900;
+}
+.has-api {
+    z-index:9;position:absolute; width: 0;height: 0;border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 15px solid #330099;right:4px;
+}
+.addon-id {
+    z-index:9;position:absolute;width: 0;height: 0;border-top: 34px solid #FF6600;border-right: 24px solid transparent;
+}
+.addon-id-num {
+    z-index:10;position:absolute;margin-left:1px;margin-top:-3px;color:#FFFFFF;
+}
+.set-btn {
+    color: #fff;
+    background-color: #0044cc;
+}
+.f-btn {
+    color: #fff;
+    background-color: #CC3900;
+}
+.s-btn {
+    color: #fff;
+    background-color: #4bbd00;
+}
+.f-btn:hover {
+    color: #fff;
+    background-color: #ff2610;
+}
+.s-btn:hover {
+    color: #fff;
+    background-color: #4cdb00;
+}
+.set-btn:hover {
+    color: #fff;
+    background-color: #0088cc;
+}
+</style>
+
+	<script type="text/javascript">
+		function toggle_description(id) {
+			var container = $('#'+id).parent().parent().parent();
+			var status = $('#'+id).attr("status");
+			if(status == 1) {
+				$('#'+id).attr("status", "0")
+				container.find(".module_description").show();
+			} else {
+				$('#'+id).attr("status", "1")
+				container.find(".module_description").hide();
+			}
+		}
+		$(function() {
+			$('.module .thumbnails').delegate('li .module-button-switch', 'click', function(){ //控制模块开关
+				if($(this).hasClass('btn-primary')) { //禁用模块
+					$(this).removeClass('btn-primary').addClass('btn-danger').html('开启');
+				} else if($(this).hasClass('btn-danger')) { //开启模块
+					$(this).removeClass('btn-danger').addClass('btn-primary').html('禁用');
+				}
+				$(this).parent().parent().find('.module-pic img').toggleClass('gray');
+			});
+			$('.module .thumbnails').delegate('li', 'hover', function(){ //控制模块详细信息
+				$(this).find('.module-title,.module-brief').toggle();
+				$(this).find('.module-description').toggle('fast');
+			});
+		});
+	</script>
+	<!-- 标题栏 -->
+       <div>
+	   <h2>插件列表</h2><br>
+           <a href="{:U('create')}" class="btn">创建插件</a>
+		   <a href="{:U('addonsshop')}" class="btn">芒果应用商店</a>
+		   <a href="http://wpa.qq.com/msgrd?V=3&amp;Uin=530003247&amp;Site=芒果高校官方&amp;Menu=yes&amp;from=discuz" class="btn" target="_blank" title="QQ">官网定制客服</a>
+		</div>
+	<!-- 数据列表 -->
+	<div class="module" style="font: 14px/1.5 'microsoft yahei', Helvetica, Tahoma, Arial, sans-serif;color:#404040;">
+			<div class="row-fluid">
+			<ul class="thumbnails">		
+			<notempty name="_list">
+				<volist name="_list" id="vo">
+						<?php
+								$class	= get_addon_class($vo['name']);
+								if(!class_exists($class)){
+									$has_config = 0;
+								}else{
+									$addon = new $class();
+									$has_config = count($addon->getConfig());
+								}
+							?>
+			<li style="width:20%; min-width:240px;">
+					<div class="thumbnail">
+<notempty name="vo.uninstall">
+					  <div class="addon-id"></div>
+					   <div class="addon-id-num"><small>新</small></div>
+</notempty>
+<eq name="vo.weixin" value="1">
+                      <div class="has-api"></div>
+</eq>
+						<div class="module-pic">
+							<img src="{:addons_auto_logo($vo['name'],$vo['logo'])}">
+							<div class="module-detail">
+								<h5 class="module-title"><b>{$vo.title}</b>&nbsp;{$vo.version}<small class="fr">{$vo.name}</small></h5>
+								<p class="module-description">名称：{$vo.title}<br>作者：{$vo.author}<br>简介：{$vo.description}</p>
+							</div>
+						</div>
+
+						<div class="module-button">
+						<empty name="vo.uninstall">
+							<?php if ($has_config): ?>
+								<a href="{:U('config',array('id'=>$vo['id']))}" class="btn">设置</a>
+							<?php endif ?>
+						<?php if ($vo['status'] >=0): ?>
+							<eq name="vo.status" value="0">
+								<a class="btn s-btn ajax-get" href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+							<else />
+								<a class="btn f-btn ajax-get" href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+							</eq>
+						<?php endif ?>
+							{// <eq name="vo.author" value="thinkphp">}
+								<a class="btn submit-btn ajax-get" href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+							{// </eq>}
+							{//<eq name="vo.weixin" value="1">}
+							    <input type="hidden" value="{:addons_url($vo['name'].'://Home/index',array(),'Home')}" id="txtInvite_{$vo.name}" name="txtInvite_{$vo.name}"/>
+								<a class="copy-button btn" href="#" value="{$vo.name}"type="button">引用</a>
+                            {//</eq>}
+						<else />
+							<a class="btn set-btn ajax-get" href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+						</empty>
+						</div>
+
+					</div>
+				</li>
+				</volist>
+				<else/>
+				<li colspan="6" class="text-center"> aOh! 暂时还没有内容! </li>
+				</notempty>
+							</ul></div>
+			<div>
+							</div>
+		</div>
+	<!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="__STATIC__/ZeroClipboard/jquery.zclip.js"></script>
+<script type="text/javascript">   
+
+$(document).ready(function(){
+
+	$(".copy-button").zclip({
+		path: "__STATIC__/ZeroClipboard/ZeroClipboard.swf",
+		copy: function(){return $(this).prev().val();}
+	});
+
+});
+
+</script> 
+</block>

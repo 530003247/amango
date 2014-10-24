@@ -1,0 +1,444 @@
+<extend name="Public/base"/>
+<block name="body">
+        
+        <script type="text/javascript">
+            var yyuc_jspath = "/@system/";
+        </script>
+        <script type="text/javascript" src="__ROOT__/Public/Admin/diymenu/js/jquery.js">
+        </script>
+        <script type="text/javascript" src="__ROOT__/Public/Admin/diymenu/js/wxmenu.js">
+        </script>
+        <style>
+            .left{position:absolute;top:140px;left:10px;width:258px;border-right:1px
+            solid #ccc;overflow-y:auto}.right{position:absolute;top:140px;left:280px;width:600px;overflow:auto}.tree-menu{float:right}.tree-menu
+            span{margin-left:6px}.tree-menu span i{cursor:pointer}.icon-plus{background-position:-408px
+            -96px}.icon-remove{background-position:-312px 0}.icon-edit{background-position:-96px
+            -72px}#menu_tree{margin-right:20px}.right iframe{height:100%;width:100%;z-index:20;border:0;margin:0
+            auto;display:block;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px}li{line-height:16px}.om-tree-node
+            a{display:inline-block;*display: inline;*zoom: 1;width:115px;overflow:hidden;text-overflow:ellipsis}#vip_tip{text-align:center}.actions{position:absolute;bottom:20px;left:10px;width:268px;border-right:1px
+            solid #ccc;height:60px}.actions .btn{position:relative;top:30px}.szcjbt,#czselarea,.zizicd{display:none}.maincd{cursor:pointer}.zizicd{width:82px;height:38px;border:1px
+            solid gray;margin-bottom:-1px;line-height:38px;text-align:center;cursor:pointer;position:relative}
+        </style>
+        <script type="text/javascript">
+            $(function() {
+			    //主菜单点击
+                $('.maincd').click(function() {
+                    suitdata();
+                    window.curcd = this;
+                    window.curctyp = '1';
+                    backdata();
+                });
+				//子菜单点击
+                $('.zizicd').click(function() {
+                    suitdata();
+                    window.curcd = this;
+                    window.curctyp = '2';
+                    backdata();
+                });
+				//关键词列表
+                $('#kwlist').change(function(){
+	                $('#kw').val($('#kwlist').val());
+                 });
+			    //菜单类型
+                $('#answertype').change(function() {
+                    $('.szcjbt').hide();
+                    $('#' + $(this).val()).show();
+                });
+				//实时显示  主菜单
+                $('.szcjbt').find('input,textarea,.editArea').on('keyup click change mouseup',
+                function() {
+                    suitdata();
+                });
+                $(".editArea textarea").on("contentValueChange", suitdata());
+				//实时显示  子菜单名称
+                $('#cdmcinpo').on('keyup click change mouseup',
+                function() {
+                    suitdata();
+                });
+                initthedata();
+                $('.maincd').eq(0).trigger('click');
+				//点击子菜单 或 主菜单
+                $('.zizicd,.maincd').click(function() {
+                    $('.zizicd,.maincd').unmask();
+                    $(this).mask();
+                });
+            });
+            function backdata() {
+                $('#res_ejcd').find('input[type="text"]').val('');
+                $(".editArea div").html('');
+                $('#xsejcdopt').remove();
+                if (window.curctyp == '1') {
+                    $('#answertype').prepend('<option value="res_ejcd" id="xsejcdopt">显示二级菜单</option>');
+                }
+                var cdid = $(window.curcd).attr('id');
+                var cddata = $.trim($(window.curcd).attr('reldata'));
+                if (cddata != '') {
+                    cddata = $.evalJSON(cddata);
+                    $('#answertype').val(cddata.typ);
+                    $('#answertype').trigger('change');
+                    if (cddata.typ == 'res_ejcd') {
+                        var zcddiv = $('div[zcdrel="' + cdid + '"]');
+                        if ($.trim(cddata.data) != '') {
+                            var ds = cddata.data.split('@');
+                            zcddiv.find('.zizicd').hide();
+                            for (var i = 0; i < ds.length; i++) {
+                                $('#res_ejcd').find('input[type="text"]').eq(parseInt(ds[i]) - 1).val(zcddiv.find('.zizicd').eq(parseInt(ds[i]) - 1).show().text());
+                            }
+                        }
+                    } else if (cddata.typ == 'res_wb') {
+                        $(".editArea div").html(Emotion.replaceEmoji(cddata.data));
+                    } else if ($('#' + cddata.typ).find('input[type="radio"]').size() > 0) {
+                        $('#' + cddata.typ).find('input[value="' + cddata.data + '"]').prop('checked', true);
+                    } else {
+                        $('#' + cddata.typ).find('input[type="text"]').val(cddata.data);
+                    }
+                } else {
+                    cddata = {};
+                    if (window.curctyp == '1') {
+                        $('#answertype').val('res_ejcd');
+                    } else {
+                        $('#answertype').val('res_wb');
+                    }
+                    $('#answertype').trigger('change');
+                }
+                $('#czselarea').show();
+                $('#cdmcinpo').val($(window.curcd).text());
+            }
+            function suitdata() {
+                if (window.curcd) {
+                    var cdid = $(window.curcd).attr('id');
+                    var cddata = $.trim($(window.curcd).attr('reldata'));
+                    if (cddata != '') {
+                        cddata = $.evalJSON(cddata);
+                    } else {
+                        cddata = {};
+                    }
+                    cddata.typ = $('#answertype').val();
+                    var zcddiv = $('div[zcdrel="' + cdid + '"]');
+                    if (cddata.typ == 'res_ejcd') {
+                        var sjarr = [];
+                        $('#res_ejcd').find('input[type="text"]').each(function(i) {
+                            var temp_zcd = zcddiv.find('.zizicd').eq(i);
+				if($.trim($(this).val())!=''){					
+					temp_zcd.text($.trim($(this).val())).show();
+					sjarr[sjarr.length] = i+1;
+				}else{
+					temp_zcd.hide();
+				}
+                        });
+                        cddata.data = sjarr.join('@');
+                    } else {
+                        zcddiv.hide();
+			if(cddata.typ=='res_wb'){
+				cddata.data = Emotion.replaceInput($.trim($(".editArea div").html()));
+			}else if($('#'+cddata.typ).find('input:checked').size()>0){
+				cddata.data = $('#'+cddata.typ).find('input:checked').val();
+			}else{
+				cddata.data = $('#'+cddata.typ).find('input[type="text"]').val();
+			}
+                    }
+		$(window.curcd).text($('#cdmcinpo').val());
+		$(window.curcd).attr('reldata',$.toJSON(cddata));
+					//把选择的关键词清空
+                }
+            }
+            function savedata(fun) {
+                var alldata = [];
+                $('.maincd').each(function(i) {
+                    var cddata = $.evalJSON($.trim($(this).attr('reldata')));
+                    var cdid = $(this).attr('id');
+                    cddata.tit = $.trim($(this).text());
+                    if (cddata.typ == 'res_ejcd') {
+                        var zcddiv = $('div[zcdrel="' + cdid + '"]');
+                        if ($.trim(cddata.data) != '') {
+                            var ds = cddata.data.split('@');
+                            cddata.subdata = {};
+                            for (var i = 0; i < ds.length; i++) {
+                                var ind = parseInt(ds[i]) - 1;
+                                var zcd = zcddiv.find('.zizicd').eq(ind);
+                                var ttstr = $.trim(zcd.attr('reldata'));
+                                var ssdata = {};
+                                if (ttstr != '') {
+                                    ssdata = $.evalJSON(zcd.attr('reldata'));
+                                }
+                                ssdata.tit = $.trim(zcd.text());
+                                cddata.subdata['zizicd' + ds[i]] = ssdata;
+                            }
+                        }
+                    }
+                    alldata[alldata.length] = cddata;
+                });
+                //loading('数据保存中...'); POST数据到远程
+                ajax('{:U("Keywordview/click_add")}', {
+                    id: $('body').attr('menuid'),
+                    data: alldata,
+					title: $('#menutitle').val()
+                },
+                function(data){
+				      if(data.status =="1" ){    
+                           alert(data.info);    
+                           window.location.reload();    
+                      }else{    
+                           alert(data.info);    
+                      }
+			   }
+				);
+            }
+function initthedata(){
+	var idata = $.trim($('#initdatat').val());
+	if(idata !=''){
+		var csdata = $.evalJSON(idata);
+		for(var i=0;i<csdata.length;i++){
+			var mcd = $('.maincd').eq(i);
+			var zcddiv = $('div[zcdrel="'+mcd.attr('id')+'"]');
+			var cdjda = csdata[i];
+			if(cdjda.typ=='res_ejcd'){
+				for(var ejcd in cdjda.subdata){
+					zcddiv.find('[rel="'+ejcd+'"]').attr('reldata',$.toJSON(cdjda.subdata[ejcd])).text(cdjda.subdata[ejcd].tit).show();
+				}
+			}
+			cdjda.subdata = null;
+			mcd.attr('reldata',$.toJSON(cdjda));
+			mcd.text(cdjda.tit);			
+		}
+	}
+}
+			function addtag(wz,nr){
+             $(wz).val(nr);
+            }
+        </script>
+
+    <div class="main-title">
+        <h2>新增 菜单模式</h2>
+    </div>
+	    <div class="alert-error"> 提示:必须填写AppId和AppSecret;菜单最多包括3个一级菜单,每个一级菜单最多包含5个二级菜单,一级菜单最多4个汉字,二级菜单最多7个汉字.</div>
+	 <div class="cf">
+   <textarea style="display:none;" id="initdatat">
+            [{"typ":"res_ejcd","data":"","tit":"主菜单一"},{"typ":"res_ejcd","data":"","tit":"主菜单二"},{"typ":"res_ejcd","data":"","tit":"主菜单三"}]
+        </textarea>
+        <div align="left">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="background-image: url(&#39;__ROOT__/Public/Admin/diymenu/images/3CustomLt.png&#39;);width: 344px;height: 623px;position: relative;">
+                                <div style="position: absolute;bottom: 170px;left: 46px; width: 82px;"
+                                zcdrel="maincd1">
+                                    <div class="zizicd" rel="zizicd1">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd2">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd3">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd4">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd5">
+                                        子菜单
+                                    </div>
+                                </div>
+                                <div style="position: absolute;bottom: 170px;left: 131px; width: 83px;"
+                                zcdrel="maincd2">
+                                    <div class="zizicd" rel="zizicd1">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd2">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd3">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd4">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd5">
+                                        子菜单
+                                    </div>
+                                </div>
+                                <div style="position: absolute;bottom: 170px;left: 216px; width: 83px;"
+                                zcdrel="maincd3">
+                                    <div class="zizicd" rel="zizicd1">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd2">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd3">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd4">
+                                        子菜单
+                                    </div>
+                                    <div class="zizicd" rel="zizicd5">
+                                        子菜单
+                                    </div>
+                                </div>
+                                <div style="position: absolute;bottom: 122px;left: 43px;">
+                                    <table style="border: none;" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div style="height: 45px;width: 85px;line-height: 45px;text-align: center;"
+                                                    id="maincd1" reldata="{'typ':'res_ejcd','data':'','tit':'菜单一','subdata':null}"
+                                                    class="maincd">
+                                                        菜单一
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="height: 45px;width: 87px;line-height: 45px;text-align: center;"
+                                                    id="maincd2" reldata="{'typ':'res_ejcd','data':'','tit':'菜单二','subdata':null}"
+                                                    class="maincd">
+                                                        菜单二
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="height: 45px;width: 85px;line-height: 45px;text-align: center;"
+                                                    id="maincd3" reldata="{'typ':'res_ejcd','data':'','tit':'菜单三','subdata':null}"
+                                                    class="maincd">
+                                                        菜单三
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                        <td valign="top">
+                            <br>
+                            <div style="position: relative;width: 100%">
+                                菜单名称：<input type="text" class="text input-medium" name="sort" id="menutitle" value="">
+								<button class="btn" id="saveOrder" onclick="savedata()">
+                                    保存菜单模式
+                                </button>
+                            </div>
+                            <br>
+                            <div id="czselarea" style="display: block;">
+                                <div id="top" class="controls">
+                                    按钮标识：
+									<input type="text" class="text input-large" id="cdmcinpo" name="tagslists_action" >
+                                </div>
+								<hr>
+                                <div class="control-group">
+                                    <div class="controls" >
+                                        点击菜单：
+										<select id="answertype" name="answertype">
+                                            <option value="res_ejcd" id="xsejcdopt">显示二级菜单</option>
+                                            <option value="res_url">URL自动跳转</option>
+                                            <option value="res_scanpush">推送扫码事件</option>
+                                            <option value="res_scanmsg">扫码弹出提示</option>
+                                            <option value="res_photosys">系统拍照发图</option>
+                                            <option value="res_photoall">拍照或相册发图</option>
+                                            <option value="res_photoalbum">微信相册发图</option>
+                                            <option value="res_locationselect">地理位置选择</option>
+											<option disabled>------关键词调用------</option>
+											<option value="res_gjz">关联微信响应</option>
+                                         </select>
+								 <font id="top" class="alert alert-error">
+                                    至少填写一项子菜单
+                                </font>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="szcjbt" id="res_ejcd" style="display: block;">
+								 <br>
+                                <div class="res_ejcd_1">
+                                    <label class="control-label" for="answertype">
+                                        按钮顶端：<input type="text" class="text input-medium">
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="res_ejcd_2">
+                                    <label class="control-label" for="answertype">
+                                        按钮中上：<input type="text" class="text input-medium">
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="res_ejcd_3">
+                                    <label class="control-label" for="answertype">
+                                        按钮中部：<input type="text" class="text input-medium">
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="res_ejcd_4">
+                                    <label class="control-label" for="answertype">
+                                        按钮中下：<input type="text" class="text input-medium">
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="res_ejcd_5">
+                                    <label class="control-label" for="answertype">
+                                        按钮底端：<input type="text" class="text input-medium">
+                                    </label>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="szcjbt" id="res_gjz" style="display: none;">
+                                <div class="controls" ><br>响应回复：<select id="kwlist" >
+			 <option value="" disabled>--请选择映射微信响应--</option>
+                <volist name="Responselist" id="menu">
+			   	    <option value="{$menu.id}" <eq name="data[1]" value="$menu['id']">selected</eq>>{$menu.id}：【{$menu.response_reply|default='未知'}】&nbsp;&nbsp;{$menu.response_name}</option>
+                </volist>
+				</select><br><label class="control-label">
+                                        响应体ID：<input type="text" class="text input-medium" name="event_gjz" id="kw" >
+                                    </label></div>
+                            </div>
+                            <div class="szcjbt" id="res_url" style="display: none;"><br>
+                                链接模式：<a href="javascript:addtag('#menuurl','http://');">站外链接</a>&nbsp;|&nbsp;<a href="javascript:addtag('#menuurl','__AMANGO_WAP__m=模块名&a=函数名&msg=自定义参数');">微站模式</a>&nbsp;|&nbsp;<a href="javascript:addtag('#menuurl','__AMANGO_WAP__m=diymodules&a=页面编号');">自定义模式</a><br><br>
+                                站外URL：<input type="text" class="text input-large" name="event_url" id="menuurl">
+                            </div>
+                            <div class="szcjbt" id="res_scanpush" style="display: none;"><br>
+                                扫码推事件：<input type="text" disabled class="text input-large" name="event_scanpush" value="scancode_push" id="scanpush">
+                            </div>
+                            <div class="szcjbt" id="res_scanmsg" style="display: none;"><br>
+                                扫码提示框：<input type="text" disabled class="text input-large" name="event_scanmsg" value="scancode_waitmsg" id="scanmsg">
+                            </div>
+                            <div class="szcjbt" id="res_photosys" style="display: none;"><br>
+                                系统拍照图：<input type="text" disabled class="text input-large" name="event_photosys" value="pic_sysphoto" id="photosys">
+                            </div>
+                            <div class="szcjbt" id="res_photoall" style="display: none;"><br>
+                                拍照或相册：<input type="text" disabled class="text input-large" name="event_photoall" value="pic_photo_or_album" id="photoall">
+                            </div>
+                            <div class="szcjbt" id="res_photoalbum" style="display: none;"><br>
+                                微信相册图：<input type="text" disabled class="text input-large" name="event_photoalbum" value="pic_weixin" id="photoalbum">
+                            </div>
+                            <div class="szcjbt" id="res_locationselect" style="display: none;"><br>
+                                地理位置选择：<input type="text" disabled class="text input-large" name="event_locationselect" value="location_select" id="locationselect">
+                            </div>
+                        </td>
+                        <td>
+						</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        Think.setValue("pid", {$info.pid|default = 0});
+        Think.setValue("hide", {$info.hide|default = 0});
+        Think.setValue("is_dev", {$info.is_dev|default = 0});
+        //导航高亮
+        highlight_subnav("{:U('click_add')}");
+    </script>
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+//拖曳插件初始化
+$(function(){
+	$(".needdragsort").dragsort({
+	     dragSelector:'li',
+	     placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+	     dragBetween:true,	//允许拖动到任意地方
+	     dragEnd:function(){
+	    	 var self = $(this);
+	    	 self.find('input').attr('name', 'field_sort[' + self.closest('ul').data('group') + '][]');
+	     }
+	 });
+})
+</script>
+</block>

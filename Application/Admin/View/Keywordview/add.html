@@ -1,0 +1,64 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="main-title">
+        <h2>新增 本地数据模型</h2>
+    </div>
+    <form action="{:U(add)}" method="post" class="form-horizontal">
+					<div class="form-item cf">
+					<div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span>[请求类型]请求规则=></span>
+<ul class="dragsort needdragsort" data-group="1" id="allfileds" data-listidx="0">
+<volist name="Postslist" id="menu">
+<li class="getSort"><em data="denyuser">[{$menu.keyword_post}]{$menu.keyword_rules}</em><input type="hidden" name="field_sort[1][]" value="{$menu.id}"></li>
+</volist>
+</ul>
+						</div><div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span><=单项关键词</span>
+							<ul class="dragsort needdragsort" data-group="2" id="readfileds">
+				        	</ul>
+				     	</div>
+                            <div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							 <span>[回复类型]回复简介=></span>
+							 <ul class="dragsort needdragsort" data-group="3" id="readfileds">
+				        	 </ul>
+				     	    </div>
+					<div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span><=可选内容响应库</span>
+<ul class="dragsort needdragsort" data-group="4" id="allfileds" data-listidx="0">
+<volist name="Responselist" id="menu">
+<li class="getSort"><em data="denyuser">[{$menu.response_reply}]{$menu.response_name}</em><input type="hidden" name="field_sort[4][]" value="{$menu.id}"></li>
+</volist>
+</ul>
+						</div>
+						</div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        Think.setValue("pid", {$info.pid|default = 0});
+        Think.setValue("hide", {$info.hide|default = 0});
+        Think.setValue("is_dev", {$info.is_dev|default = 0});
+        //导航高亮
+        highlight_subnav('{:U('lists')}');
+    </script>
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+//拖曳插件初始化
+$(function(){
+	$(".needdragsort").dragsort({
+	     dragSelector:'li',
+	     placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+	     dragBetween:true,	//允许拖动到任意地方
+	     dragEnd:function(){
+	    	 var self = $(this);
+	    	 self.find('input').attr('name', 'field_sort[' + self.closest('ul').data('group') + '][]');
+	     }
+	 });
+})
+</script>
+</block>

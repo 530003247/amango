@@ -1,0 +1,488 @@
+<extend name="Public/base" />
+
+<block name="body">
+<link href="__ROOT__/Public/Admin/addkeyword/common.css" rel="stylesheet" type="text/css">
+<link href="__ROOT__/Public/Admin/addkeyword/wxm_appmsg.css" rel="stylesheet" type="text/css">
+
+<link href="http://test.amango.net/statics/admin/item_addkeyword/css/table.css" rel="stylesheet" type="text/css">
+<link href="http://test.amango.net/statics/admin/item_addkeyword/css/jquery_cbox.css" rel="stylesheet" type="text/css">
+<link href="http://test.amango.net/statics/admin/item_addkeyword/ueditor/themes/default/css/ueditor.css" rel="stylesheet" type="text/css">
+<link href="http://test.amango.net/statics/admin/item_addkeyword/css/wxm_appmsg_list15def8.css" rel="stylesheet" type="text/css">
+<script src="http://test.amango.net/statics/admin/item_addkeyword/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://test.amango.net/statics/admin/item_addkeyword/script/utils.min.js"></script>
+<script src="http://test.amango.net/statics/admin/item_addkeyword/script/jquery.colorbox-min.js" type="text/javascript"></script>
+<script src="http://test.amango.net/statics/admin/item_addkeyword/script/jquery.upload.js" type="text/javascript"></script>
+<script src="http://test.amango.net/statics/admin/item_addkeyword/ueditor/ueditor.config.js" type="text/javascript"></script>
+<script src="http://test.amango.net/statics/admin/item_addkeyword/ueditor/ueditor.all.min.js" type="text/javascript"></script>
+
+		    <link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+
+<script>
+				var editor;
+				var replyeditor;
+				KindEditor.ready(function(K) {
+				    //激活关键词
+					editor = K.create('textarea[name="keyword_content"]', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+					items : ['emoticons','|','plainpaste','clearhtml','about'],
+                pasteType : "1",
+			   newlineTag : "br",
+			     htmlTags : {a : ['href'],'br' : [],img : ['src', 'alt']},
+				  width:'100%',
+               filterMode : true,
+			   resizeMode : 1,
+					});
+					//文本回复
+				replyeditor = K.create('#keyword_text', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+					items : ['emoticons','|','plainpaste','clearhtml','about'],
+                pasteType : "1",
+			   newlineTag : "br",
+			     htmlTags : {a : ['href'],'br' : [],img : ['src', 'alt']},
+				  width:'100%',
+               filterMode : true,
+			   resizeMode : 1,
+					});
+				});
+</script>
+    <!-- 表单 -->
+    <div class="main-title cf">
+        <h2>新增 关键词</h2>
+    </div>
+    <!-- 标签页导航 -->
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+			<li data-tab="tab1"><a href="javascript:void(0);">基本参数</a></li><li data-tab="tab2" ><a href="javascript:void(0);">关键词激活</a></li><li data-tab="tab3" ><a href="javascript:void(0);">微信回复体</a></li>    </ul>
+    <div class="tab-content">
+    <!-- 表单 -->
+    <form id="form" action="/newmango/index.php?s=/admin/think/add/model/5.html" method="post" class="form-horizontal">
+        <!-- 基础文档模型 -->
+		<div id="tab1" class="tab-pane in tab1">
+            <div class="form-item cf">
+                    <label class="item-label">开始时间<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="keyword_start" class="text input-medium time" value="" placeholder="请选择时间" />                    </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">截止日期<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="keyword_end" class="text input-medium time" value="" placeholder="请选择时间" />                    </div>
+                </div><div class="form-item cf line">
+                    <label class="item-label">上文词汇<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <select class="input-medium" name="keyword_top" style="width:250px;">
+			 <option value="top">--选择上级关键词--</option>
+            <option value="amango28">&nbsp;&nbsp;【通用分组】</option>
+            	<option value="206">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:通用接口</option><option value="265">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:单固</option><option value="195">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:换行</option><option value="199">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:通用带参</option></select>                   </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">下文继承<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <select name="keyword_down">
+                                    <option value="1" selected>开启</option><option value="0" >关闭</option>                                </select>                    </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">关键词组<span class="check-tips"></span></label>
+                    <div class="controls">
+                   <select class="input-medium" name="keyword_group" style="width:250px;">
+			        <option value="top">--选择所属分组--</option>
+                    <option value="amango28">&nbsp;&nbsp;【通用分组】</option>
+            	    <option value="206">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:通用接口</option><option value="265">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:单固</option><option value="195">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:换行</option><option value="199">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[text]:通用带参</option></select>                     </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">缓存时间<span class="check-tips">（(单位:秒)）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-medium" name="keyword_cache" value="">                    </div>
+                </div>        </div><div id="tab2" class="tab-pane  tab2">
+            <div class="form-item cf">
+                    <label class="item-label">请求类型<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-large" name="keyword_post" value="">                    </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">回复规则<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-large" name="keyword_reply" value="">                    </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">关键词内容<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <label class="textarea">
+                                <textarea name="keyword_content" id="wordsreply"></textarea>
+                               </label>                    </div>
+                </div>        </div><div id="tab3" class="tab-pane  tab3">
+				<div class="form-item cf">
+                    <label class="item-label">回复类型<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <a class="btn btn-xlarge" data-event="Textreply">文 本 回 复</a> <a class="btn btn-xlarge" data-event="Dantwreply">单图文回复</a><a class="btn btn-xlarge" data-event="Duotwreply">多图文回复</a><a class="btn btn-xlarge" data-event="Apireply">第三方接口</a></div>
+                </div>
+
+
+            <div class="form-item">
+<!-----------------------------------纯文本回复   Start------------------------------------->
+                  <div id="txtnews" class="news">
+                               <textarea name="keyword_content" id="keyword_text"></textarea>
+				  </div>
+<!-----------------------------------纯文本回复   End--------------------------------------->
+<!-----------------------------------单图文回复   Start------------------------------------->
+                   <div id="singlenews" class="news" style="display: block;display: none;">
+							<div class="z oh msg-edit">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item appmsgItem">
+											<h4 class="msg-t"> <span class="i-title"> </span> </h4>
+											<p class="msg-meta"><span class="msg-date">2014-04-15</span></p>
+											<div class="cover">
+												<p class="default-tip" style="">单图文模式</p>
+												<img src="" class="i-img" id="one_pic"> </div>
+											<p class="msg-text i-desc"></p>
+											<div class="i-content" style="display:none"></div>
+											<div class="i-url" style="display:none"></div>
+											<div class="i-wz" style="display:none"></div>
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>
+								</div>
+								<div style="margin-top: -245px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+											<label for="" class="block">标题  （默认为空  取自帖子标题）</label>
+											<input class="text input-medium" id="dan_title" value="" type="text">
+											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面 （默认为空  取自帖子文章中的图片链接）</label>
+											 <div class="cover-area">
+                                                 <div class="oh z cover-hd">
+												
+                                                       <a href="#inline_content" class="icon28C upload-btn" id="image1">上传 <input class="msg-input" type="text" id="url1" value="" style="width:70%;" disabled=""></a>
+                                                 </div>
+                                               </div> 
+											 <input class="msg-input" id="pic" type="hidden" value="">
+											<a id="desc-block-link" style="padding-top: 10px;" href="javascript:(function(){jQuery('#desc-block').show();jQuery('#desc-block-link').hide()})()" class="url-link block">添加摘要（默认为帖子内容前一段）</a>
+											<div style="display: none;" id="desc-block" class="none">
+												<label class="block">摘要内容</label>
+												<textarea name="" id="dan_desc" class="msg-txta"></textarea>
+											</div>
+											<label for="" class="block">内容来源  （必须选择  取自微网站的栏目）</label>
+									 <select class="msg-input" onchange="oc('dan_lmid','dan_tzid');" name="dan_lmid" id="dan_lmid">
+            <option>请选择帖子所属栏目</option>
+            <option value="huodon" cate="21">┗活动问卷</option>
+            	<option value="huodon" cate="22">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋校友活动</option>
+                    <option value="article" cate="13">┗文章资讯</option>
+            	<option value="article" cate="23">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋理工官方</option>
+                    <option value="article" cate="17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋校内资讯</option>
+                    <option value="article" cate="24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋失物招领</option>
+                    <option value="vote_model" cate="19">┗校园问卷</option>
+            	          </select>
+											<label for="" class="block">设置该栏目下的帖子的ID号  （默认获取最新发布内容）</label>
+											<select class="msg-input" type="text" id="dan_tzid" style="width:80%;"> </select>
+											<div id="url-block">
+												<label for="" class="block">外部链接:<a id="url-block-link" href="javascript:addtag('#singlenews #dan_url','http://');">外部链接</a> | <a id="url-block-link" href="javascript:addtag('#singlenews #dan_url','http://test.amango.net/wap.php?m=模块名&a=函数名&msg=自定义参数');">微站模式</a> | <a id="url-block-link" href="javascript:addtag('#singlenews #dan_url','http://test.amango.net/wap.php?m=diymodules&a=页面编号');">自定义模式</a></label>
+												<input class="text input-7x" id="dan_url" value="" type="text">
+											</div>
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+							</div>
+						</div>
+                </div>      
+<!-----------------------------------单图文回复   End--------------------------------------->
+<!-----------------------------------多图文回复   Start------------------------------------->
+           <div id="multinews" class="news" style="display: block;display: none;">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item multi-msg">
+											<div id="appmsgItem1" class="appmsgItem">
+												<p class="msg-meta"> <span class="msg-date">2014-04-15</span> </p>
+												<div class="cover">
+													<p class="default-tip" style="">多图文模式</p>
+											<input type="hidden" id="lanmuid" value="">
+											<input type="hidden" id="tieziid" value="">
+											<input type="hidden" id="wailian" value="">
+											<input type="hidden" id="duo_picurl" value="">
+													<h4 class="msg-t"> <span class="i-title">标题</span> </h4>
+													<ul class="abs tc sub-msg-opr">
+														<li class="b-dib sub-msg-opr-item"> <a href="javascript:;" class="th icon18 iconEdit" data-rid="1">编辑</a> </li>
+													</ul>
+													<img src="" class="i-img" style="display:none">
+												 </div>
+											</div>
+											<div class="rel sub-msg-item appmsgItem" id="appmsgItem2"> <span class="thumb"> <span class="default-tip" style="">贴内图片</span> <img src="" class="i-img" style="display:none"> </span>
+											<input type="hidden" id="lanmuid" value="">
+											<input type="hidden" id="tieziid" value="">
+											<input type="hidden" id="wailian" value="">
+											<input type="hidden" id="duo_picurl" value="">
+												<h4 class="msg-t"> <span class="i-title">标题</span> </h4>
+												<ul class="abs tc sub-msg-opr">
+													<li class="b-dib sub-msg-opr-item"> <a href="javascript:;" class="th icon18 iconEdit" data-rid="2">编辑</a> </li>
+													<li class="b-dib sub-msg-opr-item"> <a href="javascript:;" class="th icon18 iconDel" data-rid="2">删除</a> </li>
+												</ul>
+											</div>											
+											<div class="sub-add"> <a href="javascript:;" class="block tc sub-add-btn"><span class="vm dib sub-add-icon"></span>增加一条</a> </div>
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>			
+								</div>
+								<div style="margin-top: -425px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+											<label for="" class="block">正在编辑:  第 <a id="setbiaoqi">1</a> 条</label>
+											标题（可选 默认为帖子标题）
+											<input class="msg-input" id="title" type="text">
+											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面</label>                                     
+											 <div class="cover-area">
+                                                 <div class="oh z cover-hd">
+              <a href="#inline_content" class="icon28C upload-btn" id="duo_image">上传 <input class="msg-input" type="hidden" id="duo_url" value=""></a>
+                                                 </div>
+                                               </div> 
+										<!---	<label for="" class="block">正文  (可选 将覆盖原标题)</label>
+											<textarea name="content" id="myEditor2" style="height:300px;width:100%;"></textarea>-->
+											
+											<label for="" class="block">引用 微站内容</label>
+									 									 <select class="input-large" onchange="oc('duo_lmid','tiezi');" name="wz" id="duo_lmid">
+            <option>请选择帖子所属栏目</option>
+            <option value="huodon" cate="21">┗活动问卷</option>
+            	<option value="huodon" cate="22">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋校友活动</option>
+                    <option value="article" cate="13">┗文章资讯</option>
+            	<option value="article" cate="23">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋理工官方</option>
+                    <option value="article" cate="17">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋校内资讯</option>
+                    <option value="article" cate="24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;╋失物招领</option>
+                    <option value="vote_model" cate="19">┗校园问卷</option>
+            	          </select>
+										    <label for="" class="block">请填写帖子ID  （默认 栏目下最新排序）</label>
+											<select class="msg-input" type="text" id="tiezi" style="width:80%;"> </select>
+				
+											<div id="url-block">
+											 <input class="msg-input" id="duotw_id" value="" type="hidden">
+											 <label for="" class="block">外部链接:<a id="url-block-link" href="javascript:addduotag('#appmsgItem1','http://');">外部链接</a> | <a id="url-block-link" href="javascript:addduotag('#appmsgItem1','http://test.amango.net/wap.php?m=模块名&a=函数名&msg=自定义参数');">微站模式</a> | <a id="url-block-link" href="javascript:addduotag('#appmsgItem1','http://test.amango.net/wap.php?m=diymodules&a=页面编号');">自定义模式</a></label>
+												<input class="msg-input" id="url" type="text">
+											</div>
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+							</div>
+<!-----------------------------------多图文回复    End--------------------------------------->
+<!-----------------------------------Api接口回复   Start------------------------------------->
+                        <div id="apinews" class="news" style="display: none;">
+							<div class="z oh msg-edit">
+								<div class="left msg-preview">
+									<div class="msg-item-wrapper" id="appmsg" data-appid="" data-create-time="">
+										<div class="msg-item appmsgItem">
+											<h4 class="msg-t"> <span class="i-title"> </span> </h4>
+											<p class="msg-meta"><span class="msg-date">2014-04-15</span></p>
+											<div class="cover">
+												<p class="default-tip" style="">第三方接口</p>
+												<img src="" class="i-img" style="display:none"> </div>
+											<p class="msg-text i-desc"></p>
+											<div class="i-content" style="display:none"></div>
+											<div class="i-url" style="display:none"></div>
+											<div class="i-wz" style="display:none"></div>
+
+										</div>
+										<div class="msg-opr">
+											<ul class="f0 msg-opr-list">
+												<li class="b-dib opr-item"><a class="block tc opr-btn edit-btn" href=""><span class="th vm dib opr-icon edit-icon">编辑</span></a></li>
+												<li class="b-dib opr-item"><a class="block tc opr-btn del-btn" href="javascript:;" data-mid=""><span class="th vm dib opr-icon del-icon">删除</span></a></li>
+											</ul>
+										</div>
+										<div class="msg-hover-mask"></div>
+										<div class="msg-mask"><span class="dib msg-selected-tip"></span></div>
+									</div>
+								</div>
+								<div style="margin-top: -245px;" class="msg-edit-area" id="msgEditArea">
+									<div class="rel msg-editer-wrapper">
+										<div class="msg-editer">
+<label for="apimodel" class="block">接口类型&nbsp;:&nbsp;&nbsp;<input type="radio" value="local" name="model_type" checked="">
+							本地模块&nbsp;&nbsp;
+							<input type="radio" value="common" name="model_type">
+							通用接口 &nbsp;&nbsp;
+							<input type="radio" value="other" name="model_type">
+							远程接口&nbsp;&nbsp;
+</label>选择模块&nbsp;:&nbsp;&nbsp;<select class="msg-input" name="apireply" id="apireply" style="width:80%;">
+<option value="94" data="local">大丰收&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;Apibeijin&nbsp;&nbsp;|&nbsp;&nbsp;local&nbsp;&nbsp;)</option><option value="98" data="local">一卡通查询系统&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;Apicardpass&nbsp;&nbsp;|&nbsp;&nbsp;local&nbsp;&nbsp;)</option></select><!--
+												<label for="" class="block">模块附加参数</label>
+												<input class="msg-input" id="dan_url" value="" type="text">			-->	
+												<div id="url-block">											
+											 <label for="" class="block">附加参数(为空则不传递)</label>
+												<input class="text input-10x" id="param" type="text">
+											<label for="" class="block"><font color="red">如需传参，请严格按照以上形式传参</font>&nbsp;&nbsp;<font color="green">传参形式:类型1=&gt;参数1;类型2=&gt;参数2;</font><br>											
+</label>
+											</div>
+												
+										</div>
+										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
+										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
+								</div>
+							</div>
+						</div>
+<!-----------------------------------Api接口回复   End--------------------------------------->
+						</div>
+
+		   </div>
+        <div class="form-item cf">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">保存关键词</button>
+            <a class="btn btn-return" href="javascript:;">撤销</a>
+        </div>
+    </form>
+    </div>
+</div>
+</block> 
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="__STATIC__/artDialog/lib/sea.js"></script>
+<script>
+seajs.config({
+  alias: {
+    "jquery": "jquery-1.10.2.js"
+  }
+});
+</script>
+<script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+window.console = window.console || {log:function () {}}
+seajs.use(['jquery', '__STATIC__/artDialog/src/dialog-plus'], function ($, dialog) {
+	$('a[data-event=Dantwreply]').on('click', function () {
+		var d = dialog({
+			title: '单图文设置',
+			content: '风吹起的青色衣衫，夕阳里的温暖容颜，你比以前更加美丽，像盛开的花<br>——许巍《难忘的一天》',
+			okValue: '确 定 设 置',
+			ok: function () {
+				var that = this;
+				setTimeout(function () {
+					that.title('提交中..');
+				}, 2000);
+				return false;
+			},
+			cancelValue: '取消',
+			cancel: function () {}
+		});
+
+		d.showModal();
+	});
+   $('a[data-event=Duotwreply]').on('click', function () {
+		var d = dialog({
+			title: '多图文设置',
+			content: '<input autofocus />',
+			okValue: '确 定 设 置',
+			ok: function () {
+                     art.dialog.alert('警察叔叔会请你喝茶！');
+			},
+			cancelValue: '取消',
+			cancel: function () {}
+		});
+
+		d.showModal();
+	});
+	$('a[data-event=Apireply]').on('click', function () {
+		var d = dialog({
+			title: 'Api接口设置',
+			content: '<div class="tab-wrap form-horizontal form-item cf" style="font-family: "Microsoft YaHei", Helvetica, Verdana, Arial, Tahoma;" color="black">'+
+						'<label class="item-label">'+
+						'	发布内容<span class="check-tips">（是否允许发布内容）</span>'+
+						'</label>'+
+						'<div class="controls">'+
+						'	<label class="inline radio"><input type="radio" name="apireply_type" value="local">本地模块</label>'+
+						'	<label class="inline radio"><input type="radio" name="apireply_type" value="common" checked>通用接口</label>'+
+						'	<label class="inline radio"><input type="radio" name="apireply_type" value="other" >远程接口</label>'+
+						'</div>'+
+						'<div class="form-item cf line">'+
+                    '<label class="item-label">选择模块<span class="check-tips"></span></label>'+
+             ' <div class="controls"> <select class="input-medium" style="width:220px;" id="apireply"> <option value="42" data="top">--选择上级关键词--</option></select></div> </div>'+
+						'<div class="form-item cf"><label class="item-label">附加参数<span class="check-tips">为空则不传递</span><em><font color=red>格式:类型1=>参数1;类型2=>参数2;</font></em></label> <div class="controls"><input type="text" class="text input-large" id="param"></div></div>'+
+					'</div>',
+			okValue: '确 定 设 置',
+			width: 400,
+			height: 200,
+			ok: function () {
+		       //参数拼接
+			   var back = 'apimodel:'+$('input[name=apireply_type]:checked').val()+"\n"+
+			              'apiid:'+$('#apireply option:selected').val()+"\n"+
+						  'param:'+$('#param').val();
+			   $('#keyword_compos').val(back);
+			},
+			cancelValue: '取消',
+			cancel: function () {}
+		});
+		d.showModal();
+	});
+});
+$(function(){
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    showTab();
+});
+</script>
+<script>
+function addtag(wz,nr){
+    $(wz).val(nr);
+}
+function addduotag(wz,nr){
+   var p = $("#duotw_id").val();
+    $('#appmsgItem'+p+' #wailian').val(nr);
+	$('#url').val(nr);
+}
+function oc(zdid,selid){
+		   var cate = $("#"+zdid).find("option:selected").attr('cate');
+           var ad = $("#"+zdid).val();
+		   	    var data=new Object();
+       data.cateid = ad;
+           data.id = selid;
+		 data.cate = cate;
+		   var optonstr="";
+	   $.post('/admin.php?m=Keyword&a=ajax_showlist',data,function(d){
+	    if(d.status!=0){
+              $.each(d.msg, function(i,item){
+			    optonstr = "<option value=\""+item[0]+"\">【ID:"+item[0]+"】"+item[1]+"</option>"+optonstr;
+               });
+			   if(zdid=="duo_lmid"||zdid=="dan_lmid"){
+			  optonstr = "<option value=\"news\">最新帖子</option><option value=\"rand\">随机帖子</option>"+optonstr;
+			   }
+             $("#"+selid).html(optonstr);
+        }else{
+			   alert(d.errmsg);
+			   $("#"+selid).html('');
+			 }
+		},'json');
+}
+   $('input[name=model_type]').live('click',function(){
+   	     var data=new Object();
+		 var optonstr="";
+		  data.modeltype = $('input[name=model_type]:checked').val();
+	   $.post('/admin.php?m=Keyword&a=ajax_apilist',data,function(d){
+	    if(d.status!=0){
+              $.each(d.msg, function(i,item){
+			    optonstr = "<option value=\""+item[0]+"\" data=\""+d.type+"\">"+item[2]+"&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;"+item[1]+"&nbsp;&nbsp;|&nbsp;&nbsp;"+d.type+"&nbsp;&nbsp;)</option>"+optonstr;
+               });
+             $("#apireply").html(optonstr);
+        }else{
+			   alert(d.errmsg);
+			   $("#apireply").html('');
+			 }
+		},'json');
+
+   });
+function formatDate(e,t){var n=e.getFullYear(),r="0"+(e.getMonth()+1);r=r.substring(r.length-2);var i="0"+e.getDate();i=i.substring(i.length-2);var s="0"+e.getHours();s=s.substring(s.length-2);var o="0"+e.getMinutes();return o=o.substring(o.length-2),t.replace("yyyy",n).replace("MM",r).replace("dd",i).replace("hh",s).replace("mm",o)}
+</script>
+</block>

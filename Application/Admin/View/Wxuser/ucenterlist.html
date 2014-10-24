@@ -1,0 +1,115 @@
+<extend name="Public/base"/>
+
+<block name="body">
+		<style>
+			.status1 {background-color: #2d7200;}
+			.status0 {background-color: #ff2610;}
+		</style>
+    <div class="main-title">
+        <h2>管理 {$ucentertitle} </h2>
+    </div>
+
+    <div class="cf">
+        <a class="btn" href="javascript:history.go(-1);">返回用户中心</a>
+		<a class="btn" href="#">用 户 发 布 列</a>
+		<a class="btn" href="{:U('ucenter',array('type'=>'duoshuo'))}">用 户 评 论 列</a>
+		<a class="btn" href="{:U('ucenter',array('type'=>'marks'))}">用 户 收 藏 列</a>
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+            <div class="sleft">
+                <input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="输入用户Openid UC名 昵称">
+                <a class="sch-btn" href="javascript:;" id="search" url="__SELF__"><i class="btn-search"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th>
+                        <th>Openid</th>
+						<th>添加时间</th>
+                        <th>类型</th>
+                        <th>标识</th>
+                        <th>性别</th>
+						<th>内容</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
+                        <td>{$menu.fromusername}</td>
+                        <td>{$menu.ucusername}</td>
+                        <td>{$menu.nickname}</td>
+                        <td>{$menu.cate_group}</td>
+                        <td>{$menu.sex}</td>
+						<td>{$menu.qq}</td>
+                        <td>
+                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}">删除</a>
+                    </tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> aOh! 暂时还没有关注用户动态哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //搜索功能
+            $("#search").click(function() {
+                var url = $(this).attr('url');
+                var query = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
+                query = query.replace(/^&/g, '');
+                if (url.indexOf('?') > 0) {
+                    url += '&' + query;
+                } else {
+                    url += '?' + query;
+                }
+                window.location.href = url;
+            });
+            //回车搜索
+            $(".search-input").keyup(function(e) {
+                if (e.keyCode === 13) {
+                    $("#search").click();
+                    return false;
+                }
+            });
+            //导航高亮
+            highlight_subnav('{:U('index')}');
+            //点击排序
+        	$('.list_sort').click(function(){
+        		var url = $(this).attr('url');
+        		var ids = $('.ids:checked');
+        		var param = '';
+        		if(ids.length > 0){
+        			var str = new Array();
+        			ids.each(function(){
+        				str.push($(this).val());
+        			});
+        			param = str.join(',');
+        		}
+
+        		if(url != undefined && url != ''){
+        			window.location.href = url + '/ids/' + param;
+        		}
+        	});
+        });
+    </script>
+</block>

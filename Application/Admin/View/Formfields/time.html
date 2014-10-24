@@ -1,0 +1,20 @@
+<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<eq name="type" value="add">
+<input type="text" name="{$field.name}" class="text input-large time format" value="{:date('H:i')}" placeholder="请选择时间戳" />
+<else/>
+<input type="text" name="{$field.name}" class="text input-large time format" value="{$data[$field['name']]|date='H:i',###}" placeholder="请选择时间戳" />
+</eq>
+<script type="text/javascript">
+	var $j = jQuery.noConflict();
+	$j(function(){
+    $j(".format").datetimepicker({
+	     language: 'zh',
+	     startView: 0,
+		 format: 'hh:ii'
+		 });
+    });
+</script>

@@ -1,0 +1,198 @@
+<extend name="Public/base"/>
+
+<block name="body">
+		<style>
+			.status1 {background-color: #2d7200;}
+			.status0 {background-color: #ff2610;}
+.search-form .drop-down ul a {
+padding: 0 10px;
+height: 30px;
+line-height: 30px;
+width: 100px;
+color: #404040;
+}
+.search-form .sort-txt {
+display: inline-block;
+margin: 0 2px 0 4px;
+padding-left: 6px;
+width: 100px;
+cursor: pointer;
+}
+.search-form .drop-down {
+float: left;
+width: 136px;
+height: 28px;
+line-height: 28px;
+}
+		</style>
+    <div class="main-title">
+        <h2>关键词列表 [<a>{$search_groupname}组</a>]</h2>
+    </div>
+
+    <div class="cf">
+        <a class="btn" href="{:U('add',array('pid'=>I('get.pid',0)))}">关键词 组装</a>
+        <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
+		<button class="btn list_sort" url="{:U('responselists',array('pid'=>I('get.pid',0)))}" >+ 响应列表库</button>
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<div class="drop-down">
+					<span id="sch-sort-txt" class="sort-txt" data="{$search_groupid}" >{$search_groupname}组</span>
+					<i class="arrow arrow-down"></i>
+					<ul id="sub-sch-menu" class="nav-list hidden">
+						<li><a href="javascript:;" value="">所有分组</a></li>
+                <volist name="catelist" id="cateinfo">
+				<li><a href="javascript:;" value="{$cateinfo.id}">{$cateinfo.keywordcate_name}组</a></li>
+                </volist>
+					</ul>
+				</div>
+				<input type="text" name="title" class="search-input" value="{$search_title}" id="search_title" placeholder="关键词的模糊标题">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('Keywordview/lists','',false)}"><i class="btn-search"></i></a>
+			</div>
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
+                	<div class="row">
+                		请求:
+                		<select name="request">
+                <volist name="postlist" id="postinfo">
+				<option value="{$postinfo.posts_title}">{$postinfo.posts_name}</option>
+                </volist>
+						</select> 状态:                		
+                		<select name="keyword_status">
+                            <option value="1" >正常</option><option value="0">禁用</option>
+						</select>
+                	</div>
+                </div>
+            </div>
+		</div>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th>
+                        <th width=20>ID</th>
+                        <th>关键词</th>
+                        <th width=100>请求|规则</th>
+                        <th width=80>分组</th>
+                        <th width=60>上|下</th>
+                        <th width=40>回复</th>
+                        <th width=100>响应简称</th>
+						<th width=40>激活</th>
+                        <th width=100>排序</th>
+						<th width=40>状态</th>
+                        <th width=80>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
+                        <td>{$menu.id}</td>
+                        <td>{$menu.keyword_rules}</td>
+                        <td>{$menu.posts_name} | {$menu.keyword_reply}</td>
+                        <td>{$menu.keywordcate_name}</td>
+                        <td>{$menu.keyword_top} | {$menu.keyword_down}</td>
+                        <td>{$menu.response_reply}</td>
+                        <td>{$menu.response_name}... </td><!-- 暂不考虑可视化修改    后续添加  -->
+                        <td>{$menu.keyword_click}</td>
+					    <td><input type="text" class="text input-2x" onblur="sort({$menu.id},this.value)" id="7_{$menu.id}" value="{$menu.sort}"</td>
+                        <td><a class="ajax-get" href="{:U('Keywordview/status',array('id'=>$menu['id']))}"><span class="status{$menu.status}">状态</span></a></td>
+                        <td>
+                            <a title="编辑" href="{:U('edit_posts?id='.$menu['id'])}">编辑</a>
+                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$menu['id'])}">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+				<else/>
+				<td colspan="12" class="text-center"> aOh! 暂时还没有内容! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+           {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //搜索功能 search_title
+            $("#search").click(function() {
+		var url   = $(this).attr('url');
+		var param = '';
+		var status       = $("#sch-sort-txt").attr("data");
+		var search_title = $("#search_title").val();
+        var query        = $('.search-form').find('select').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+		if(status != ''){
+			param  = 'groupid=' + status + "&title=" + search_title + "&" + query;
+        }
+        if( url.indexOf('?')>0 ){
+            url += '&' + param;
+        }else{
+            url += '?' + param;
+        }
+		window.location.href = url;
+            });
+	/* 状态搜索子菜单 */
+	$(".search-form").find(".drop-down").hover(function(){
+		$("#sub-sch-menu").removeClass("hidden");
+	},function(){
+		$("#sub-sch-menu").addClass("hidden");
+	});
+	$("#sub-sch-menu li").find("a").each(function(){
+		$(this).click(function(){
+			var text = $(this).text();
+			$("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
+			$("#groupname").val($(this).attr("value"));
+			$("#sub-sch-menu").addClass("hidden");
+		})
+	});
+            //回车搜索
+            $(".search-input").keyup(function(e) {
+                if (e.keyCode === 13) {
+                    $("#search").click();
+                    return false;
+                }
+            });
+            //导航高亮
+            highlight_subnav('{:U('index')}');
+            //点击排序
+        	$('.list_sort').click(function(){
+        		var url = $(this).attr('url');
+        		var ids = $('.ids:checked');
+        		var param = '';
+        		if(ids.length > 0){
+        			var str = new Array();
+        			ids.each(function(){
+        				str.push($(this).val());
+        			});
+        			param = str.join(',');
+        		}
+
+        		if(url != undefined && url != ''){
+        			window.location.href = url + '/ids/' + param;
+        		}
+        	});
+        });
+//排序方法
+function sort(id,num){
+    $.get('{:U("Keywordview/sort")}', { id: id,num:num }, function(jsondata){
+		var return_data  = eval(jsondata);
+		$("#7_"+id).attr('value', return_data);
+		location.reload();
+	}); 
+}
+    </script>
+</block>

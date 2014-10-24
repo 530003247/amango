@@ -1,0 +1,158 @@
+<extend name="Public/base" />
+
+<block name="body">
+<link href="__ROOT__/Public/Admin/Addonsindex/css/common.css" rel="stylesheet" type="text/css">
+<link href="__ROOT__/Public/Admin/Addonsindex/css/bootstrap.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/Public/Admin/Addonsindex/script/jquery-1.7.2.min.js"></script>
+<style>
+.module .thumbnails li{}
+.submit-btn {
+    color: #fff;
+    background-color: #CC3900;
+}
+.has-api {
+    z-index:9;position:absolute; width: 0;height: 0;border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 15px solid #330099;right:4px;
+}
+.addon-id {
+    z-index:9;position:absolute;width: 0;height: 0;border-top: 34px solid #FF6600;border-right: 24px solid transparent;
+}
+.addon-id-num {
+    z-index:10;position:absolute;margin-left:1px;margin-top:-3px;color:#FFFFFF;
+}
+.set-btn {
+    color: #fff;
+    background-color: #0044cc;
+}
+.f-btn {
+    color: #fff;
+    background-color: #CC3900;
+}
+.s-btn {
+    color: #fff;
+    background-color: #4bbd00;
+}
+.f-btn:hover {
+    color: #fff;
+    background-color: #ff2610;
+}
+.s-btn:hover {
+    color: #fff;
+    background-color: #4cdb00;
+}
+.set-btn:hover {
+    color: #fff;
+    background-color: #0088cc;
+}
+</style>
+
+	<script type="text/javascript">
+		function toggle_description(id) {
+			var container = $('#'+id).parent().parent().parent();
+			var status = $('#'+id).attr("status");
+			if(status == 1) {
+				$('#'+id).attr("status", "0")
+				container.find(".module_description").show();
+			} else {
+				$('#'+id).attr("status", "1")
+				container.find(".module_description").hide();
+			}
+		}
+		$(function() {
+			$('.module .thumbnails').delegate('li .module-button-switch', 'click', function(){ //控制模块开关
+				if($(this).hasClass('btn-primary')) { //禁用模块
+					$(this).removeClass('btn-primary').addClass('btn-danger').html('开启');
+				} else if($(this).hasClass('btn-danger')) { //开启模块
+					$(this).removeClass('btn-danger').addClass('btn-primary').html('禁用');
+				}
+				$(this).parent().parent().find('.module-pic img').toggleClass('gray');
+			});
+			$('.module .thumbnails').delegate('li', 'hover', function(){ //控制模块详细信息
+				$(this).find('.module-title,.module-brief').toggle();
+				$(this).find('.module-description').toggle('fast');
+			});
+		});
+	</script>
+	<!-- 标题栏 -->
+       <div>
+	   <h2>Hello,芒果应用商店</h2><br>
+           <a href="{:U('index')}" class="btn">返回本地插件</a>
+		   <a href="http://wpa.qq.com/msgrd?V=3&amp;Uin=530003247&amp;Site=芒果高校官方&amp;Menu=yes&amp;from=discuz" class="btn" target="_blank" title="QQ">官网定制客服</a>
+		|
+		<select id="addonstype" class="btn set-btn" style="width:80px;">
+              <option value="addons" selected="">插件</option>
+			  <option value="unit">组件</option>
+			  <option value="theme">模板</option>
+	    </select>
+		<select id="soaddons" name="status" class="btn set-btn" style="width:110px;">
+		      <option value="news" selected>最新上架</option>
+              <option value="free">免费下载</option>
+			  <option value="pay">付费下载</option>
+			  
+	    </select>
+		</div>
+	<!-- 数据列表 -->
+	<div class="module" style="font: 14px/1.5 'microsoft yahei', Helvetica, Tahoma, Arial, sans-serif;color:#404040;">
+			<div class="row-fluid"><ul class="thumbnails" id="thumbnails">		
+			<li style="width:23.6%; min-width:240px;">
+				<div class="thumbnail">
+                      <div class="has-api"></div>
+                        <div class="module-pic">
+							<img src="/Addons/SnatchTieba/logo.jpg">
+							<div class="module-detail">
+								<h5 class="module-title" style="display: block;"><b>贴吧获取数据</b>&nbsp;0.1<small class="fr">SnatchTieba</small></h5>
+								<p class="module-description" style="display: none;">名称：贴吧获取数据<br>作者：拉开让哥单打<br>简介：通过配置参数,自动抓取参数</p>
+							 </div>
+						 </div>
+						<div class="module-button">
+								<a class="btn set-btn ajax-get" href="/index.php?s=/Admin/Addons/uninstall/id/30.html">查看详情</a>
+								<a href="/index.php?s=/Admin/Addons/config/id/30.html" target="blank" class="btn" style="width:50%;">免费下载</a>
+                        </div>
+					</div>
+				</li>
+			</ul></div>
+			<div>
+							</div>
+		</div>
+	<!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+	<link href="/Public/static/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/ZeroClipboard/jquery.zclip.js"></script>
+<script type="text/javascript">   
+
+$(document).ready(function(){
+	$(".copy-button").zclip({
+		path: "__STATIC__/ZeroClipboard/ZeroClipboard.swf",
+		copy: function(){return $(this).prev().val();}
+	});
+ $('#soaddons').live('change',function(){ 
+	     var data=new Object();
+		  data.addons = $("#addonstype").find("option:selected").val(); //插件类型
+		  data.type   = $(this).find("option:selected").val();   //插件状态
+          alert(data.type+data.addons);
+		  $.post('{:U('addonsshop')}',data,function(d){
+			 if(d.status!=0){
+			 var addonslist='';
+			    $.each(d.msg, function(i,item){
+					addonslist = '<li style="width:23.6%; min-width:240px;"><div class="thumbnail"><div class="has-api"></div><div class="module-pic">' + 
+					'<img src="'+item['picurl']+'">' +
+					'<div class="module-detail">' +
+					'<h5 class="module-title" style="display: block;"><b>'+item['name']+'</b>&nbsp;'+item['vesion']+'<small class="fr">'+item['title']+'</small></h5>' +
+					'<p class="module-description" style="display: none;">'+item['author']+'<br>简介：'+item['desc']+'</p>' +
+					'</div></div><div class="module-button">' +
+					'<a class="btn set-btn ajax-get" href="'+item['url']+'" target="blank">查看详情</a>' +
+					'<a href="'+item['url']+'" target="blank" class="btn" style="width:50%;">免费下载</a>' +
+					'</div></div></li>'+addonslist;
+                 });
+				 if(addonslist==''){addonslist = '芒果应用商店中未查询到相关内容！';}
+                 $("#thumbnails").html(addonslist);
+             }else{
+	             alert(d.msg);
+			 }
+		 },'json');
+  });
+});
+
+</script> 
+</block>

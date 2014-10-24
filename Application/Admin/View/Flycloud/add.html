@@ -1,0 +1,155 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="main-title">
+        <h2>新增 本地数据模型</h2>
+    </div>
+    <form action="{:U(add)}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">模型名称<span class="check-tips">（便于以后模型数据识别调用）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="data_name" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">模型类型<span class="check-tips">（支持:本地模型,云端模型）</span></label>
+            <div class="controls">
+                    <select name="data_type" onchange="oc('data_type','tablename');" id="data_type">
+                        <option value="local" selected>本地数据模型</option>
+						<option value="category">图文数据模型</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">数据表名<span class="check-tips">（纯小写表名，驼峰法命名请自动转成下划线）</span></label>
+            <div class="controls">
+                    <select name="data_table" id="tablename">
+					<!---
+                    <volist name="tablename" id="menu">
+                        <option value="{$menu.id}">[表名]{$menu.title}</option>
+                    </volist>
+					----->
+                    </select>
+            </div>
+        </div>
+					<div class="form-item cf">
+					<div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span>可选字段</span>
+							<ul class="dragsort needdragsort" data-group="1" id="allfileds">
+							 </ul>
+						</div><div class="form-item cf edit_sort edit_sort_l form_field_sort">
+							<span>读取字段</span>
+							<ul class="dragsort needdragsort" data-group="2" id="readfileds">
+				        	</ul>
+				     	</div>
+						<div class="form-item cf edit_sort edit_sort_l form_field_sort" id="param" style="display: none;">
+							<span>对应参数</span>
+							<ul class="dragsort" data-group="3">
+							<li class="getSort" data-cursor="pointer" style="cursor: pointer;"><em data="sort"> => 图文标题</em></li>
+							<li class="getSort" data-cursor="pointer" style="cursor: pointer;"><em data="sort"> => 图文封面</em></li>
+							<li class="getSort" data-cursor="pointer" style="cursor: pointer;"><em data="sort"> => 图文摘要</em></li>
+							<li class="getSort" data-cursor="pointer" style="cursor: pointer;"><em data="sort"><input type="text" class="text" placeholder="U函数解析规则" name="urlparax"></em></li>
+				        	</ul>
+				     	</div>
+						</div>
+						        <div class="form-item">
+            <label class="item-label">SQL条件<span class="check-tips">（请填写SQL语句）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="data_condition" >
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">状态<span class="check-tips"></span></label>
+            <div class="controls">
+                <label class="radio"><input type="radio" name="status" value="1" checked>开启</label>
+                <label class="radio"><input type="radio" name="status" value="0">关闭</label>
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        Think.setValue("pid", {$info.pid|default = 0});
+        Think.setValue("hide", {$info.hide|default = 0});
+        Think.setValue("is_dev", {$info.is_dev|default = 0});
+        //导航高亮
+        highlight_subnav('{:U('lists')}');
+    </script>
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+//拖曳插件初始化
+$(function(){
+	$(".needdragsort").dragsort({
+	     dragSelector:'li',
+	     placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+	     dragBetween:true,	//允许拖动到任意地方
+	     dragEnd:function(){
+	    	 var self = $(this);
+	    	 self.find('input').attr('name', 'field_sort[' + self.closest('ul').data('group') + '][]');
+	     }
+	 });
+			//获取排序并提交
+	$('#tablename').change(function(){
+	       var type  = $("#data_type").val();
+		   var cateid  =  $("#tablename").find("option:selected").attr('cate');
+		   var cate  = $("#tablename").find("option:selected").val();
+		   var data  = new Object();
+		       data.cate = cate;
+			 data.cateid = cateid;
+			   data.type = type;
+		   var optonstr="";
+		   $("#readfileds").html('');
+	   $.post('{:U("Flycloud/getfields")}',data,function(d){
+	    if(d.status!=0){
+              $.each(d.msg, function(i,item){
+			    optonstr = '<li class="getSort"><em data="'+item['name']+'">'+item['title']+'['+item['name']+']</em><input type="hidden" name="field_sort[1][]" value="'+item['name']+'"/></li>'+optonstr;
+               });
+             $("#allfileds").html(optonstr);
+        }else{
+			   alert(d.errmsg);
+			   $("#allfileds").html('');
+			 }
+		},'json');
+	});
+})
+
+function oc(zdid,selid){
+           var ad   = $("#"+zdid).val();
+		   var data = new Object();
+        data.cateid = ad;
+		var optonstr= '';
+		if(ad=='category'){
+           $("#param").show();
+        } else {
+           $("#param").hide();
+		}
+		
+	   $.post('{:U("Flycloud/ajax_info")}',data,function(d){
+	    if(d.status!=0){
+		   $("#tablename").html('');
+		   if(d.msg!=''){
+		      if(ad=='local'){
+                  $.each(d.msg, function(i,item){
+			         optonstr = "<option value=\""+item[1]+"\" \""+item[1]+"\">[表名]"+item[2]+"</option>"+optonstr;
+                    });
+                  $("#tablename").html(optonstr);
+		      }
+		      if(ad=='category'){
+                  $.each(d.msg, function(i,item){
+			         optonstr = "<option value=\""+item[1]+"\" cate=\""+item[0]+"\">[分类]"+item[2]+"</option>"+optonstr;
+                    });
+                  $("#tablename").html(optonstr);
+		      }
+		   }
+        }else{
+			   alert(d.errmsg);
+			   $("#"+selid).html('');
+			 }
+		},'json');
+}
+</script>
+</block>

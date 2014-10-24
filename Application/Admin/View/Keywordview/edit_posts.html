@@ -1,0 +1,197 @@
+<extend name="Public/base" />
+
+<block name="body">
+<script src="__ROOT__/Public/Admin/item_addkeyword/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+			<link rel="stylesheet" href="__STATIC__/tipsy/tipsy.css" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+			<script charset="utf-8" src="__STATIC__/tipsy/jquery.tipsy.js"></script>
+		<style>
+			.ke-icon-diyview {
+				background-image: url("__STATIC__/kindeditor/150.gif");
+				width: 16px;
+				height: 16px;
+			}
+		</style>
+<script>
+				var editor;
+				var replyeditor;
+				KindEditor.lang({
+                                diyview : '你好'
+                });
+				KindEditor.ready(function(K) {
+				    //激活关键词
+					editor = K.create('textarea[name="keyword_content"]', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+					items : ['emoticons','|','plainpaste','clearhtml','about'],
+                pasteType : "1",
+			   newlineTag : "br",
+			     htmlTags : {a : ['href'],'br' : [],img : ['src', 'alt']},
+				  width:'100%',
+               filterMode : true,
+			   resizeMode : 1,
+					});
+					//文本回复
+				replyeditor = K.create('#keyword_text', {
+					allowImageUpload : false,
+					items : ['emoticons','diyview','|','hr','template','|','plainpaste','clearhtml','fullscreen','about'],
+                pasteType : "1",
+			   newlineTag : "br",
+			     htmlTags : {a : ['href'],hr : [],'br' : [],img : ['src', 'alt']},
+				  width:'100%',
+               filterMode : true, //不会过滤HTML代码
+			   resizeMode : 1, //编辑器只能调整高度
+			  afterChange : function() {
+						K('.word_count1').html(this.count());
+						K('.word_count2').html(this.count('text'));
+					}
+				   });
+				});
+	$(function() { 
+		$('.tip').tipsy({gravity: 'nw'});
+	});
+</script>
+    <!-- 表单 -->
+    <div class="main-title cf">
+        <h2>编辑 关键词 “{$info['keyword_content']}”</h2>
+    </div>
+    <!-- 标签页导航 -->
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+			<li data-tab="tab1"><a href="javascript:void(0);" class="tip" title="关键词的基本参数,例如时间,周期,上下文继承等等...">Step1 基本参数</a></li><li data-tab="tab2" ><a href="javascript:void(0);" class="tip" title="用户在手机微信发送的信息,常见有文本,图片,语音,链接...">Step2 用户请求</a></li><li data-tab="tab4" ><a href="javascript:void(0);"class="tip" title="系统后台处理该关键词激活的情景,额外执行的行为...">Step4 情景/行为激活</a></li></ul>
+    <div class="tab-content">
+   
+    <form id="form" action="{:U('edit_posts?id='.$info['id'])}" method="post" class="form-horizontal">
+        <!-- 基础文档模型 -->
+		<div id="tab1" class="tab-pane in tab1">
+					<div class="sys-info">
+				<table>
+					<tr>
+					<input type="hidden" name="id" value="{$info['id']}">
+						<td><label class="item-label">开始时间<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="keyword_start" class="text input-medium time" value="{$info['keyword_start']|date='Y-m-d H:i',###}" placeholder="请选择开始日期" /></div></td>
+
+						<td><label class="item-label">截止日期<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <input type="text" name="keyword_end" class="text input-medium time" value="{$info['keyword_end']|date='Y-m-d H:i',###}" placeholder="请选择截止日期" /></div></td>
+					</tr>
+					<tr>
+						<td><label class="item-label">继承上级<span class="check-tips"></span></label>
+                    <div class="controls">
+						{:W('Formfields/show', array(array('type'=>'laiyuan','name'=>'keyword_top','extra'=>'调用【关键词列表】','sortfields'=>'id,id,keyword_rules','default'=>'1'), '','add',array('id'=>'keyword_top','class'=>'input-medium','style'=>'width:250px;'),$info['keyword_top']))}
+                 </div></td>
+						<td>                    <label class="item-label">下文继承<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <select name="keyword_down">
+                        <option value="1"  <eq name="info['keyword_down']" value="1">selected</eq>>开启</option><option value="0" <eq name="info['keyword_down']" value="0">selected</eq>>关闭</option></select></div></td>
+					</tr>
+					<tr>
+                   <td><label class="item-label">关键词组<span class="check-tips"></span></label>
+                    <div class="controls">
+				   {:W('Formfields/show', array(array('type'=>'laiyuan',name=>'keyword_group','extra'=>'调用【关键词分组】','sortfields'=>'id,id,keywordcate_name'), '','add',array('class'=>'select','id'=>'keyword_group','style'=>'width:250px;'),$info['keyword_group']))}
+			        </div></td>
+                    <td><label class="item-label">缓存时间<span class="check-tips">（单位:秒）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-medium" name="keyword_cache" value="{$info['keyword_cache']}" placeholder="0">                    </div>
+					</tr>
+				</table>
+           </div>
+     </div><div id="tab2" class="tab-pane  tab2">
+	 		<div class="sys-info">
+				<table>
+					<tr>
+						<td><label class="item-label">请求类型<span class="check-tips">(用户发送哪种类型的请求)</span></label>
+                    <div class="controls">
+						{:W('Formfields/show', array(array('type'=>'laiyuan',name=>'keyword_post','extra'=>'调用【用请求类型】'), '','add',array('class'=>'select',id=>'keyword_post','style'=>'width:250px;'),$info['keyword_post']))}
+                         </div></td>
+						<td><label class="item-label">回复规则<span class="check-tips">(系统采用哪种规则去回复)</span></label>
+                    <div class="controls">
+						{:W('Formfields/show', array(array('type'=>'laiyuan',name=>'keyword_reply','extra'=>'调用【匹配规则】'), '','add',array('class'=>'select',id=>'keyword_reply','style'=>'width:250px;'),$info['keyword_reply']))}</div></td>
+					</tr>
+				</table>
+           </div>
+<div class="form-item cf">
+                    <label class="item-label">关键词内容<span class="check-tips">(编辑模式,不支持编辑表情,链接)</span></label>
+                    <div class="controls">
+                        <label class="textarea">
+                                <textarea name="keyword" id="wordsreply">{$info['keyword_content']}</textarea>
+                               </label>                    </div>
+                </div>        </div> <div id="tab4" class="tab-pane  tab4">
+			<div class="sys-info">
+				<table>
+					<tr>
+						<td><label class="item-label">禁止Tag列表<span class="check-tips">（微信将不显示标签）<a class="item" href="/newmango/index.php?s=/Admin/Think/lists/model/tagslists.html" target="_blank">>>标签列表</a></span> </label><div class="controls">
+			<label class="textarea input-midl">
+				<textarea id="denytag_keyword"></textarea>
+			</label>				
+			</div></td><!--
+						<td><label class="item-label">激活前执行行为<span class="check-tips">（将会提前激活下列行为）</span> </label><div class="controls">
+			<label class="textarea input-midl">
+				<textarea id="before_keyword"></textarea>
+			</label>				
+			</div></td>-->
+						<td><label class="item-label">激活行为<span class="check-tips">（激活关键词会激活下列行为）</span> </label><div class="controls">
+			<label class="textarea input-midl">
+				<textarea name="after_keyword">{$info['after_keyword']}</textarea>
+			</label>				
+			</div></td>
+					</tr>
+					<tr>
+						<td><label class="item-label">菜单按钮情景<span class="check-tips">（切换菜单）</span> </label><div class="controls">
+				    <select name="click_model" class="input-midl">
+					              <option value="0">不启用按钮模式</option>
+					             <volist name="clickmenu" id="val">
+			                      <option value="{$val.id}" <eq name="info['click_model']" value="$val['id']">selected</eq>>编号:{$val.id}-{$val.title}</option>
+                                 </volist>      
+                    </select> 
+			</div></td>
+						<td><label class="item-label">模块锁定情景<span class="check-tips">（关联插件）</span> </label><div class="controls">
+				                        <select name="lock_model" id="lock_model">
+										<option value="">其他关联方式</option>
+			<volist name="localapi" id="val">
+			   <option value="{$val.id}" <eq name="info['lock_model']" value="$val['id']">selected</eq>>{$val.title}-{$val.name}/index</option>
+            </volist></select> 
+									<input class="text input-4x" name="lock_model1" value="{$info['lock_model1']}"  placeholder="插件名/插件操作">
+			</div></td>
+					</tr>
+				</table>
+</div>
+                 </div>
+		   </div>
+
+        <div class="form-item cf" id="send">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" creattype="post" target-form="form-horizontal">确定编辑请求规则</button>
+            <a class="btn btn-return" href="javascript:history.go(-1);">撤销</a>
+        </div>
+    </div>
+	</form>
+</div>
+</block> 
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="__STATIC__/artDialog/lib/sea.js"></script>
+<script>
+seajs.config({
+  alias: {
+    "jquery": "jquery-1.10.2.js"
+  }
+});
+</script>
+<script type="text/javascript">
+$(function(){
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    showTab();
+});
+</script>
+</block>

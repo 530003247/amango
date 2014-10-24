@@ -1,0 +1,13 @@
+<eq name="type" value="add">
+                                <select name="{$field.name}">
+                                    <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
+                                    </volist>
+                                </select>
+<else/>
+                                <select name="{$field.name}">
+                                    <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                        <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
+                                    </volist>
+                                </select>
+</eq>

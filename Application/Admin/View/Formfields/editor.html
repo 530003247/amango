@@ -1,0 +1,11 @@
+<eq name="type" value="add">
+                                <label class="textarea">
+                                <textarea name="{$field.name}"></textarea>
+                                {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>''))}
+                                </label>
+<else/>
+                                <label class="textarea">
+                                <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
+                                {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>$data[$field['name']]))}
+                                </label>
+</eq>

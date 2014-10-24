@@ -1,0 +1,25 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <div class="main-title cf">
+        <h2>管理 缓存日志</h2>
+    </div>
+    <!-- 标签页导航 -->
+	<div class="cf">
+        【后台缓存】 <a class="btn ajax-get" href="{:U('delcache',array('type'=>'admin'))}">一键清除</a>|
+        【前台缓存】 <a class="btn ajax-get" href="{:U('delcache',array('type'=>'home'))}">一键清除</a>|
+        【微信缓存】 <a class="btn ajax-get" href="{:U('delcache',array('type'=>'weixin'))}">一键清除</a>
+    </div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(function(){
+    showTab();
+
+});
+</script>
+</block>

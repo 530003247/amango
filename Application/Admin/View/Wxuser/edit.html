@@ -1,0 +1,140 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>编辑 用户信息</h2>
+    </div>
+<div class="tab-wrap">
+    <ul class="tab-nav nav">
+			<li data-tab="tab1" class="current"><a href="javascript:void(0);">基本信息</a></li>
+			<li data-tab="tab2" class=""><a href="javascript:void(0);">UC绑定</a></li>
+			<li data-tab="tab3" class=""><a href="javascript:void(0);">动态信息</a></li>
+			
+	</ul>
+    <div class="tab-content">
+    <!-- 表单 -->
+    <form id="form" action="{:U('edit?id='.$info['id'])}" method="post" class="form-horizontal">
+					
+        <!-- 基础文档模型 -->
+		<div id="tab1" class="tab-pane tab1 in">
+            <div class="form-item cf">
+                    <label class="item-label">Openid<span class="check-tips">（微信唯一用户标识,不可编辑）</span></label>
+                    <div class="controls">
+					   <input type="text" class="text input-large" value="{$info.fromusername}" disabled>
+                    </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">用户昵称<span class="check-tips">（微信用户昵称，默认为游客）</span></label>
+                    <div class="controls">
+					   <input type="text" class="text input-large" name="nickname" value="{$info.nickname}">
+                    </div>
+                </div><div class="form-item cf">
+                    <label class="item-label">性别<span class="check-tips">（微信用户性别,不可编辑）</span></label>
+                    <div class="controls">
+					   <input type="text" class="text input-large" value="{$info.sex}" disabled>
+                    </div>
+                </div>
+                <div class="form-item cf">
+                    <label class="item-label">生日<span class="check-tips">（不可编辑）</span></label>
+                    <div class="controls">
+					   <input type="text" class="text input-large" value="{$info.birthday|time_format}" disabled>
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">Q Q<span class="check-tips">（不可编辑）</span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" value="{$info.qq}" disabled>
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">用户组<span class="check-tips"></span></label>
+                    <div class="controls">
+                          {:W('Formfields/show', array(array('type'=>'laiyuan','name'=>'cate_group','extra'=>'调用【会员组】'), '','add',array('id'=>'cate_group','class'=>'input-large'),$info['cate_group']))}
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">注册时间<span class="check-tips">（不可编辑）</span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" value="{$info.regtime|time_format}" disabled>
+                    </div>
+                </div>        
+				<div class="form-item cf">
+                    <label class="item-label">最后活跃<span class="check-tips">（不可编辑）</span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" value="{$info.lasttime|time_format}" disabled>
+                    </div>
+                </div> 
+			</div> 
+		<div id="tab2" class="tab-pane  tab2">
+                <div class="form-item cf">
+                    <label class="item-label">UC标识<span class="check-tips">（不可编辑）</span></label>
+                    <div class="controls">
+					   <input type="text" class="text input-large" name="ucmember" value="{$info.ucmember}" disabled>
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">UC用户名<span class="check-tips"></span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" value="{$info.ucusername}" disabled>
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">UC密码<span class="check-tips"></span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" name="ucpassword" value="{$info.ucpassword}">
+                    </div>
+                </div>         
+		</div>
+		<div id="tab3" class="tab-pane  tab3">
+                <div class="form-item cf">
+                    <label class="item-label">关键词状态<span class="check-tips">(当前正处于关键词的状态，一般关键词上下级关系会显示)</span></label>
+                    <div class="controls">
+					   <input type="text" class="text input-large" name="lastkeyword" value="{$info.lastkeyword}">
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">模块状态<span class="check-tips">(当前正处于模块的状态，一般上下级模块关系会显示)</span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" name="lastmodel" value="{$info.lastmodel}">
+                    </div>
+                </div>
+				<div class="form-item cf">
+                    <label class="item-label">菜单状态<span class="check-tips">(当前正处于菜单的状态，一般锁定菜单会显示)</span></label>
+                    <div class="controls">
+                           <input type="text" class="text input-large" name="lastclick" value="{$info.lastclick}">
+                    </div>
+                </div>
+				<input type="hidden" name="id" value="{$info.id}">
+		</div>
+        <div class="form-item cf">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <a class="btn btn-return" href="javascript:;">返 回</a>
+        </div>
+    </form>
+    </div>
+</div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+
+$(function(){
+
+ highlight_subnav("{:U('Wxuser/lists')}");
+	$('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    showTab();
+});
+</script>
+</block>

@@ -1,0 +1,9 @@
+<eq name="type" value="add">
+                                <label class="textarea input-large">
+                                <textarea name="{$field.name}"></textarea>
+                                </label>
+<else/>
+                                <label class="textarea input-large">
+                                <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
+                                </label>
+</eq>
