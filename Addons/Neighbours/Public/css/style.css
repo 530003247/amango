@@ -1,0 +1,222 @@
+/* CSS Reset */
+body,div,span,applet,object,iframe,input,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,hr{padding:0;margin:0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+ol,ul {
+    list-style: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+q:before,q:after {
+    content: "";
+}
+
+legend {
+    display: none;
+}
+
+.clearfix:after {
+    content: "";
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.clear {
+    clear: both;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+}
+
+strong {
+    font-weight: 700;
+} /* bass css */
+a {
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    star: expression(this.onFocus = this.blur () );
+}
+
+:focus {
+    outline: 0;
+}
+
+body {
+    font-family: "宋体", SimSun, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    background: #f2f2f2;
+    color: gray;
+}
+
+.wrapper {
+}
+/*public*/
+.top_bar {
+    height: 29px;
+    text-align: center;
+    line-height: 30px;
+    color: #999;
+    z-index: 1;
+}
+
+.top {
+    margin: 0 auto;
+    width: 100%;
+    height: 35px;
+    font-size: 14px;
+    line-height: 35px;
+    font-family: "微软雅黑";
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top,#F5F9FB,#e6e6e6);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#F5F9FB),to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top,#F5F9FB,#e6e6e6);
+    background-image: -o-linear-gradient(top,#F5F9FB,#e6e6e6);
+    background-image: linear-gradient(to bottom,#F5F9FB,#e6e6e6);
+    background-repeat: repeat-x;
+}
+
+.inner_top {
+    padding: 10px 0;
+    position: relative;
+    z-index: 0;
+}
+
+div#main { overflow: hidden; width:100%; }
+div#main p { line-height:25px; }
+div#main p a { color:#222222; text-decoration:none; }
+#main {
+    max-width: 480px;
+    margin: 20px auto;
+}
+
+.wxcode {
+    width: 100%;
+    margin: 10px auto;
+    padding: 2px 10px;
+    font-size: 17px;
+    text-align: center;
+    font-family: "微软雅黑", "Microsoft Yahei";
+}
+
+.wxcode span {
+    font-size: 24px;
+    color: #333;
+    font-weight: 700;
+}
+.wxcode span a{
+    color: #333;
+}
+
+.news_info {
+    font-size: 12px;
+    height: 25px;
+    line-height: 25px;
+    padding: 2px 10px;
+}
+
+.message {
+    padding: 2px 10px;
+    line-height: 26px;
+    margin: 10px auto;
+    font-size: 18px;
+    max-width: 480px;
+    color: #555;
+    font-weight: 700;
+}
+
+.quote_l {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    line-height: 16px;
+    vertical-align: text-top;
+    background-image: url("../gebi/images/quote_l.png");
+    background-repeat: no-repeat;
+}
+.quote_r {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-top: 8px;
+    line-height: 16px;
+    vertical-align: text-top;
+    background-image: url("../gebi/images/quote_r.png");
+    background-repeat: no-repeat;
+}
+
+.bottom {
+    border-top: 1px solid #dfdfdf;
+}
+.avatar {
+    max-width: 150px;
+    margin: 10px auto;
+}
+.avatar img {
+    width: 100%;
+    padding: 4px;
+    margin: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.picture {
+    max-width: 480px;
+    margin: 20px auto;
+}
+.picture img {
+    width: 96%;
+    height: auto;
+    margin-left:2%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.about {
+    max-width:480px;
+    margin:0 auto;
+}
+.about img {
+    width: 100%;
+    height: auto;
+}
+
+.bottom p.steps {
+    padding: 10px 0 10px;
+    text-align: center;
+}

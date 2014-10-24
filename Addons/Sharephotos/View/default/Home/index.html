@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title>美图分享</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    	<link rel="stylesheet" href="ADDON_PUBLIC/css/ui-tab.css">
+    	<link rel="stylesheet" href="ADDON_PUBLIC/css/ui-btn.css">
+        <link rel="stylesheet" href="ADDON_PUBLIC/css/ui-base.css">
+        <link rel="stylesheet" href="ADDON_PUBLIC/css/ui-box.css">
+        <link rel="stylesheet" href="ADDON_PUBLIC/css/ui-color.css">
+		<link rel="stylesheet" href="ADDON_PUBLIC/css/header_footer.css">
+		<link rel="stylesheet" href="ADDON_PUBLIC/css/ui-media.css">
+        <script src="ADDON_PUBLIC/js/zy_control.js"></script>
+        <script src="ADDON_PUBLIC/js/zy_click.js"></script>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/ui-img.css">
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/ui-list.css">
+	<link rel="stylesheet" href="ADDON_PUBLIC/css/pic.css">
+	<link rel="stylesheet" href="ADDON_PUBLIC/css/ui-media.css">
+	<script src="ADDON_PUBLIC/js/zy_anim.js"></script>
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="ADDON_PUBLIC/fancy/js/jquery.mousewheel-3.0.2.pack.js"></script>
+	<script type="text/javascript" src="ADDON_PUBLIC/fancy/js/jquery.fancybox-1.3.1.js"></script>
+	<script type="text/javascript" src="ADDON_PUBLIC/fancy/js/pngobject.js"></script>
+	<link rel="stylesheet" href="ADDON_PUBLIC/fancy/style/jquery.fancybox-1.3.1.css" type="text/css" />
+
+<style>
+img:active {
+text:expression_r(target="_blank");
+}
+</style>	 
+
+    </head>
+    <body class="um-vp c-wh" ontouchstart>
+        <div id="page_0" class="up ub ub-ver" tabindex="0">
+			<div id="header" class="uh c-m3 t-wh headerbg">
+                <h1 class="hdtitle ulev0 ut-s hbg" tabindex="0" style="text-align:center;"><span style="font-size:1.3em;" id="head">{$info.title}</span></h1>
+            </div>
+            <!--header结束-->
+			
+			<!--content开始-->
+            <div id="content" class="ub-f1 tx-l t-bla ub-img6 res10">
+
+		<!--列表开始-->
+<div id="forum_list">
+	<div class="outDiv" id="leftPic">
+	<volist name="left" id="leftlist" >
+			    <div class="blockLeft" onclick="goThreadWindow(1{$i})">
+		  	      <img style="min-height:3em" src="{$leftlist.picurl}" id="1{$i}">
+			      <div class="pictitle">
+				       <div class="subject">分享：{$leftlist.content}</div> 
+					   <div class="addinfo"><div class="author">来自：{$leftlist.nickname}</div><a href="{:addons_url('Sharephotos://Home/setgood',array('id'=>$leftlist['id']))}"><div class="view">赞({$leftlist.views})</div></a></div>
+				   </div>
+				</div>
+	</volist>
+		</div>
+			
+		<div class="outDiv" id="rightPic">
+	<volist name="right" id="rightlist" >
+			    <div class="blockLeft" onclick="goThreadWindow(2{$i})">
+		  	      <img style="min-height:3em" src="{$rightlist.picurl}" id="2{$i}">
+			      <div class="pictitle">
+				       <div class="subject">分享：{$rightlist.content}</div> 
+					   <div class="addinfo"><div class="author">来自：{$rightlist.nickname}</div><a href="{:addons_url('Sharephotos://Home/setgood',array('id'=>$rightlist['id']))}"><div class="view">赞({$rightlist.views})</div></a></div>
+				   </div>
+				</div>
+	</volist>
+		</div>		  
+</div>
+		<!--列表结束-->
+		<button class="foot" id="nextpage" ontouchstart="zy_touch('btn-newact')" onclick="getMorePic();" style="background-color: #4cdb00;">查看<!--下{$info.pagenums}条-->更多</button>
+		<div style="text-align:center;height:0.5em;">&nbsp;</div>
+
+            </div>
+            <!--content结束-->
+ </div>
+    </body>
+<script src="ADDON_PUBLIC/js/zepto.js"></script>
+<script src="ADDON_PUBLIC/js/zy_icache.js"></script>
+<script src="ADDON_PUBLIC/js/base64.js"></script>
+<script type="text/javascript">
+
+		$(document).ready(function() {
+			$("a[rel=example_group]").fancybox({
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'titlePosition' 	: 'over',
+				'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
+					return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+				}
+			});
+		});
+	</script>
+	
+<script>
+
+zy_init();
+window.uexOnload=function(type)
+{
+	if(!type){
+		zy_initcache(function(){});
+	}
+	getPicList();
+}
+	//用于瀑布流自动加载
+	//兼容Android,iphone
+	$(window).on('touchend',function(e){
+		var a = document.body.scrollHeight;
+		var b = document.documentElement.clientHeight;
+		var c = document.documentElement.scrollTop + document.body.scrollTop;
+		//var c = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		var totalHeight = c+b+30;
+		if(totalHeight >= a ){
+			$('#nextpage').text('图片加载中……');
+			getMorePic();
+		} 
+	})
+</script>
+
+<script>
+var apiHost = "{$urlhost}";
+
+var page = 1;
+
+var b64 = new Base64();
+
+function xmlHttp(url,callback){
+	if(url == ''){
+		alert('请求地址不能为空！');
+	}else{
+		$.getJSON(url,callback);
+	}
+}
+
+
+function  getPicList(){
+	var url = apiHost;
+	page = 1;
+	uexWindow.toast("1","5","数据加载中…","0");
+	xmlHttp(url,showList);
+}
+
+
+function showList(items){
+	
+	var leftPicObj = $("#leftPic");
+	var rightPicObj = $("#rightPic");
+	
+	leftPicObj.html('');
+	rightPicObj.html('');
+	
+	var leftHeight = 0;
+	var rightHeight = 0;
+	
+	for(var i in items){
+		var item = items[i];
+		var thumb = item.thumb;
+		
+		//可以使用图片缓存
+		//imgCache('p'+item.tid,thumb);
+		leftHeight = $("#leftPic").height();
+		rightHeight = $("#rightPic").height();	
+		
+		if(leftHeight > rightHeight){
+			//如果右侧高度小，则追加到右侧
+			var trHead = '<div class="blockRight" onclick="goThreadWindow(1'+item.tid+')">';
+			var trPic = '<img style="min-height:'+item.picHeight+'em" src="'+thumb+'" id="1'+item.tid+'">';
+			var trTitle = '<div class="pictitle"><div class="subject">'+item.subject+'</div>';
+			var trAddinfo = '<div class="addinfo"><div class="author">'+item.author+'</div><div class="view">赞('+item.views+')</div> </div></div></div>';
+			tr = trHead + trPic + trTitle + trAddinfo;
+			rightPicObj.append(tr);
+		}else{
+			//反之，如果右侧高度大，则追加到左侧
+			var trHead = '<div class="blockLeft" onclick="goThreadWindow(2'+item.tid+')">';
+			var trPic = '<img style="min-height:'+item.picHeight+'em" src="'+thumb+'" id="2'+item.tid+'">';
+			var trTitle = '<div class="pictitle"><div class="subject">'+item.subject+'</div>';
+			var trAddinfo = '<div class="addinfo"><div class="author">'+item.author+'</div><div class="view">赞('+item.views+')</div> </div></div></div>';
+			tr = trHead + trPic + trTitle + trAddinfo;
+			leftPicObj.append(tr);
+		}
+	}
+	uexWindow.closeToast();
+	
+}
+
+function  getMorePic(){
+	page = page + 1;
+	var url = apiHost + '/p/'+page;
+	$("#nextpage").text("数据加载中……");
+	xmlHttp(url,showMoreList);
+}
+
+function showMoreList(items){
+	var leftPicObj = $("#leftPic");
+	var rightPicObj = $("#rightPic");
+	j = 0;
+	var leftHeight = 0;
+	var rightHeight = 0;
+	for(var i in items){
+		var item = items[i];
+		var thumb = item.thumb;
+		//imgCache('p'+item.tid,thumb);
+		var leftHeight = $("#leftPic").height();
+		var rightHeight = $("#rightPic").height();	
+		if(leftHeight > rightHeight){
+			var trHead = '<div class="blockRight" onclick="goThreadWindow(1'+item.tid+')">';
+			var trPic = '<img style="min-height:'+item.picHeight+'em" src="'+thumb+'" id="1'+item.tid+'">';
+			var trTitle = '<div class="pictitle"><div class="subject">'+item.subject+'</div>';
+			var trAddinfo = '<div class="addinfo"><div class="author">'+item.author+'</div><div class="view">赞('+item.views+')</div> </div></div></div>';
+			tr = trHead + trPic + trTitle + trAddinfo;
+			rightPicObj.append(tr);
+		}else{
+			var trHead = '<div class="blockLeft" onclick="goThreadWindow(2'+item.tid+')">';
+			var trPic = '<img style="min-height:'+item.picHeight+'em" src="'+thumb+'" id="2'+item.tid+'">';
+			var trTitle = '<div class="pictitle"><div class="subject">'+item.subject+'</div>';
+			var trAddinfo = '<div class="addinfo"><div class="author">'+item.author+'</div><div class="view">赞('+item.views+')</div> </div></div></div>';
+			tr = trHead + trPic + trTitle + trAddinfo;
+			leftPicObj.append(tr);
+		}
+	}
+//	$("#nextpage").text("查看下{$info.pagenums}条");
+	$("#nextpage").text("查看更多");
+}
+
+function imgCache(rid,imgurl){
+	//获取图片后缀
+	var extArr = new Array();
+	extArr = imgurl.split('.');
+	var ext = extArr[extArr.length-1];
+	zy_imgcache(rid,imgurl,imgurl,changeImgDom,err,null,ext);
+}
+
+function err(rid,imgurl){
+	$('#'+rid).attr('src',imgurl);
+}
+
+function changeImgDom(rid,imgurl){
+	$('#'+rid).attr('src',imgurl);
+}
+
+function goThreadWindow(tid){
+	//Do Nothing
+	//此处就可以处理点击时的跳转了，比如查看详细帖子内容
+}
+</script>
+
+<include file="Public/weixinjs"/>
+</html>

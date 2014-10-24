@@ -1,0 +1,77 @@
+.custom .zoomimage_st {
+	height: 40px;
+}
+.custom .zoomimage_stl {
+	width: 40px;
+	height: 40px;
+	background:transparent url(../images/custom.png) no-repeat scroll 0 0;
+}
+.custom .zoomimage_stc {
+	height: 40px;
+	margin: 0 40px;
+	background: transparent url(../images/custom.png) repeat-x scroll 0 -160px;
+}
+.custom .zoomimage_str {
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
+	background:transparent url(../images/custom.png) no-repeat scroll 0 -120px;
+}
+.custom .zoomimage_sc {
+	top: 40px;
+}
+.custom .zoomimage_scl {
+	width: 40px;
+	background: transparent url(../images/custom-lr.png) repeat-y scroll 0pt;
+}
+.custom .zoomimage_scr {
+	width: 40px;
+	background:transparent url(../images/custom-lr.png) repeat-y scroll -40px 0pt
+}
+.custom .zoomimage_scc {
+	margin: 0 40px;
+	background:transparent url(../images/custom-c.png);
+}
+.custom .zoomimage_sb {
+	height: 40px;
+}
+.custom .zoomimage_sbl {
+	width: 40px;
+	height: 40px;
+	background:transparent url(../images/custom.png) no-repeat scroll 0pt -80px;
+}
+.custom .zoomimage_sbc {
+	height: 40px;
+	margin: 0 40px;
+	background:transparent url(../images/custom.png) repeat-x scroll 0pt -200px;
+}
+.custom .zoomimage_sbr {
+	width: 40px;
+	height: 40px;
+	background:transparent url(../images/custom.png) no-repeat scroll 0pt -40px;
+}
+.custom img {
+	top: 40px;
+	left: 40px;
+}
+.custom .zoomimage_caption {
+	background-color: #90ba00;
+	color: #fff;
+}
+.custom .zoomimage_caption p {
+}
+.custom .zoomimage_loading {
+	background-color: #90ba00;
+}
+.zoomimage_move {
+	cursor: move;
+}
+.custom .zoomimage_controls {
+	background: #90ba00;
+}
+.custom .zoomimage_prev {
+	background: #90ba00 url(../images/zoomimage_prev.gif) no-repeat center;
+}
+.custom .zoomimage_next {
+	background: #90ba00 url(../images/zoomimage_next.gif) no-repeat center;
+}

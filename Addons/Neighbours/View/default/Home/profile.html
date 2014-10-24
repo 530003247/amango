@@ -1,0 +1,45 @@
+<extend name="Base/uchome"/>
+<block name="body">
+<div data-am-widget="list_news" class="am-list-news am-list-news-default">
+  <!--列表标题-->
+  <div class="am-list-news-hd am-cf">
+    <!--带更多链接-->
+      <h2>分享：{$total} | @我：{$callme}</h2>
+      <a class="am-fr" href="#doc-oc-demo1" data-am-offcanvas><span class="am-list-news-more am-fr">面板</span></a>
+  </div>
+</div>
+<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+<div data-am-widget="tabs" class="am-tabs am-tabs-default am-center">
+  <ul class="am-tabs-hd am-cf sm-block-grid-3">
+    <li class="am-tabs-hd-active">#我的分享</li>
+    <li class="">@我的动态</li>
+	<li class="">隔壁个性</li>
+  </ul>
+  <div class="am-tabs-bd">
+    <div class="am-tabs-bd-content">
+<div class="am-tabs-bd-active">
+		<notempty name="fromlists">
+		  <ul class="am-list am-list-static am-list-border">
+             <volist name="fromlists" id="frominfo">
+                  <li><span class="am-badge am-badge-success">{$frominfo.view}</span> {$frominfo.creattime|date="Y/m/d",###}：{$frominfo.content}</li>
+             </volist>
+          </ul>
+	    <else/>
+				       您暂未分享隔壁动态... 
+		</notempty>	
+</div>
+<div class="">
+		<notempty name="tolists">
+                <volist name="tolists" id="toinfo">
+                   <li><span class="am-badge am-badge-success">{$toinfo.view}</span> {$toinfo.creattime|date="Y/m/d",###}：{$toinfo.content}</li>
+                </volist>
+	    <else/>
+				       还木有人@你哦... 
+		</notempty>	
+</div>
+      <div class="">敬请期待更多精彩...
+</div>
+</div>
+</div>
+</div>
+</block>

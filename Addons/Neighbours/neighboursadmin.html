@@ -1,0 +1,66 @@
+<div class="main-title cf">
+		<h2>插件配置 [ 隔壁 ]</h2>
+	</div>
+	<form action="{:U('Addons/saveConfig')}" class="form-horizontal" method="post">
+    <div class="form-item cf">
+						<ul class="tab-nav nav">
+									<li data-tab="tab1" class="current"><a href="javascript:void(0);">隔壁基础</a></li><li data-tab="tab2" ><a href="javascript:void(0);">调用第三方</a></li><li data-tab="tab3" ><a href="javascript:void(0);">授权第三方</a></li>								</ul>
+								<div class="tab-content">
+								<div id="tab1" class="tab-pane in tab1">
+										<label class="item-label">
+											归属名称:<span class="check-tips">对外公布我们的标识名称</span></label>
+										<div class="controls">
+											<input type="text" name="config[name]" class="text input-large" value="{$data.config.name.value}">
+										</div>
+										<label class="item-label">顶部标识<span class="check-tips"></span></label>
+										<div class="controls">
+											<input type="text" name="config[title]" class="text input-large" value="{$data.config.title.value}">
+										</div>
+										<label class="item-label">隔壁动态<span class="check-tips">随机显示隔壁的动态数目</span></label>
+										<div class="controls">
+											<input type="text" name="config[nums]" class="text input-large" value="{$data.config.nums.value}">
+									    </div>
+										<label class="item-label">分享朋友圈:</label>
+										<div class="controls">
+											<label class="radio">
+											<input type="radio" name="config[is_share]" value="1" <eq name="data.config.is_share.value" value="1"> checked</eq>>允许</label><label class="radio">
+											<input type="radio" name="config[is_share]" value="0" <eq name="data.config.is_share.value" value="0"> checked</eq>>禁止</label>
+										</div>
+										<label class="item-label">站外@朋友:</label>
+										<div class="controls">
+											<label class="radio">
+											<input type="radio" name="config[is_at]" value="1" <eq name="data.config.is_at.value" value="1"> checked</eq>>允许</label><label class="radio">
+											<input type="radio" name="config[is_at]" value="0" <eq name="data.config.is_at.value" value="0"> checked</eq>>禁止</label>
+										</div>
+									</div>
+									<div id="tab2" class="tab-pane  tab2">
+										<label class="item-label">第三方接入:<span class="check-tips">多个请换行，域名:授权码[例如:  demo.amango.com|amango]</span></label>
+										<div class="controls">
+											<label class="textarea input-large">
+												<textarea name="config[dsfjr]">{$data.config.dsfjr.value}</textarea>
+											</label>
+										</div>
+										<label class="item-label">接入缓存<span class="check-tips">接收到第三方后进行缓存,单位:秒</span></label>
+										<div class="controls">
+											<input type="text" name="config[jr_cache]" class="text input-large" value="{$data.config.jr_cache.value}">
+									    </div>
+									</div>
+									<div id="tab3" class="tab-pane  tab3">
+										<label class="item-label">第三方授权:<span class="check-tips">多个请换行，域名:授权码[例如:  demo.amango.com|amango]</span></label>
+										<div class="controls">
+											<label class="textarea input-large">
+												<textarea name="config[dsfsq]">{$data.config.dsfsq.value}</textarea>
+											</label>
+										</div>
+										<label class="item-label">授权缓存<span class="check-tips">发送到第三方进行缓存,单位:秒</span></label>
+										<div class="controls">
+											<input type="text" name="config[sq_cache]" class="text input-large" value="{$data.config.sq_cache.value}">
+									    </div>
+									</div>
+							</div>
+					</div>
+					<input type="hidden" name="id" value="{:I('id')}" readonly>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+        </div>

@@ -1,0 +1,45 @@
+    <div class="cf">
+        <button class="btn ajax-post confirm" url="{:addons_url('Sharephotos://Sharephotos/del')}" target-form="ids">批量删除</button>
+		<button class="btn ajax-post confirm" url="{:addons_url('Sharephotos://Sharephotos/setstatus')}" target-form="ids">批量审核</button>
+    </div>
+	<br>
+<table>
+	<thead>
+		<tr>
+		    <th class="row-selected">
+                <input class="checkbox check-all" type="checkbox">
+            </th>
+			<th>ID</th>
+			<volist name="listKey" id="vo">
+				<th>{$vo}</th>
+			</volist>
+			 <th>常用操作</th> 
+		</tr>
+	</thead>
+	<form id="ids">
+	<tbody>
+		<volist name="_list" id="lv" key="vo">
+		<tr>
+						<td><input class="ids" type="checkbox" value="{$lv.id}" name="id[]"></td>
+						<td>{$lv.id}</td>
+						<volist name="listKey" id="lk">
+							<td><if condition="$key eq 'picurl'"><img width="150" height="auto" src="{$lv.$key}" /> <elseif condition="$key eq 'sharetime'"/>{$lv.$key|date="Y-m-d H:i:s",###}<else />{$lv.$key}</if></td>
+						</volist>
+			<td>
+				<a class="update" href="{:addons_url('Sharephotos://Sharephotos/setstatus',array('id'=>$lv['id']))}">审核</a>|<a class="update" href="{:addons_url('Sharephotos://Sharephotos/del',array('id'=>$lv['id']))}">删除</a>
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+	</form>
+</table>
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+	        //全选节点
+	        $('.check-all').on('change',function(){
+	            $('.ids').prop('checked',this.checked);
+	        });
+		})
+	</script>
+</block>

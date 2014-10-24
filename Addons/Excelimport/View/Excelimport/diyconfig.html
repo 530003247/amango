@@ -1,0 +1,111 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title cf">
+    <h2>自定义查询</h2>
+	</div>
+	<form action="{:addons_url('Excelimport://Excelimport/diyconfig')}" class="form-horizontal" method="post">
+			<div class="form-item cf">
+					<label class="item-label">
+						标识:<span class="check-tips">最好为英文字符标识</span></label>
+						<div class="controls">
+								<input type="text" name="config[title]" class="text input-large" value="{$info['title']}">
+							</div>
+					</div><div class="form-item cf">
+					<label class="item-label">
+						调用的数据源:</label>
+						<div class="controls">
+								<select name="config[tableid]">
+				<volist name="list" id="menu">
+				<option value="{$menu.id}"  <eq name="info['tableid']" value="$menu['id']">selected</eq>>{$menu.tablename}</option>
+                </volist>
+				</select>
+							</div>
+					</div><div class="form-item cf">
+					<label class="item-label">
+						查询规则:<span class="check-tips">格式:weixin:分割符|模式sql(safe)|关系(and or)<换行符号>查询字段:条件|语句  【例如：weixin:密码|sql|and<换行符号>xuehao:eq|100<换行符号>paoquan:gt|SELF】SELF代表用户输入</span></label>
+						<div class="controls">
+								<label class="textarea input-large">
+														<textarea name="config[rules]">{$info['rules']}</textarea>
+								</label>
+							</div>
+					</div><div class="form-item cf">
+					<label class="item-label">
+						回复类型:<span class="check-tips">通用版仅支持文本回复</span></label>
+						<div class="controls">
+								<select name="config[replytype]">
+									<option value="text" selected>文本回复</option></select>
+							</div>
+					</div><div class="form-item cf">
+					<label class="item-label">
+						回复模板:<span class="check-tips">将要显示的字段全部大写并用[]包裹【例如：您的成绩为[CHENGJI]\n挂科[]】换行用\n</span></label>
+						<div class="controls">
+								<label class="textarea input-large">
+														<textarea name="config[tpl]">{$info['tpl']}</textarea>
+								</label>
+							</div>
+					</div><div class="form-item cf">
+					<label class="item-label">
+						缓存时间:<span class="check-tips">不填或为0表示不缓存</span></label>
+						<div class="controls">
+                                <input type="text" name="config[cache]" class="text input-large" value="{$info['cache']|default=0}">
+							</div>
+					</div>		<input type="hidden" name="id" value="{$id}" readonly>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //搜索功能
+            $("#search").click(function() {
+                var url = $(this).attr('url');
+                var query = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
+                query = query.replace(/^&/g, '');
+                if (url.indexOf('?') > 0) {
+                    url += '&' + query;
+                } else {
+                    url += '?' + query;
+                }
+                window.location.href = url;
+            });
+            //回车搜索
+            $(".search-input").keyup(function(e) {
+                if (e.keyCode === 13) {
+                    $("#search").click();
+                    return false;
+                }
+            });
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Excelimport'))}');
+            //点击排序
+        	$('.list_sort').click(function(){
+        		var url = $(this).attr('url');
+        		var ids = $('.ids:checked');
+        		var param = '';
+        		if(ids.length > 0){
+        			var str = new Array();
+        			ids.each(function(){
+        				str.push($(this).val());
+        			});
+        			param = str.join(',');
+        		}
+
+        		if(url != undefined && url != ''){
+        			window.location.href = url + '/ids/' + param;
+        		}
+        	});
+        });
+//排序方法
+function sort(id,num){
+    $.get('{:U("Keywordview/sort")}', { id: id,num:num }, function(jsondata){
+		var return_data  = eval(jsondata);
+		$("#7_"+id).attr('value', return_data);
+		location.reload();
+	}); 
+}
+    </script>
+</block>

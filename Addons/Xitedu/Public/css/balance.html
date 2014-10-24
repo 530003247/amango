@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>余额查询</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/amui.all.min.css"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/style.css"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/app.css"/>
+    <script src="ADDON_PUBLIC/js/zepto.min.js"></script>
+    <script src="ADDON_PUBLIC/js/amui.min.js"></script>
+    <style>
+    .am-dropdown
+    {
+    width:24%;
+    }
+    #func-event-header {
+    background-color:rgb(248, 193, 28);
+    }
+    .func-big-num
+    {
+    font-size:7.5rem;
+    line-height: 13rem;
+    }
+    .edu-score-mark
+    {
+    color:rgb(248, 193, 28);
+    }
+        .am-dropdown-indexz
+    {
+    zindex:-99;
+    width:100%;
+    float:left;
+    }
+
+    .mg-btn-radius
+    {
+    width:50px;
+    height:50px;
+    float:right;
+    position: absolute;
+    right:10px;
+    top:10px;
+    border:2px solid rgb(255, 255, 255);
+    border-radius:50%;
+    -moz-border-radius:50%; /* Old Firefox */
+    color:rgb(255, 255, 255);
+    background:rgba(0,0,0,0.1) none repeat scroll !important;    }
+    
+    
+    /*header*/
+    .am-dropdown-content
+    {
+    margin:1%;
+    width:98%;
+    top:70px;
+    left:0px;
+    border-radius:5px;
+    -moz-border-radius:5px; /* Old Firefox */
+    }
+    .am-dropdown-content:before, .am-dropdown-content:after {
+    border-width: 0 0px 0px;
+    }
+    .am-dropdown-content-li
+    {
+    width:32%;
+    float:left;
+    }
+    /*header*/
+    
+    </style>
+</head>
+<body>
+
+<header>
+<div class="am-dropdown am-dropdown-indexz" data-am-dropdown>
+<button type="button" class="am-btn am-btn-default mg-btn-radius am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-home am-icon-sm"></span></button>
+  <ul class="am-dropdown-content">
+    <li class="am-dropdown-header">芒果，是一个校园生活方式。</li>
+    <li class="am-dropdown-content-li"><a href="#"><img src="ADDON_PUBLIC/img/rb.png"/><div style="text-align:center ">芒果日报</div></a></li>
+    <li class="am-dropdown-content-li"><a href="#"><img src="ADDON_PUBLIC/img/jw.png"/><div style="text-align:center ">教务系统</div></a></li>
+    <li class="am-dropdown-content-li"><a href="#"><img src="ADDON_PUBLIC/img/kb.png"/><div style="text-align:center ">课表查询</div></a></li>
+    <li class="am-dropdown-content-li"><a href="#"><img src="ADDON_PUBLIC/img/ye.png"/><div style="text-align:center ">余额查询</div></a></li>
+  </ul>
+</div>
+</header>
+
+
+<div id="func-event-header" class="func-header">
+    <div class="func-header-title">餐卡余额</div>
+    <div>
+        <span class="func-small-num">￥</span>
+        <span class="func-big-num">{$yue}</span>
+<!--        <span class="func-small-num">个</span>
+-->  </div>
+    
+     <div>
+<!--     <span class="balance-today-consumer">今日消费￥:16</span>
+-->     <span class="balance-consumer">累计消费￥:{$total}</span>
+     </div>
+</div>
+
+<ul class="am-list am-list-static am-list-striped">
+<li class="edu-score-li">
+<volist name="list" id="info">
+<div class="edu-score-title-box"><span class="edu-score-title">{$info[0]}</span><span class="edu-score-mark">￥:{$info[1]}</span></div>
+<div><span class="balance-consumer-type">类型：{$info[2]}</span><span class="edu-score-credit">时间：{$info[3]}</span></div>
+</li>
+</volist>
+</ul>
+
+
+      <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">便捷查询</div>
+        <div class="am-panel-bd">
+          <ul class="sm-block-grid-4 blog-team">
+            <li><a href="{:addons_url('Xitedu://Home/myclass')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/kb.png" alt=""/><div class="edu-module-name">课表</div></a>
+            </li>
+            <li><a href="{:addons_url('Xitedu://Home/scorelist')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/cj.png" alt=""/><div class="edu-module-name">成绩</div>
+            </a></li>
+            <li><a href="{:addons_url('Xitedu://Home/balance')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/ye.png" alt=""/><div class="edu-module-name">余额</div>
+            </a></li>
+            <li><a href="{:addons_url('Xitedu://Home/borrow')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/jy.png" alt=""/><div class="edu-module-name">借阅</div>
+            </a></li>
+          </ul>
+        </div>
+      </section>
+      
+<footer>&copy;2014 Amango, Inc. by the Amango Team</footer>
+
+</body>
+</html>

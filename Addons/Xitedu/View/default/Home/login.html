@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>账号绑定</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amaze/assets/css/amui.all.min.css"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/app.css"/>
+	<script src="__PUBLIC__/Home/amaze/assets/js/zepto.min.js"></script>
+    <script src="__PUBLIC__/Home/amaze/assets/js/amui.min.js"></script>
+</head>
+<body>
+<header class="func-header" id="func-binding-header">
+    <!--<div class="func-header-title">欢迎关注</div>-->
+    <div>
+        <img src="ADDON_PUBLIC/img/amango.png" alt="" style="width:140px;margin-top: 40px" data-am-scrollspy="{animation:'scale-down'}"/>
+    </div>
+</header>
+<!--<div class="func-name">账号绑定</div>-->
+<div class="main-content col-sm-11">
+    <form class="am-form col-sm-12" method="post" action="__SELF__" style="margin: 0 auto 10px auto;">
+        <fieldset class="am-form-set"  data-am-scrollspy="{animation: 'slide-bottom'}">
+            <div class="am-input-group">
+                <span class="am-input-group-label">
+                    <i class="am-icon-user event-icon-width"></i>
+                </span>
+                <input class="am-form-field" type="text" placeholder="您的学号" value="{$autoucusername|default=''}" name=""/>
+            </div>
+            <div class="am-input-group">
+                <span class="am-input-group-label">
+                    <i class="am-icon-lock event-icon-width"></i>
+                </span>
+                <input class="am-form-field" type="password" placeholder="您的锐捷密码" value="{$autoucpassword|default=''}" name=""/>
+            </div>
+        </fieldset>
+        <button class="am-btn am-btn-secondary col-sm-12" data-am-scrollspy="{animation: 'slide-bottom', delay: 400}">点击绑定</button>
+    </form>
+    <div class="event-small-notice" style="color: #b5b5b5;text-shadow: #ffffff 0 1px 1px;padding: 0;" data-am-scrollspy="{animation: 'slide-bottom', delay: 400}" >
+        *请注意： <br/>
+        1.您所输入的信息用于登录 <a href="http://i.jmu.edu.cn" style="color: #9d9d9d;">i集大</a><br/>
+        2.输入的应为锐捷账户与密码，初始密码为身份证前15位<br/>
+        3.芒果集大通过您的账号绑定服务，不会收集您的账户信息
+    </div>
+</div>
+
+</body>
+</html>

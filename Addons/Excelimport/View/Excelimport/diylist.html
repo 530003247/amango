@@ -1,0 +1,58 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>管理 自定义查询 </h2>
+    </div>
+
+    <div class="cf">
+        <a class="btn" href="{:U('diyconfig')}">新增自定义查询</a>
+		<button class="btn" onclick="javascript:history.back(-1);return false;">返回数据源</button>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+                        <th>标识</th>
+						<th>数据源</th>
+                        <th>微信类型</th>
+                        <th>回复格式</th>
+                        <th width=60>常用操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu" key="vo">
+		<tr>
+                        <td>{$menu.title}</td>
+                        <td>{$menu.tableid}</td>
+                        <td>{$menu.replytype}</td>
+                        <td>{$menu.tpl}</td>
+			<td>
+				<a  class="update"  href="{:U('editdiy?id='.$menu['title'])}">编辑</a> <a  class="update"  href="{:U('deldiy?id='.$menu['title'])}">删除</a>
+			</td>
+		</tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> aOh! 暂时还没有自定义查询哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Excelimport'))}');
+        });
+    </script>
+</block>

@@ -1,0 +1,44 @@
+    <div class="cf">
+        <button class="btn ajax-post confirm" url="{:addons_url('Xitedu://Xitedu/del')}" target-form="ids">批量删除</button>
+    </div>
+	<br>
+<table>
+	<thead>
+		<tr>
+		    <th class="row-selected">
+                <input class="checkbox check-all" type="checkbox">
+            </th>
+			<th>ID</th>
+			<volist name="listKey" id="vo">
+				<th>{$vo}</th>
+			</volist>
+			 <th>操作</th> 
+		</tr>
+	</thead>
+	<form id="ids">
+	<tbody>
+		<volist name="_list" id="lv" key="vo">
+		<tr>
+						<td><input class="ids" type="checkbox" value="{$lv.id}" name="id[]"></td>
+						<td>{$lv.id}</td>
+						<volist name="listKey" id="lk">
+							<td>{$lv.$key}</td>
+						</volist>
+			<td>
+				<a class="update" href="{:addons_url('Xitedu://Xitedu/del',array('id'=>$lv['id']))}">删除</a>
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+	</form>
+</table>
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+	        //全选节点
+	        $('.check-all').on('change',function(){
+	            $('.ids').prop('checked',this.checked);
+	        });
+		})
+	</script>
+</block>

@@ -1,0 +1,64 @@
+<extend name="Public/base"/>
+
+<block name="body">
+		<style>
+			.status1 {background-color: #2d7200;}
+			.status0 {background-color: #ff2610;}
+		</style>
+    <div class="main-title">
+        <h2>[{$tablename}]数据源 记录详情 </h2>
+    </div>
+
+    <div class="cf">
+	    <button class="btn ajax-post confirm" url="{:addons_url('Excelimport://Excelimport/delrows')}" target-form="ids">批量删除</button>
+		<button class="btn" onclick="javascript:history.back(-1);return false;">返回数据源</button>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th>
+						<volist name="fileds" id="vo">
+				         <th>{$vo}</th>
+			            </volist>
+                        <th>常用操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu" key="vo">
+		<tr>
+			<td><input class="ids" type="checkbox" value="{$menu.id}" name="id[]"></td>
+			<volist name="fileds" id="lk">
+				<td>{$menu.$lk}</td>
+			</volist>
+			<td>
+				<a class="update" href="{:addons_url('Excelimport://Excelimport/delrows',array('id'=>$lv['id']))}">删除</a>
+			</td>
+		</tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> aOh! 暂时还没有自定义查询哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Excelimport'))}');
+        });
+    </script>
+</block>

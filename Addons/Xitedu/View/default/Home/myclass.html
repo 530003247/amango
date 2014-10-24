@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+    <head>
+    <title>课表查询</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/new.css"/>
+    <script>try {  for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){    var lastpass_f = document.forms[lastpass_iter];    if(typeof(lastpass_f.lpsubmitorig)=="undefined"){      if (typeof(lastpass_f.submit) == "function") {        lastpass_f.lpsubmitorig = lastpass_f.submit;        lastpass_f.submit = function(){          var form = this;          try {            if (document.documentElement && 'createEvent' in document)            {              var forms = document.getElementsByTagName('form');              for (var i=0 ; i<forms.length ; ++i)                if (forms[i]==form)                {                  var element = document.createElement('lpformsubmitdataelement');                  element.setAttribute('formnum',i);                  element.setAttribute('from','submithook');                  document.documentElement.appendChild(element);                  var evt = document.createEvent('Events');                  evt.initEvent('lpformsubmit',true,false);                  element.dispatchEvent(evt);                  break;                }            }          } catch (e) {}          try {            form.lpsubmitorig();          } catch (e) {}        }      }    }  }} catch (e) {}</script></head>
+    <style>
+    .class-td
+    {
+    height: 169.02px;
+    min-width:180px;
+    }
+    .am-dropdown
+    {
+    width:24%;
+    }
+
+    </style>
+    </head>
+    
+    <body>
+    <div><meta name="viewport" content="width=1024,user-scalable=yes"></div>
+		<table>
+			<tbody>
+				<tr>
+					<th style="width:5%"></th>
+			<volist name="weekclass" id="datalist" key="k">
+					<th><p></p>周{$datalist.wkname}</th>
+			</volist>	
+				</tr>
+				<tr>
+				<td style=" background-color: rgb(180, 228, 96);" class="num">1
+				<div>2</div></td>
+				
+				<volist name="weekclass" id="datalist" key="k">
+				<eq name="datalist['1']" value="木有课哦~">
+					<td class="class-td" style="">
+					</td>	
+				<else />
+				<td class="class-td" style=" background-color: rgb(255, 255, 255);">
+	      <volist name="datalist['1']" id="deataiweek1">
+          ★{$deataiweek1[0]}<br>教室:[{$deataiweek1[1]}]<br>教师:{$deataiweek1[2]}<br>【{$deataiweek1[3]}周】<br>
+	      </volist>
+		   </td>
+        </eq>
+				</volist>
+				</tr>
+				
+				<tr>
+				<td style=" background-color: rgb(180, 228, 96);" class="num">3
+				<div>4</div></td>
+				
+				<volist name="weekclass" id="datalist" key="k">
+				<eq name="datalist['2']" value="木有课哦~">
+					<td class="class-td" style="">
+					</td>	
+				<else />
+				<td class="class-td" style=" background-color: rgb(255, 255, 255);">
+	      <volist name="datalist['2']" id="deataiweek1">
+          ★{$deataiweek1[0]}<br>教室:[{$deataiweek1[1]}]<br>教师:{$deataiweek1[2]}<br>【{$deataiweek1[3]}周】<br>
+	      </volist>
+		  </td>
+        </eq>
+        </volist>
+				</tr>
+				
+				
+				<tr>
+				<td style=" background-color: rgb(180, 228, 96);" class="num">5
+				<div>6</div></td>
+				<volist name="weekclass" id="datalist" key="k">
+				<eq name="datalist['3']" value="木有课哦~">
+					<td class="class-td" style="">
+					</td>	
+				<else />
+				<td class="class-td" style="  background-color: rgb(255, 255, 255);">
+	      <volist name="datalist['3']" id="deataiweek1">
+          ★{$deataiweek1[0]}<br>教室:[{$deataiweek1[1]}]<br>教师:{$deataiweek1[2]}<br>【{$deataiweek1[3]}周】<br>
+	     </volist>
+		 </td>
+       </eq>        
+       </volist>
+       </tr>
+       
+				<tr>
+				<td style=" background-color: rgb(180, 228, 96);" class="num">7
+				<div>8</div></td>
+				<volist name="weekclass" id="datalist" key="k">
+				<eq name="datalist['4']" value="木有课哦~">
+					<td class="class-td" style="">
+					</td>	
+				<else />
+				<td class="class-td" style=" background-color: rgb(255, 255, 255);">
+	      <volist name="datalist['4']" id="deataiweek1">
+          ★{$deataiweek1[0]}<br>教室:[{$deataiweek1[1]}]<br>教师:{$deataiweek1[2]}<br>【{$deataiweek1[3]}周】<br>
+	      </volist>
+		   </td>
+        </eq>
+        </volist>
+				</tr>
+				
+				
+				<tr>
+				<td style=" background-color: rgb(180, 228, 96);" class="num">9
+				<div>10</div></td>
+				<volist name="weekclass" id="datalist" key="k">
+				<eq name="datalist['5']" value="木有课哦~">
+					<td class="class-td" style="">
+					</td>	
+				<else />
+				 <td class="class-td" style=" background-color: rgb(255, 255, 255);">
+	      <volist name="datalist['5']" id="deataiweek1">
+          ★{$deataiweek1[0]}<br>教室:[{$deataiweek1[1]}]<br>教师:{$deataiweek1[2]}<br>【{$deataiweek1[3]}周】<br>
+	      </volist>
+		   </td>
+        </eq>
+		    </volist>
+				</tr>
+				</tbody>
+		</table>
+
+
+
+</body>	 
+</html>

@@ -1,0 +1,59 @@
+<!--  统一风格  采用模板渲染 插件通用模板addons 默认已加载 请参考 Amaze UI的css框架 -->
+<extend name="Base/addons"/>
+<block name="title">成绩查询</block>
+<block name="main">
+<div id="func-event-header" class="func-header">
+    <div class="func-header-title">平均绩点</div>
+    <div>
+        <span class="func-big-num">{$jidian}</span>
+<!--        <span class="func-small-num">个</span>
+-->    </div>
+</div>
+
+
+<section data-am-widget="accordion" class="am-accordion am-accordion-default "
+data-am-accordion='{ "multiple": true }'>
+
+<volist name="scorelist" id="classgroup" >
+  <dl class="am-accordion-item am-active">
+    <dt class="am-accordion-title">-{$key}-学期</dt>
+    <dd class="am-accordion-content am-collapse">
+<ul class="am-list am-list-static">
+<volist name="classgroup" id="deataiweek">
+<li class="edu-score-li">
+<div class="edu-score-title-box"><span class="edu-score-title">{$deataiweek[2]}</span><span class="edu-score-mark">{$deataiweek[8]}</span></div>
+<div><span class="balance-consumer-type">学分：{$deataiweek[4]}</span><span class="edu-score-credit">绩点：{$deataiweek[9]}</span><div>
+</li>
+</volist>
+</ul>
+   </dd>
+   </dl>
+</volist>
+</section>
+     <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">教务查询</div>
+        <div class="am-panel-bd">
+          <ul class="sm-block-grid-4 blog-team">
+
+            <li><a href="{:addons_url('Home/myclass')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/kb.png" alt=""/><div class="edu-module-name">课表</div></a>
+            </li>
+            <li><a href="#"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/cj.png" alt=""/><div class="edu-module-name">成绩</div>
+            </a>
+            </li>
+            <li><a href="{:addons_url('Home/balance')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/ye.png" alt=""/><div class="edu-module-name">余额</div>
+            </a>
+            </li>
+            <li><a href="{:addons_url('Home/borrow')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/jy.png" alt=""/><div class="edu-module-name">借阅</div>
+            </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+</block>
+<block name="foot">
+<div style="height:10px;"></div>
+</block>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>教务信息</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/amui.all.min.css"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/style.css"/>
+    <link rel="stylesheet" href="ADDON_PUBLIC/css/app.css"/>
+
+    <script src="ADDON_PUBLIC/js/zepto.min.js"></script>
+    <script src="ADDON_PUBLIC/js/amui.min.js"></script>
+    <style>
+    .am-dropdown
+    {
+    width:24%;
+    }
+    .func-header
+    {
+    height:200px;
+    }
+    #func-event-header {
+    background-color:rgb(221, 81, 76);
+    }
+    body
+    {
+    background-color: #ffffff;
+    line-height: 1.2;
+    }
+    .am-list-static > li {
+    padding: 0.8rem 1rem;
+    }
+
+    /*header*/
+    .am-dropdown-indexz
+    {
+    z-index:1200;
+    width:100%;
+    float:left;
+    }
+
+    .mg-btn-radius
+    {
+    width:50px;
+    height:50px;
+    float:right;
+    position: absolute;
+    right:10px;
+    top:10px;
+    border:2px solid rgb(255, 255, 255);
+    border-radius:50%;
+    -moz-border-radius:50%; /* Old Firefox */
+    color:rgb(255, 255, 255);
+    background:rgba(0,0,0,0.1) none repeat scroll !important;    }
+        
+    .am-dropdown-content
+    {
+    margin:1%;
+    width:98%;
+    left:0px;
+    border-radius:5px;
+    -moz-border-radius:5px; /* Old Firefox */
+    display:block;
+    
+    }
+    .am-dropdown-content:before, .am-dropdown-content:after {
+    border-width: 0 0px 0px;
+    }
+    .am-dropdown-content-li
+    {
+    width:33.3333%;
+    float:left;
+    text-align:center;
+    }
+    .am-dropdown-content-li span
+    {
+    width:100%;
+    text-align:center;
+    display: block;
+    margin:0 auto;
+    }
+
+    .am-dropdown-content-li img
+    {
+    margin:0 auto;
+    width:80%;
+    }
+    .am-modal {
+    top: 10%;
+    }
+    .am-dimmer {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
+    }
+    ul.am-dropdown-content > li > a {
+    clear: both;
+    color: #333;
+    display: block;
+    font-weight: 400;
+    padding: 6px 0px;
+    white-space: nowrap;
+    }
+    /*header*/
+    
+    /*form*/
+    .am-form label
+    {
+    width:100%;
+    padding:5px 10px;
+    }
+    .label-l
+    {
+    float:left;
+    width:100%;
+    }
+    .label-r
+    {
+    float:left;
+    width:100%;
+    border:1px solid rgb(221, 81, 76);
+    }
+    @media only screen and (max-width:960px)
+    {
+    .label-br
+    {
+    width:100%;    
+    }
+    }
+
+    .label-per-font
+    {
+    font-size:1rem;
+    }
+    
+    .label-per
+    {
+    background-color:rgb(221, 81, 76);
+    height:1rem;
+    }
+    /*form*/
+    
+    </style>
+</head>
+<body>
+<!--
+<header>
+<div class="am-dropdown am-dropdown-indexz" data-am-dropdown>
+<button type="button" class="am-btn am-btn-default mg-btn-radius am-dropdown-toggle" data-am-modal="{target: '#doc-modal-1'}"><span class="am-icon-home am-icon-sm"></span></button>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+  <ul class="am-dropdown-content">
+    <li class="am-dropdown-header">快捷导航</li>
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+
+    <li class="am-dropdown-content-li"><a href="http://jmu.amango.net/index.php?s=/Home/user/profile.html"><img src="ADDON_PUBLIC/img/kb.png"/><span>个人中心</span></a></li>
+    <li class="am-dropdown-content-li"><a href="index.php?s=/Home/Article/lists/category/wxarticle.html"><img src="ADDON_PUBLIC/img/rb.png"/><span>芒果日报</span></a></li>
+
+    <li><hr data-am-widget="divider" style="height: 0px;" class="am-divider am-divider-default"/></li>
+    <li class="am-dropdown-header">应用中心</li>
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+
+    <li class="am-dropdown-content-li"><a href="index.php?s=/Home/Addons/execute/_addons/Xitedu/_controller/Home/_action/profile"><img src="ADDON_PUBLIC/img/jw.png"/><span>教务系统</span></a></li>
+
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+    <li class="am-dropdown-header">芒果，是一个校园生活方式。</li>
+
+  </ul>
+</div>
+</header>
+
+<div id="func-event-header" class="func-header">
+    <div class="func-header-title">加入人数</div>
+    <div>
+        <span class="func-big-num">{$edutese.count}</span>
+        <span class="func-small-num">个</span>
+    </div>
+</div>
+
+
+      <form class="am-form col-sm-centered">
+      <label for="sn">学号:<span>{$eduinfo.xuehao}</span></label>
+      <label for="name"><div class="label-l label-br">姓名:{$eduinfo.name}</div><div class="label-br"><div class="label-per-font">同名的小伙伴有{$edutese.name}人，占{$teseper.name}%。</div><div class="label-r"><div class="label-per" style="width:{$teseper.name}%"></div></div></div></label>
+      <label for="birthday"><div class="label-l label-br">生日:{$eduinfo.birthday}</div><div><div class="label-per-font">同月出生的小伙伴有{$edutese.birthday}人，占{$teseper.birthday}%。</div><div class="label-r"><div class="label-per" style="width:{$teseper.birthday}%"></div></div></div></label>
+      <label for="home"><div class="label-l label-br">户籍:{$eduinfo.shengfen}</div><div><div class="label-per-font">同省份的老乡有{$edutese.shengfen}人，占{$teseper.shengfen}%。</div><div class="label-r"><div class="label-per" style="width:{$teseper.shengfen}%"></div></div></div></label>
+      <label for="academy"><div class="label-l label-br">学院:{$eduinfo.xueyuan}</div><div><div class="label-per-font">同学院的小伙伴有{$edutese.xueyuan}人，占{$teseper.xueyuan}%。</div><div class="label-r"><div class="label-per" style="width:{$teseper.xueyuan}%"></div></div></div></label>
+      <label for="specialty"><div class="label-l label-br">专业:{$eduinfo.zhuanye}</div><div><div class="label-per-font">同专业的小伙伴有{$edutese.zhuanye}人，占{$teseper.zhuanye}%。</div><div class="label-r"><div class="label-per" style="width:{$teseper.zhuanye}%"></div></div></div></label>
+    <label for="Fail"><div class="label-l label-br">挂科:{$edutese.guake}门</div><div><div class="label-per-font">总科目{$edutese.allke}，占{$teseper.guake}%。</div><div class="label-r"><div class="label-per" style="width:{$teseper.guake}%"></div></div></div></label>
+    </form>
+
+-->
+
+<hr data-am-widget="divider" style="height: 0px;" class="am-divider am-divider-default"/>
+     <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">教务查询</div>
+        <div class="am-panel-bd">
+          <ul class="sm-block-grid-4 blog-team">
+
+            <li><a href="{:addons_url('Home/myclass')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/kb.png" alt=""/><div class="edu-module-name">课表</div></a>
+            </li>
+            <li><a href="{:addons_url('Home/scorelist')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/cj.png" alt=""/><div class="edu-module-name">成绩</div>
+            </a>
+            </li>
+            <li><a href="{:addons_url('Home/balance')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/ye.png" alt=""/><div class="edu-module-name">余额</div>
+            </a>
+            </li>
+            <li><a href="{:addons_url('Home/borrow')}"><img class="am-thumbnail"
+                     src="ADDON_PUBLIC/img/jy.png" alt=""/><div class="edu-module-name">借阅</div>
+            </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+
+
+<div style="height:10px;"></div>
+
+</body>
+</html>

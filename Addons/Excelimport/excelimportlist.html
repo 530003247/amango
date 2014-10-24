@@ -1,0 +1,43 @@
+    <div class="cf">
+        <button class="btn ajax-post confirm" url="{:addons_url('Excelimport://Excelimport/del')}" target-form="ids">批量删除</button>
+		<a class="btn" href="{:addons_url('Excelimport://Excelimport/diylist')}">自定义查询列表</a>
+    </div>
+	<br>
+<table>
+	<thead>
+		<tr>
+		    <th class="row-selected">
+                <input class="checkbox check-all" type="checkbox">
+            </th>
+			<th>ID</th>
+			<volist name="listKey" id="vo">
+				<th>{$vo}</th>
+			</volist>
+			 <th>常用操作</th> 
+		</tr>
+	</thead>
+	<tbody>
+		<volist name="_list" id="lv" key="vo">
+		<tr>
+						<td><input class="ids" type="checkbox" value="{$lv.id}" name="id[]"></td>
+						<td>{$lv.id}</td>
+						<volist name="listKey" id="lk">
+							<td>{$lv.$key}</td>
+						</volist>
+			<td>
+				<a class="update" href="{:addons_url('Excelimport://Excelimport/rowslist',array('id'=>$lv['id']))}">查看详情</a>|<a class="update" href="{:addons_url('Excelimport://Excelimport/del',array('id'=>$lv['id']))}">删除</a>
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+	        //全选节点
+	        $('.check-all').on('change',function(){
+	            $('.ids').prop('checked',this.checked);
+	        });
+		})
+	</script>
+</block>
