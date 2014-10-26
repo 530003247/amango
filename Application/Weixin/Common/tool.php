@@ -93,11 +93,10 @@ function parse_tags($denytag,$type) {
 
 //通用转义
 function escape_common($contentStr) {
-    //TODO 常用变量转义  暂时采用
     global $_P;
     global $_G;
     $newinfo = $_P;
-    
+    //获取用户基础信息
     $sexchoose = array('美女','帅哥');
     foreach ($newinfo as $key => $value) {
         if($key=='sex'){
@@ -105,18 +104,61 @@ function escape_common($contentStr) {
         }
         $new_info['P_'.strtoupper($key)] = $value;
     }
+    //获取周几
+    $weekarray=array("日","一","二","三","四","五","六");
+    //自动登陆
+    $autoinfo=array('nickname'=>$newinfo['nickname'],'ucusername'=>$newinfo['ucusername'],'ucpassword'=>$newinfo['ucpassword'],'stamp'=>time());
     $pub_info = array(
                 'P_OPENID'     =>$_P['fromusername'],
-                'G_TIME'       =>date("n月j日G时i分s秒"),
+                'G_TIME'       =>date("G时i分"),
+                'G_DATE'       =>date("n月j日"),
+                'G_WEEK'       =>'星期'.$weekarray[date("w")],
                 'G_WENAME'     =>$_G['account_name'],
                 'G_WENICKNAME' =>$_G['account_nickname'],
-                'G_WEQQ'       =>$_G['account_qq']
+                'G_WEQQ'       =>$_G['account_qq'],
+                'G_WEACCOUNT'  =>$_G['account_weixin'],
+                'G_WESUB'      =>$_G['account_sub'],
+                'U_INDEX'      =>U('Home/Index/index',$autoinfo,'',true),
+                'U_CENTER'     =>U('Home/User/login',$autoinfo,'',true),
     );
     $replace_list = array_merge($new_info,$pub_info);
     $contentStr   = strtr($contentStr,$replace_list);
+    //插件链接
+    $contentStr = preg_replace_callback("/(U_(.*)_ADDON)/","str_tags",$contentStr);
     return $contentStr;
 }
-
+function str_tags($matches) {
+    global $_P;
+    preg_match('/(U_(.*)_ADDON)/', $matches[1],$tag_name);
+    $tag_name[2] = strtolower( $tag_name[2]);
+    $urlparam    = explode('_', $tag_name[2]);
+    if(in_array($urlparam[1], array('home','profile'))){
+        $url_param  = 'Home/'.$urlparam[1];
+    } else {
+        $url_param  = ucfirst($urlparam[1]).'/'.strtolower($urlparam[2]);
+    }
+    defined ( 'AMANGO_ADDON_NAME' )   or define ( 'AMANGO_ADDON_NAME', ucfirst($urlparam[0]));
+    $aimurl     = weixin_addons_url($url_param,$param=array(),$home='Home');
+    $autoinfo   = array(
+            'nickname'   => $_P['nickname'],
+            'ucusername' => $_P['ucusername'],
+            'ucpassword' => $_P['ucpassword'],
+            'amangogoto' => base64_encode(base64_encode($aimurl))//双重base64 防止出现/
+    );
+    return U('Home/User/login',$autoinfo,'',true);
+}
+function weixin_addons_url($url='',$param=array(),$home='Home') {
+        if(empty($url)){
+            return false;
+        }
+        $exurl    = explode('/',$url);
+        if(count($exurl)==1){
+            $url = 'Home/'.strtolower($exurl[0]);
+        } else {
+            $url = ucfirst($exurl[0]).'/'.strtolower($exurl[1]);
+        }
+        return addons_url(AMANGO_ADDON_NAME.'://'.$url, $param, $home);
+}
 /**
 * 获取请求类型  数量
 * param:  $msgtype,$status=1

@@ -276,21 +276,17 @@ abstract class Bundle{
     // param  额外参数 建议采用数组形式
     // home   默认插件模块分组  默认为home  此处可默认  不建议改写
     protected final function create_url($url='',$param=array(),$home='Home') {
-        if(empty($url)){
+        $result = weixin_addons_url($url,$param,$home);
+        if(false==$result){
             wx_error('请填写生成该插件的操作方法');
-        }
-        $exurl    = explode('/',$url);
-        if(count($exurl)==1){
-            $url = 'Home/'.strtolower($exurl[0]);
         } else {
-            $url = ucfirst($exurl[0]).'/'.strtolower($exurl[1]);
+            return $result;
         }
-        return addons_url(AMANGO_ADDON_NAME.'://'.$url, $param, $home);
     }
 
     // 自动生成插件前台  自动登陆页面地址 使用方法同上
     protected final function create_loginurl($url,$param=array(),$home='Home') {
-        $aimurl = $this->create_url($url,$param=array(),$home='Home');
+        $aimurl = weixin_addons_url($url,$param,$home);
         global $_P;
         $autoinfo = array(
                 'nickname'   => $_P['nickname'],
