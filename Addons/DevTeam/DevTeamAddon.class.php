@@ -20,10 +20,10 @@ use Common\Controller\Addon;
 
         public $info = array(
             'name'=>'DevTeam',
-            'title'=>'开发团队信息',
-            'description'=>'开发团队成员信息',
+            'title'=>'芒果简介',
+            'description'=>'芒果简介',
             'status'=>1,
-            'author'=>'thinkphp',
+            'author'=>'拉开让哥单打',
             'version'=>'0.1'
         );
 
