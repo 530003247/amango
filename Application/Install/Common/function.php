@@ -72,10 +72,9 @@ function check_dirfile(){
 		array('dir',  '可写', 'success', './Uploads/Picture'),
 		array('dir',  '可写', 'success', './Uploads/Editor'),
 		array('dir',  '可写', 'success', './Runtime'),
-		array('file', '可写', 'success', './Addons'),
+		array('dir', '可写', 'success', './Addons'),
+		array('dir', '可写', 'success', './Data'),
 		array('dir', '可写', 'success', './Application/Install/Data'),
-		array('dir', '可写', 'success', './Application/User/Conf'),
-		array('file', '可写', 'success', './Application/Common/Conf/config.php'),
 	);
 
 	foreach ($items as &$val) {
