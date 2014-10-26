@@ -26,13 +26,13 @@ line-height: 28px;
 }
 		</style>
     <div class="main-title">
-        <h2>关键词列表 [<a>{$search_groupname}组</a>]</h2>
+        <h2>关键词组合列表 [ <a>用户请求</a> + <a>响应体</a> ]</h2>
     </div>
 
     <div class="cf">
         <a class="btn" href="{:U('add',array('pid'=>I('get.pid',0)))}">关键词 组装</a>
-        <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">删 除</button>
 		<button class="btn list_sort" url="{:U('responselists',array('pid'=>I('get.pid',0)))}" >+ 响应列表库</button>
+		<button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">批 量 删 除</button>
 		<!-- 高级搜索 -->
 		<div class="search-form fr cf">
 			<div class="sleft">
@@ -77,16 +77,16 @@ line-height: 28px;
                             <input class="checkbox check-all" type="checkbox">
                         </th>
                         <th width=20>ID</th>
-                        <th>关键词</th>
-                        <th width=100>请求|规则</th>
+                        <th>关键词组合</th>
+                        <th width=140>请求类型|匹配类型</th>
                         <th width=80>分组</th>
-                        <th width=60>上|下</th>
+                        <th width=40>上|下</th>
                         <th width=40>回复</th>
-                        <th width=100>响应简称</th>
+                        <th width=120>响应简称</th>
 						<th width=40>激活</th>
                         <th width=100>排序</th>
-						<th width=40>状态</th>
-                        <th width=80>操作</th>
+						<th width=30>状态</th>
+                        <th width=60>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,7 +100,7 @@ line-height: 28px;
                         <td>{$menu.keywordcate_name}</td>
                         <td>{$menu.keyword_top} | {$menu.keyword_down}</td>
                         <td>{$menu.response_reply}</td>
-                        <td>{$menu.response_name}... </td><!-- 暂不考虑可视化修改    后续添加  -->
+                        <td>{$menu.response_name}</td><!-- 暂不考虑可视化修改    后续添加  -->
                         <td>{$menu.keyword_click}</td>
 					    <td><input type="text" class="text input-2x" onblur="sort({$menu.id},this.value)" id="7_{$menu.id}" value="{$menu.sort}"</td>
                         <td><a class="ajax-get" href="{:U('Keywordview/status',array('id'=>$menu['id']))}"><span class="status{$menu.status}">状态</span></a></td>
