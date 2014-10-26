@@ -138,12 +138,25 @@ use Common\Controller\Addon;
             //插件LOGO
             'logo'=>'logo.jpg',
         );{$extend}
-
+            /**
+             * 当该插件含有安装或者卸载SQL时候，请放置于插件根目录，并将下面4行注释去掉
+             * 若无安装sql时  默认返回true
+             */
         public function install(){
+            /**     \$install_sql = './Addons/{$data['info']['name']}/install.sql';
+              *     if (file_exists()) {
+              *      execute_sql_file(\$install_sql);
+              *     }
+              */
             return true;
         }
 
         public function uninstall(){
+            /**     \$uninstall = './Addons/{$data['info']['name']}/uninstall.sql';
+              *     if (file_exists(\$uninstall)) {
+              *      execute_sql_file(\$uninstall);
+              *     }
+              */
             return true;
         }
 
@@ -354,6 +367,7 @@ use Common\Controller\Bundle;
  */
 class WeixinController extends Bundle{
     /**
+     * 自动匹配定位:可以通过配置_rules属性
      * 开发说明:三大全局变量  global \$_W,\$_P,\$_K;            W[微信请求参数]  P[用户信息] K[匹配到关键词信息]
      *          获取插件配置  \$config = Amango_Addons_Config();
      *          微信回复      \$this->assign(类型,\$article);  类型[Text Dantw  Duotw]
