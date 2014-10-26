@@ -155,7 +155,7 @@ class KeywordviewController extends AdminController {
                     if($datanum>0&&$responsenum>0){
                         M('Keyword')->where(array('id' => $datanum))->save(array('keyword_reaponse' => $responsenum));
                     }
-                        $this->ajaxReturn(array('status' => 1, 'msg'=>'创建关键词模型成功！'),'JSON');
+                        $this->ajaxReturn(array('status' => 1, 'msg'=>'创建关键词组合成功！'),'JSON');
                     break;
             }
             die;
@@ -244,13 +244,13 @@ class KeywordviewController extends AdminController {
             $postslist     = $_POST['field_sort'][2];
             $responselist  = $_POST['field_sort'][3];
             if(empty($_POST['field_sort'][2])||empty($_POST['field_sort'][3])||count($postslist)!=count($responselist)){
-                $this->error('请求规则和响应体，匹配对象不能为空且数量要一样！');
+                $this->error('请求规则和响应体，匹配组合时候必须一一对应！');
             } else{
                 $keywordmodel  = M('Keyword');
                 foreach ($postslist as $key => $value) {
                     $keywordmodel->where(array('id' => $value))->save(array('keyword_reaponse' => $responselist[$key]));
                 }
-                $this->success('新增关键词模型成功！',U('Keywordview/lists'));
+                $this->success('新增关键词组合成功！',U('Keywordview/lists'));
             }
         } else {
             $Responselist = M('Response')->where(array('status' => 1))->field('id,response_name,response_reply')->select();
@@ -514,12 +514,12 @@ class KeywordviewController extends AdminController {
                 }
             }
             $info['after_keyword'] = $string;
-            $clickmenu = M('Clickmenu')->field('id,title')->select();
+            $clickmenu             = M('Clickmenu')->field('id,title')->select();
             $this->assign('clickmenu',$clickmenu);
-            $locallist = M('Addons')->where(array('status'=>1,'weixin'=>1))->field('id,title,name')->select();
-            $info['lock_model1'] = is_numeric($info['lock_model']) ? '' : $info['lock_model'];
+            $locallist             = M('Addons')->where(array('status'=>1,'weixin'=>1))->field('id,title,name')->select();
+            $info['lock_model1']   = is_numeric($info['lock_model']) ? '' : $info['lock_model'];
             $this->assign('localapi',$locallist);
-            $info['click_model'] = str_replace(' ', '', $info['click_model']);
+            $info['click_model']   = str_replace(' ', '', $info['click_model']);
             $this->assign('info', $info);
             $this->display();
         }
@@ -531,14 +531,14 @@ class KeywordviewController extends AdminController {
     public function del(){
         $id = array_unique((array)I('id',0));
         if ( empty($id) ) {
-            $this->error('请选择要操作的响应体!');
+            $this->error('请选择要操作的关键词组合!');
         }
         $map = array('id' => array('in', $id) );
         if(M('Keyword')->where($map)->delete()){
             action_log('del_keyword', 'Keywordview', $id, UID);
-            $this->success('微信响应体删除成功');
+            $this->success('关键词组合删除成功');
         } else {
-            $this->error('微信响应体删除失败！');
+            $this->error('关键词组合删除失败！');
         }
     }
 
@@ -550,15 +550,15 @@ class KeywordviewController extends AdminController {
         $id = array_unique((array)I('id',0));
 
         if ( empty($id) ) {
-            $this->error('请选择要操作的微信回复体!');
+            $this->error('请选择要操作的关键词响应体!');
         }
 
         $map = array('id' => array('in', $id) );
         if(M('Response')->where($map)->delete()){
             action_log('del_response', 'Keywordview', $id, UID);
-            $this->success('删除成功');
+            $this->success('关键词响应体删除成功');
         } else {
-            $this->error('删除失败！');
+            $this->error('关键词响应体删除失败！');
         }
     }
 
@@ -579,20 +579,20 @@ class KeywordviewController extends AdminController {
         $sql    = "update ".C('DB_PREFIX')."keyword set status=(status+1)%2 where id='$id'";
         $res    = $mod->execute($sql);
         if($res!==false ) {
-            $this->success('状态操作成功！');
+            $this->success('排序操作成功！');
         }else{
-            $this->error('状态操作失败！');
+            $this->error('排序操作失败！');
         }
     }
     /* 默认回复设置 */
     public function default_reply(){
         if(IS_AJAX){
             if(!is_numeric($_POST['subscribe'])||!is_numeric($_POST['black'])||!is_numeric($_POST['overtime'])){
-                $this->error('非法响应回复ID！');
+                $this->error('非法响应体ID！');
             }
             $data['value'] = implode(',',$_POST);
             M('Config')->where(array('name'=>'AMANGO_DEFAULT_REPLY'))->save($data);
-            $this->success('默认响应内容设置成功！');
+            $this->success('默认响应体设置成功！');
         } else {
             $data   = M('Config')->where(array('name'=>'AMANGO_DEFAULT_REPLY'))->field('value')->find();
             $fields = explode(',', $data['value']);
@@ -953,13 +953,9 @@ class KeywordviewController extends AdminController {
         if(is_numeric(I('id'))){
             //判断是否含有该菜单
             $menustatus  = $clcikmenumodel->where(array('id'=>I('id')))->getField('status');
-            if($menustatus!=1&&$menustatus!=0){
-                $this->error('更改失败！请选择正确的菜单ID');
-            } else {
-                ($menustatus==1) ? $this->delMenu() : $this->setMenu();
-            }
+            ($menustatus==1) ? $this->delmenu() : $this->setMenu();
         } else {
-                $this->error('更改失败！请选择正确的菜单ID');
+                $this->error('更改失败！请选择正确的自定义菜单ID');
         }
     }
     //设置菜单
@@ -985,9 +981,9 @@ class KeywordviewController extends AdminController {
           if($rea['errcode']==0){
                 $clcikmenumodel->where(array('id'=>I('id')))->save(array('status'=>1));
                 $clcikmenumodel->where(array('id'=>array('neq',I('id'))))->save(array('status'=>0));
-                $this->success('设置微信公众号菜单成功！');
+                $this->success('设置微信自定义菜单成功！');
           } else {
-                $this->error('设置微信公众号菜单失败！错误代码：'.$rea['errcode'].'错误提示：'.$rea['errmsg']);
+                $this->error('设置微信自定义菜单失败！错误代码：'.$rea['errcode'].'错误提示：'.$rea['errmsg']);
           }  
     }
     //返回微信Token
@@ -1000,9 +996,9 @@ class KeywordviewController extends AdminController {
                 $this->error('请先配置微信公众号的APPID和SECRET');
             }
             //获取TOKEN
-            $api = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$account['account_appid']."&secret=".$account['account_secret'];
+            $api  = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$account['account_appid']."&secret=".$account['account_secret'];
             $json = file_get_contents($api);
-            $JT = json_decode($json);
+            $JT   = json_decode($json);
             $access_token = $JT->access_token;
             if(empty($access_token)){
                 $this->error('错误提示:'.$JT->errmsg);
@@ -1014,23 +1010,23 @@ class KeywordviewController extends AdminController {
         }
     }
     //返回微信Token
-    public function delMenu(){
+    public function delmenu(){
         $access_token = $this->getToken();
         $url = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=".$access_token;
         $json1 = file_get_contents($url);
         $JR = json_decode($json1);
         $rea = $JR->errmsg;
          if($rea['errcode']==0){
-            M('Clickmenu')->where(array('id'=>array('gt',1)))->save(array('status'=>0));
-            $this->success('清除微信公众号菜单成功！');
+            M('clickmenu')->where(array('id'=>array('gt',0)))->save(array('status'=>'0'));
+            $this->success('清除微信自定义菜单成功！');
          } else {
-            $this->error('清除微信公众号菜单失败！错误代码：'.$rea['errcode'].'错误提示：'.$rea['errmsg']);
+            $this->error('清除微信自定义菜单失败！错误代码：'.$rea['errcode'].'错误提示：'.$rea['errmsg']);
          }
     }
     //返回微信Token
     public function del_clickmemu(){
         $status = M('Clickmenu')->where(array('id'=>I('id')))->delete();
-        (false===$status) ? $this->error('删除菜单失败') : $this->success('删除菜单成功！');
+        (false===$status) ? $this->error('删除自定义菜单失败') : $this->success('删除自定义菜单成功！');
 
     }
 }
