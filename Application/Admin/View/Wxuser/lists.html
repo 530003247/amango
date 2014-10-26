@@ -57,9 +57,9 @@
                         <td>{$menu.ucusername}</td>
                         <td>{$menu.nickname}</td>
                         <td>{$menu.cate_group}</td>
-                        <td>{$menu.sex}</td>
+                        <td>{$menu['sex']?'男':'女'}</td>
 						<td>{$menu.qq}</td>
-                        <td>{$menu.follow}</td><!-- 暂不考虑可视化修改    后续添加  -->
+                        <td>{$menu['follow']?'关注':'取消关注'}</td><!-- 暂不考虑可视化修改    后续添加  -->
                         <td>
 						<a class="ajax-get" href="{:U('del?id='.$menu['id'])}"><span class="status{$menu.status}">状态</span></a>						
 						</td>
