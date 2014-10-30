@@ -96,7 +96,11 @@ use Common\Controller\Factory;
                     break;
                 case 'local':
                     $apiinfo = M('Addons')->where(array('id'=>$detail['neiron'],'status'=>1,'weixin'=>1))->field('name,title,config')->find();
-                    empty($apiinfo) ? wx_error('Sorry!该插件暂未启用或者未安装') : define ( 'AMANGO_ADDON_NAME', ucfirst($apiinfo['name']));
+                    if(empty($apiinfo)){
+                        wx_error('Sorry!该插件暂未启用或者未安装');
+                    } else {
+                        defined ( 'AMANGO_ADDON_NAME' )   or define ( 'AMANGO_ADDON_NAME', ucfirst($apiinfo['name']));
+                    }
                     $publicpath = str_replace('./', 'http://'.$_SERVER['HTTP_HOST'].'/', ONETHINK_ADDON_PATH.AMANGO_ADDON_NAME.'/Public/');
                     defined ( 'ADDON_PUBLIC' ) or define ( 'ADDON_PUBLIC', $publicpath );
                     defined ( 'ADDON_ROOT' )   or define ( 'ADDON_ROOT', ONETHINK_ADDON_PATH.AMANGO_ADDON_NAME.'/');

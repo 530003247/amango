@@ -15,7 +15,6 @@ use User\Api\UserApi;
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class PublicController extends \Think\Controller {
-
     /**
      * 后台用户登录
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>

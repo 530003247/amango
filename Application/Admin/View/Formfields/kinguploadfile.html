@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
+<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+	<script type="text/javascript">
+	//图片上传
+	KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true,
+				          uploadJson : "{:U('File/kinguploadfile',array('session_id'=>session_id(),'type'=>'file','filepath'=>MODULE_NAME))}",
+					 fileManagerJson : "{:U('File/kindmanagefile')}",
+				});
+				//文件上传
+				K("#insertfile_{$field['name']}").click(function() {
+					editor.loadPlugin('insertfile', function() {
+						editor.plugin.fileDialog({
+							fileUrl : K('#upload_picture_{$field['name']}').val(),
+							clickFn : function(url, title) {
+								K("#upload_picture_{$field['name']}").val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+    });
+</script>
+<eq name="type" value="add">
+                                <div class="controls">
+						             <input type="text" id="upload_picture_{$field['name']}" name="{$field.name}" value="" class="text input-large" value="{$data[$field['name']]}"/>
+						                    <input type="button" id="insertfile_{$field['name']}" value="选择文件" class="btn btn-mini"/>
+								</div>
+<else/>
+                                <div class="controls">
+						             <input type="text" id="upload_picture_{$field['name']}" name="{$field.name}" value="" class="text input-large"/>
+						                    <input type="button" id="insertfile_{$field['name']}" value="选择文件" class="btn btn-mini"/>
+								</div>
+</eq>

@@ -28,6 +28,10 @@ class IndexController{
 			$crosstime = time()-$lastmodel[1];
 			if(!empty($lastmodel[0])&&$crosstime<=300){
 				$addonparam = explode('/', $lastmodel[0]);
+				defined ( 'AMANGO_ADDON_NAME' )   or define ( 'AMANGO_ADDON_NAME', ucfirst($addonparam[0]));
+                $publicpath = str_replace('./', 'http://'.$_SERVER['HTTP_HOST'].'/', ONETHINK_ADDON_PATH.AMANGO_ADDON_NAME.'/Public/');
+                defined ( 'ADDON_PUBLIC' ) or define ( 'ADDON_PUBLIC', $publicpath );
+                defined ( 'ADDON_ROOT' )   or define ( 'ADDON_ROOT', ONETHINK_ADDON_PATH.AMANGO_ADDON_NAME.'/');
 				Amango_Addons($addonparam[0],'',$addonparam[1],'',fasle);
 			} else {
 	            $Bundleclass = "Weixin\Bundle\\".$_W['post']."Bundle";
