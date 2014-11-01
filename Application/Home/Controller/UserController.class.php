@@ -78,7 +78,7 @@ class UserController extends HomeController {
 			        $goto = base64_decode(base64_decode($goto));
 			        $url  = empty($goto) ? U('Home/User/profile') : $goto;
 
-					$this->success('芒果,是一种校园生活方式',$url);
+					$this->success('正在进入',$url);
 				} else {
 					$this->error('请输入正确的授权账号和密码');
 				}
@@ -97,7 +97,7 @@ class UserController extends HomeController {
 		        $goto = $_GET['amangogoto'];
 		        $goto = base64_decode(base64_decode($goto));
 		        $url  = empty($goto) ? U('Home/User/profile') : $goto;
-				$this->success('芒果,是一种校园生活方式',$url);
+		        redirect($url);
 			}
 	        $shareurl  = Amango_U('User/login','','',true);
 	        $content   = '芒果,是一种校园生活方式';

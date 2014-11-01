@@ -44,7 +44,7 @@ class HomeController extends Controller {
                 $this->auto_login($_GET['ucusername'],$_GET['ucpassword']);
 	         	$selfurl = __SELF__;
 	         	//判断是否存在
-	         	$replace_list = '';
+	         	$replace_list = array();
 	         	if(!empty($_GET['ucusername'])){
                     $replace_list['/ucusername/'.$_GET['ucusername']] = '';
 	         	}
@@ -52,7 +52,7 @@ class HomeController extends Controller {
                     $replace_list['/ucpassword/'.$_GET['ucpassword']] = '';
 	         	}
 	         	$selfurl   = strtr($selfurl,$replace_list);
-				redirect($selfurl, 0, '');
+				redirect($selfurl);
             }
 
 		// !empty($_GET['nickname']) || session('autonickname',$_GET['nickname']);
