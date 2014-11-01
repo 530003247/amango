@@ -140,7 +140,21 @@ abstract class Addon{
         $_config[$name]     =   $config;
         return $config;
     }
-
+    /**
+     * 插件通用删除
+     */
+    final public function del($modelname,$errormsg=array('非法ID','删除失败')){
+        $id = array_unique((array)I('id',0));
+        if ( empty($id) ) {
+            return $errormsg[0];
+        }
+        $map = array('id' => array('in', $id) );
+        if(M(ucfirst($modelname))->where($map)->delete()){
+            return true;
+        } else {
+            return $errormsg[1];
+        }
+    }
     //必须实现安装
     abstract public function install();
 
