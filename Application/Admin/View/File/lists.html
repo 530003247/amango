@@ -1,0 +1,146 @@
+<extend name="Public/base"/>
+
+<block name="body">
+		<style>
+			.status1 {background-color: #2d7200;}
+			.status0 {background-color: #ff2610;}
+		</style>
+    <div class="main-title">
+        <h2>上传/下载 [{$catename}] 文件总数：{$filenums} | 占用空间：{$filesize}</h2>
+    </div>
+
+    <div class="cf">
+        <button class="btn ajax-post confirm" url="{:U('delfiles',array('type'=>$type,'title'=>$nowdir))}" target-form="ids">批量删除</button>
+		<a class="btn" href="{:U('add_dir',array('type'=>$type))}">新建文件列表</a>
+		<a class="btn" <eq name="type" value="Download">disabled<else/>href="{:U('lists',array('type'=>'Download'))}" </eq>>文件资源列表</a>
+		<a class="btn" <eq name="type" value="Music">disabled<else/>href="{:U('lists',array('type'=>'Music'))}" </eq>>音频资源列表</a>
+		<a class="btn" <eq name="type" value="Document">disabled<else/>href="{:U('lists',array('type'=>'Document'))}"</eq>>文档资源列表</a>
+		<a class="btn" <eq name="type" value="Picture">disabled<else/>href="{:U('lists',array('type'=>'Picture'))}"</eq>>图片资源列表</a>
+        <!-- 高级搜索 -->
+		               <select id="changefile" name="subfile" url="__SELF__">
+					           <option value="" <eq name="nowdir" value="">selected</eq>>根目录</option>
+                               <volist name="sub_dirs" id="vo">
+                                       <option value="{$vo}" <eq name="nowdir" value="$vo">selected</eq>>{$vo}</option>
+                               </volist>
+					   </select> 
+        <!-- <div class="search-form fr cf">
+            <div class="sleft">
+			    <input type="hidden" name="type"  value="{$type}">
+                <input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="输入文件标识">
+                <a class="sch-btn" href="javascript:;" id="search" url="__SELF__"><i class="btn-search"></i></a>
+            </div>
+        </div>-->
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th>
+               <eq name="type" value="Picture">
+                          <th>预览</th>
+               </eq>
+               <eq name="type" value="Music">
+                          <th>预览</th>
+               </eq>
+                        <th>标识</th>
+						<th>位置</th>
+                        <th>大小</th>
+                        <th>类型</th>
+                        <th>上传日期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="subfileslist">
+                <volist name="subfileslist" id="menu">
+                    <tr>
+					    <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.filename}"></td>
+                <eq name="type" value="Picture">
+                        <td><img width="60" height="80" src="./Uploads/{$type}/{$nowdir}/{$menu.filename}"></td>
+                </eq>
+                <eq name="type" value="Music">
+				        <td><audio id="musicplayer" src="./Uploads/{$type}/{$nowdir}/{$menu.filename}" type="audio/mp3" controls="controls"></audio></td>
+                </eq>
+                        <td>{$menu.filename}</td>
+                        <td>{$nowdir?$nowdir:'根目录'}</td>
+                        <td>{$menu.filesize}</td>
+                        <td>{$menu.filetype}</td>
+                        <td>{$menu.datetime}</td>
+                        <td>
+                           <a title="删除" href="{:U('delfiles',array('type'=>$type,'title'=>$nowdir,'id'=>$menu['filename']))}">&nbsp;删除&nbsp;</a>
+                        </td>
+                    </tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> Oh! 暂时还没有资源哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //切换文件夹功能
+            $("#changefile").change(function() {
+                var url = $(this).attr('url');
+                var filename = $(this).val();
+                if (url.indexOf('?') > 0) {
+                    url += '&title=' + filename;
+                } else {
+                    url += '?title=' + filename;
+                }
+                window.location.href = url;
+            });
+			//搜索功能
+            $("#search").click(function() {
+                var url = $(this).attr('url');
+                var query = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
+                query = query.replace(/^&/g, '');
+                if (url.indexOf('?') > 0) {
+                    url += '&' + query;
+                } else {
+                    url += '?' + query;
+                }
+                window.location.href = url;
+            });
+            //回车搜索
+            $(".search-input").keyup(function(e) {
+                if (e.keyCode === 13) {
+                    $("#search").click();
+                    return false;
+                }
+            });
+            //导航高亮
+            highlight_subnav("{:U('File/lists')}");
+            //点击排序
+        	$('.list_sort').click(function(){
+        		var url = $(this).attr('url');
+        		var ids = $('.ids:checked');
+        		var param = '';
+        		if(ids.length > 0){
+        			var str = new Array();
+        			ids.each(function(){
+        				str.push($(this).val());
+        			});
+        			param = str.join(',');
+        		}
+
+        		if(url != undefined && url != ''){
+        			window.location.href = url + '/ids/' + param;
+        		}
+        	});
+        });
+    </script>
+</block>

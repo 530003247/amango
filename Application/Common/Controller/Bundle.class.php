@@ -229,8 +229,10 @@ abstract class Bundle{
                 $this->assign('Duotw',$article);
                 break;
             default:
+                if(!empty($url[0])&&!empty($url[1])){
+                    $urlinfo = "<a href='".$url[0]."'>".$url[1]."</a>";
+                }
                 $title   = empty($title) ? "[可怜]:出错咯！" : $title;
-                $urlinfo = "<a href='".$url[0]."'>".$url[1]."</a>";
                 $this->assign('Text',$title."\n".$content."\n".$urlinfo);
                 break;
         }

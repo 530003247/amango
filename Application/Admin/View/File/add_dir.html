@@ -1,0 +1,34 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <div class="main-title cf">
+        <h2>【{$catename}】-新增子目录</h2>
+    </div>
+    <!-- 标签页导航 -->
+<div class="tab-wrap">
+    <div class="tab-content">
+    <form id="form" action="{:U('default_reply')}" method="post" class="form-horizontal">
+                <div class="form-item cf">
+                    <label class="item-label">需要新增的文件夹名称<span class="check-tips">只支持该目录下一级目录,创建多个文件夹,请用|隔开</span></label>
+                    <div class="controls">
+					   <label class="textarea input-large">
+                                <textarea name="posts_description"></textarea>
+                                </label>
+                    </div>
+                </div>
+        <div class="form-item cf">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="javascript:history.go(-1);">返回</a>
+        </div>
+    </form>
+    </div>
+</div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+</script>
+</block>

@@ -12,7 +12,122 @@ namespace Admin\Controller;
  * 主要用于下载模型的文件上传和下载
  */
 class FileController extends AdminController {
+    //上传路径
+    public $_path = array(
+            'Picture'  => array('图片资源','./Uploads/Picture/'),
+            'Music'    => array('音频资源','./Uploads/Music/'),
+            'Document' => array('文档资源','./Uploads/Document/'),
+            'Download' => array('文件资源','./Uploads/Download/'),
 
+    ); 
+    public $deny_ext_arr = array('php','exe');
+
+    /* 静态资源管理 */
+    public function lists(){
+        $type  = I('get.type','Picture');
+        $type  = ucfirst($type);
+
+        $title = I('get.title');
+
+        if(empty($this->_path[$type])){
+
+            $this->error($type.'请选择正确的资源类型');
+        }
+
+        $files_list = array();
+
+        //获取该目录下所有文件
+        $fileslist  = Amango_Scanfiles('./Uploads/'.$type.'/');
+        $files_list = explode(',', $fileslist);
+        
+        $current_path = $this->_path[$type][1];
+        
+        //获取路径
+        if(in_array($title, $files_list)){
+            $current_path = $current_path.$title.'/';
+            $parent_ext = './'.$title.'/';
+        } else {
+            $parent_ext = './';
+        }
+        $file_list = array();
+        //遍历目录下文件 取得文件信息
+        $totalkbs  = 0;
+            if ($handle = opendir($current_path)) {
+                $i = 0;
+                while (false !== ($filename = readdir($handle))) {
+                    if ($filename{0} == '.') continue;
+                    $file = $current_path . $filename;
+                    if (!is_dir($file)) {
+                        $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                        if(!in_array($file_ext, $this->deny_ext_arr)){
+                            $nowsize  = filesize($file);
+                            $filesize = $filesize + $nowsize;
+                            $file_list[$parent_ext][$i]['is_dir']   = false;
+                            $file_list[$parent_ext][$i]['has_file'] = false;
+                            $file_list[$parent_ext][$i]['filesize'] = format_bytes($nowsize);
+                            $file_list[$parent_ext][$i]['dir_path'] = '';
+                            
+                            $file_list[$parent_ext][$i]['filetype'] = $file_ext;
+                            $file_list[$parent_ext][$i]['filename'] = $filename; //文件名，包含扩展名
+                            $file_list[$parent_ext][$i]['datetime'] = date('Y-m-d H:i:s', filectime($file)); //文件最后修改时间
+                        }
+                    }
+                    $i++;
+                }
+                closedir($handle);
+            }
+        $this->assign('filesize',format_bytes($filesize));
+        $this->assign('filenums',count($file_list[$parent_ext]));
+        $this->assign('type',$type);
+        $this->assign('nowdir',$title);
+        $this->assign('sub_dirs',$files_list);
+        $this->assign('subfileslist',$file_list[$parent_ext]);
+        $this->assign('catename',$this->_path[$type][0]);
+        $this->display();
+    }
+    /* 新增文件夹 */
+    public function add_dir(){
+        $type  = I('get.type');
+        $type  = ucfirst($type);
+        if(empty($this->_path[$type])){
+            $this->error($type.'请选择正确的资源类型');
+        }
+        if(IS_POST){
+           dump($_POST);
+        } else {
+            $this->assign('type',$type);
+            $this->assign('catename',$this->_path[$type][0]);
+            $this->display();
+        }
+    }
+    public function delfiles(){
+        $type   = I('get.type');
+        $type   = ucfirst($type);
+        $nowdir = I('get.title');
+
+        if(empty($this->_path[$type])){
+            $this->error($type.'请选择正确的资源类型');
+        }
+        $id = array_unique((array)I('id'));
+        if ( empty($id) ) {
+            $this->error('请选择要删除的资源文件!');
+        }
+
+        if(empty($nowdir)){
+            $rootpath = $this->_path[$type][1];
+        } else {
+            $rootpath = $this->_path[$type][1].$nowdir.'/';
+        }
+        $del = 0;
+        foreach ($id as $key => $value) {
+            if(is_file($rootpath.$value)){
+                unlink($rootpath.$value);
+                $del++;
+            }
+        }
+
+            $this->success("本次成功删除：".$del."个文件");
+    }
     /* 文件上传 */
     public function upload(){
 		$return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
