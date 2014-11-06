@@ -36,6 +36,7 @@ class WxuserController extends AdminController {
         $list = $model->where($condition)->limit($page->firstRow.','.$page->listRows)->order('id DESC')->select();
         $this->assign('_page',$page->show());
         $this->assign('list',$list);
+        $this->assign('meta_title','关注者管理');
         $this->display();
     }
 
@@ -68,6 +69,7 @@ class WxuserController extends AdminController {
             $info = api('Wxuser/get_info',array('id'=>$id ));
             $info['sex'] = $sex[$info['sex']];
             $this->assign('info', $info);
+            $this->assign('meta_title','关注者管理');
             $this->display();
         }
     }
@@ -116,6 +118,7 @@ class WxuserController extends AdminController {
 
 
         $this->assign('ucentertitle',$ucentername);
+        $this->assign('meta_title','关注者管理');
         $this->display('ucenterlist');
         // if ( empty($id) ) {
         //     $this->error('请选择要操作的数据!');

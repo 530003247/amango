@@ -113,6 +113,7 @@ class ActionController extends AdminController {
             }
             $this->success('清空缓存成功成功！');
         } else {
+            $this->assign('meta_title','缓存管理');
             $this->display();
         }
     }

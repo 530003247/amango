@@ -183,6 +183,7 @@ class KeywordviewController extends AdminController {
             $this->assign('localapi',$locallist);
             $this->assign('clickmenu',$clickmenu);
             $this->assign('cate_list',$cate_list);
+            $this->assign('meta_title','关键词管理');
             //TODO  暂时关闭 任意模块读取   仅限图文读取
             //$this->assign('parentlist',get_flycloud_list('local'));
             $this->display();
@@ -229,7 +230,7 @@ class KeywordviewController extends AdminController {
         $this->assign('postlist',$Postslist);
         
         $catename = $catemodel->where(array('id'=>$_GET['groupid']))->getField('keywordcate_name');
-
+        $this->assign('meta_title','关键词管理');
         $this->assign('search_title',empty($_GET['title']) ? '' : $_GET['title']);
         $this->assign('search_groupid',empty($_GET['groupid']) ? '' : $_GET['groupid']);
         $this->assign('search_groupname',empty($catename) ? '所有分' : $catename);
@@ -257,6 +258,7 @@ class KeywordviewController extends AdminController {
             $Postslist    = M('Keyword')->where(array('status' => 1))->field('keyword_rules,id,keyword_post')->select();
             $this->assign('Responselist',$Responselist);
             $this->assign('Postslist',$Postslist);
+            $this->assign('meta_title','关键词管理');
             $this->display();
         }
     }
@@ -285,7 +287,7 @@ class KeywordviewController extends AdminController {
         //模板赋值
         $staticinfo = Factory($edit_model)->edit($responseinfo);
         $this->assign($edit_model,$staticinfo);
-        
+        $this->assign('meta_title','关键词管理');
         $this->assign('responseid',$id);
         $this->assign('info',$responseinfo);
         $this->assign('type',$responseinfo['response_reply']);
@@ -307,6 +309,7 @@ class KeywordviewController extends AdminController {
         $list = $model->limit($page->firstRow.','.$page->listRows)->select();
         $this->assign('_page',$page->show());
         $this->assign('list',$list);
+        $this->assign('meta_title','关键词管理');
         $this->display();
     }
 
@@ -520,6 +523,7 @@ class KeywordviewController extends AdminController {
             $info['lock_model1']   = is_numeric($info['lock_model']) ? '' : $info['lock_model'];
             $this->assign('localapi',$locallist);
             $info['click_model']   = str_replace(' ', '', $info['click_model']);
+            $this->assign('meta_title','关键词管理');
             $this->assign('info', $info);
             $this->display();
         }
@@ -599,6 +603,7 @@ class KeywordviewController extends AdminController {
             $list = M('Response')->select();
             $this->assign('list',$list);
             $this->assign('data',$fields);
+            $this->assign('meta_title','关键词管理');
             $this->display();
         }
     }
@@ -781,6 +786,7 @@ class KeywordviewController extends AdminController {
             //关联关键词
             $list = D('KeywordView')->select();
             $this->assign('Responselist',$list);
+            $this->assign('meta_title','关键词管理');
             $this->display();
         }
     }
@@ -898,6 +904,7 @@ class KeywordviewController extends AdminController {
         $this->assign('Responselist',$list);
         $this->assign('submenu',$submenu);
         $this->assign('id',I('id'));
+        $this->assign('meta_title','关键词管理');
         //获取子菜单按钮
         $this->display();
 
@@ -945,6 +952,7 @@ class KeywordviewController extends AdminController {
     public function click_list(){
         $list = D('Clickmenu')->select();
         $this->assign('list',$list);
+        $this->assign('meta_title','关键词管理');
         $this->display();
     }
     //启用微信菜单
