@@ -23,8 +23,12 @@ class HomeController extends Controller {
 
 
     protected function _initialize(){
-        /* 读取站点配置 */
-        $config = api('Config/lists');
+        /* 读取数据库中的配置 */
+        $config =   S('DB_CONFIG_DATA');
+        if(!$config){
+            $config =   api('Config/lists');
+            S('DB_CONFIG_DATA',$config);
+        }
         C($config); //添加配置
 		global $_W;//申明全局变量   默认网站信息
 		       $_W    = $config;
