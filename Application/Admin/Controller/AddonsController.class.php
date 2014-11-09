@@ -130,7 +130,7 @@ use Common\Controller\Addon;
             //插件描述
             'description'=>'{$data['info']['description']}',
             //插件状态
-            'status'=>{$data['info']['status']},
+            'status'=>'{$data['info']['status']}',
             //插件作者
             'author'=>'{$data['info']['author']}',
             //插件版本
