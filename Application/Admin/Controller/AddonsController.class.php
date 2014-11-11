@@ -599,9 +599,12 @@ str;
         }else{
             $data['has_adminlist'] = 0;
         }
-        if(!$data)
+        if(!$data){
             $this->error($addonsModel->getError());
-        if($addonsModel->add($data)){
+        }
+        //执行安装ID
+        $addonsid = $addonsModel->add($data);
+        if($addonsid){
             $config         =   array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
             $hooks_update   =   D('Hooks')->updateHooks($addon_name);
@@ -626,7 +629,55 @@ str;
 		                    unset($tagdata);
 		                }
                 }
-                $this->success('安装成功');
+                //自动处理微信关键词
+                $postlist     = $info['weixinkeyword']['post'];
+                $responselist = $info['weixinkeyword']['response'];
+                $grouplist    = $info['weixinkeyword']['group'];
+
+                if($info['weixin']==1&&!empty($postlist)&&!empty($responselist)){
+
+                    $postmodel     = M('Weixinkeyword'); $post_model = M('Keyword');$response_model = M('Response');
+
+                    $postgroup     = array();
+                    $responsegroup = array();
+                    //TODO 新增关键词分组
+                    //新增POST请求
+                    foreach ($postlist as $key => $value) {
+                        $postdata = array();
+                        if(!empty($value['keyword_rules'])&&!empty($value['keyword_post'])){
+                            $postdata = $postmodel->create_post($value);
+                            if(is_array($postdata)){
+                                $datanum  = $post_model->add($postdata);
+                                if($datanum>0){
+                                    $postgroup[$key] = $datanum;
+                                }
+                            }
+                        }
+                    }
+                    //新增RESPONSE响应
+                    foreach ($responselist as $k => $v) {
+                        if(!empty($v['response_name']))){
+                            $v['apiid'] => $addonsid;
+                            $responsedata = $postmodel->create_post($v);
+                            if(is_array($responsedata)){
+                                $responsenum  = $response_model->add($responsedata);
+                                if($responsenum>0){
+                                    $responsegroup[$k] = $responsenum;
+                                }
+                            }
+                        }
+                    }
+                    //自动组装关键词组
+                    if(!empty($info['weixinkeyword']['group'])){
+                        foreach ($grouplist as $key => $value) {
+                            if(isset($postgroup[$key])&&isset($responsegroup[$value])){
+                                $post_model->where(array('id' => $postgroup[$key]))->save(array('keyword_reaponse' => $responsegroup[$value]));
+                            }
+                        }
+                    }
+                }
+
+                $this->success('插件安装成功');
             }else{
                 $addonsModel->where("name='{$addon_name}'")->delete();
                 $this->error('更新钩子处插件失败,请卸载后尝试重新安装');

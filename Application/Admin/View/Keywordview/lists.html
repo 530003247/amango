@@ -76,17 +76,16 @@ line-height: 28px;
                         <th class="row-selected">
                             <input class="checkbox check-all" type="checkbox">
                         </th>
-                        <th width=20>ID</th>
-                        <th>关键词组合</th>
-                        <th width=140>请求类型|匹配类型</th>
-                        <th width=80>分组</th>
-                        <th width=40>上|下</th>
-                        <th width=40>回复</th>
+                        <th width=15>ID</th>
+                        <th>匹配规则</th>
+                        <th width=80>请求类型</th>
+                        <th width=80>关键词分组</th>
+                        <th width=60>承上|启下</th>
                         <th width=120>响应简称</th>
-						<th width=40>激活</th>
+						<th width=10>激活</th>
                         <th width=100>排序</th>
 						<th width=30>状态</th>
-                        <th width=60>操作</th>
+                        <th width=110>编辑操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,18 +94,17 @@ line-height: 28px;
                     <tr>
                         <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
                         <td>{$menu.id}</td>
-                        <td>{$menu.keyword_rules}</td>
-                        <td>{$menu.posts_name} | {$menu.keyword_reply}</td>
+                        <td><a title="请求类型:{$menu.posts_name}" href="{:U('edit_posts?id='.$menu['id'])}">{$menu.keyword_rules}</a></td>
+						<!---匹配规则 {$menu.keyword_reply}--->
+                        <td>{$menu.posts_name}</td>
                         <td>{$menu.keywordcate_name}</td>
                         <td>{$menu.keyword_top} | {$menu.keyword_down}</td>
-                        <td>{$menu.response_reply}</td>
-                        <td>{$menu.response_name}</td><!-- 暂不考虑可视化修改    后续添加  -->
+                        <td><a title="回复类型:{$menu.response_reply}" href="{:U('edit_response?id='.$menu['keyword_reaponse'])}">{$menu.response_name}</a></td><!-- 暂不考虑可视化修改    后续添加  -->
                         <td>{$menu.keyword_click}</td>
 					    <td><input type="text" class="text input-2x" onblur="sort({$menu.id},this.value)" id="7_{$menu.id}" value="{$menu.sort}"</td>
                         <td><a class="ajax-get" href="{:U('Keywordview/status',array('id'=>$menu['id']))}"><span class="status{$menu.status}">状态</span></a></td>
-                        <td>
-                            <a title="编辑" href="{:U('edit_posts?id='.$menu['id'])}">编辑</a>
-                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$menu['id'])}">删除</a>
+                        <td>[<a title="编辑请求" href="{:U('edit_posts?id='.$menu['id'])}">请求</a>|<a title="编辑响应" href="{:U('edit_response?id='.$menu['keyword_reaponse'])}">响应</a>]
+<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$menu['id'])}">删除</a>
                         </td>
                     </tr>
                 </volist>
