@@ -411,10 +411,22 @@ str;
         $this->assign('_list', $voList);
         $this->assign('_page', $p? $p: '');
         // 记录当前列表页的cookie
+        if(file_exists('./Update/update.sql')){
+            $this->assign('newversion','1');
+        }
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
+        $this->assign('version',C('AMANGO_VERSION'));
         $this->display();
     }
-
+    
+    public function sysupdate(){
+        //SQL更新
+        $update_sql = './Update/update.sql';
+        if (file_exists($update_sql)) {
+            execute_sql_file($update_sql);
+        }
+        $this->success('系统更新完成',U('index'));
+    }
     /**
      * 插件后台显示页面
      * @param string $name 插件名
