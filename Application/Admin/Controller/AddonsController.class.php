@@ -656,8 +656,8 @@ str;
                     }
                     //新增RESPONSE响应
                     foreach ($responselist as $k => $v) {
-                        if(!empty($v['response_name']))){
-                            $v['apiid'] => $addonsid;
+                        if(!empty($v['response_name'])){
+                            $v['apiid'] = $addonsid;
                             $responsedata = $postmodel->create_post($v);
                             if(is_array($responsedata)){
                                 $responsenum  = $response_model->add($responsedata);
