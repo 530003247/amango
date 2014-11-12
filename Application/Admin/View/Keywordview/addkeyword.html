@@ -645,17 +645,26 @@ function clear_dantw(){
 							<font class="tip" title="调用云端接口(或者第三方接口)进行消息处理">云端接口&nbsp;&nbsp;</font>
 							<input type="radio" value="behavior" name="model_type">
 							<font class="tip" title="监听关键词行为并进行消息处理">行为监听&nbsp;&nbsp;</font>
-</label>模块信息&nbsp;:&nbsp;&nbsp;<select class="select" name="apireply" id="apireply" style="width:80%;">
+</label>调用模块&nbsp;:&nbsp;&nbsp;<select class="select" name="apireply" id="apireply" style="width:80%;" onchange="ocparam('apireply','param');">
 			<volist name="localapi" id="val">
 			   <option value="{$val.id}" data="local">{$val.title}&nbsp;&nbsp;(&nbsp;{$val.name}&nbsp;|&nbsp;{$val.description})</option>
             </volist>
 </select><!--
 												<label for="" class="block">模块附加参数</label>
-												<input class="msg-input" id="dan_url" value="" type="text">			-->	
-												<div id="url-block">	附加参数(为空则不传递)	
+												<input class="msg-input" id="dan_url" value="" type="text">			-->	<br>
+												<div id="url-block">模块参数&nbsp;:&nbsp;&nbsp;
 												<label class="textarea input-midl">
-											<textarea id="param"></textarea></label>
-											<label for="" class="block"><font color="red">参数</font>&nbsp;&nbsp;<font color="green">键名:键值</font><br>											
+
+      <select id="param">
+
+      </select>
+										<!--
+											<textarea id="param"></textarea>
+											--->
+											
+											</label>
+
+<!--										<label for="" class="block"><font color="red">参数</font>&nbsp;&nbsp;<font color="green">键名:键值</font>--><br>											
 </label>
 											</div>
 												
@@ -1083,6 +1092,32 @@ function oc(zdid,selid){
 			   if(zdid=="duo_lmid"||zdid=="dan_lmid"){
 			  optonstr = "<option value=\"news\">最新资源</option><option value=\"rand\">随机资源</option>"+optonstr;
 			   }
+             $("#"+selid).html(optonstr);
+		   }
+        }else{
+			   alert(d.errmsg);
+			   $("#"+selid).html('');
+			 }
+		},'json');
+	}
+}
+function ocparam(zdid,selid){
+		   var cate = $("#"+zdid).find("option:selected").attr('data');
+           var ad   = $("#"+zdid).val();
+	       var optonstr = "";
+		   var data = new Object();
+        data.cateid = ad;
+		  data.cate = cate;
+	//排除news  rand 提交
+	if(ad!=""){
+	   $.post('{:U("Keywordview/ajax_apiparam")}',data,function(d){
+	    if(d.status!=0){
+		   $("#"+selid).html('');
+		   if(d.msg!=''){
+              $.each(d.msg, function(i,item){
+			    optonstr = "<option value=\""+item[0]+"\">"+item[2]+"</option>"+optonstr;
+               });
+			    optonstr = "<option value=\"\">不传递参数</option>"+optonstr;
              $("#"+selid).html(optonstr);
 		   }
         }else{

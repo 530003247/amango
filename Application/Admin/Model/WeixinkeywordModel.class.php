@@ -38,7 +38,7 @@ class WeixinkeywordModel extends Model {
 		//关键词所属分组
 		$date['keyword_group']   = empty($amangoajax['keyword_group']) ? $default['keyword_group'] : $amangoajax['keyword_group'];  
 		//关键词缓存
-		$date['keyword_cache']   = is_numeric($amangoajax['keyword_cache']) ? $amangoajax['keyword_cache'] : $amangoajax['keyword_cache']; 
+		$date['keyword_cache']   = is_numeric($amangoajax['keyword_cache']) ? $amangoajax['keyword_cache'] : $default['keyword_cache']; 
 		//标签隐藏 显示 关闭
 		$date['denytag_keyword'] = serialize(parse_config($amangoajax['denytag_keyword'],$type=3));
 		//后续行为初始化
@@ -61,7 +61,7 @@ class WeixinkeywordModel extends Model {
 		//锁定状态 
 		$date['lock_model']      = empty($amangoajax['lock_model']) ? $default['lock_model'] : $amangoajax['lock_model'];
 		//本体
-		$date['keyword_content'] = empty($amangoajax['keyword_content']) ? $default['keyword_content'] : $amangoajax['lock_model'];
+		$date['keyword_content'] = empty($amangoajax['keyword_content']) ? $amangoajax['keyword_rules'] : $amangoajax['keyword_content'];
 		//默认响应体
 		$date['keyword_reaponse']= is_numeric($amangoajax['keyword_reaponse']) ? $amangoajax['keyword_reaponse'] : $default['keyword_reaponse'];
 		//点击次数

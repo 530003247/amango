@@ -634,9 +634,8 @@ str;
                 $responselist = $info['weixinkeyword']['response'];
                 $grouplist    = $info['weixinkeyword']['group'];
 
-                if($info['weixin']==1&&!empty($postlist)&&!empty($responselist)){
-
-                    $postmodel     = M('Weixinkeyword'); $post_model = M('Keyword');$response_model = M('Response');
+                if((string)$info['weixin']=='1'&&!empty($postlist)&&!empty($responselist)){
+                    $postmodel     = D('Weixinkeyword'); $post_model = M('Keyword');$response_model = M('Response');
 
                     $postgroup     = array();
                     $responsegroup = array();
@@ -658,7 +657,7 @@ str;
                     foreach ($responselist as $k => $v) {
                         if(!empty($v['response_name'])){
                             $v['apiid'] = $addonsid;
-                            $responsedata = $postmodel->create_post($v);
+                            $responsedata = $postmodel->create_response($v);
                             if(is_array($responsedata)){
                                 $responsenum  = $response_model->add($responsedata);
                                 if($responsenum>0){
@@ -668,7 +667,7 @@ str;
                         }
                     }
                     //自动组装关键词组
-                    if(!empty($info['weixinkeyword']['group'])){
+                    if(!empty($grouplist)){
                         foreach ($grouplist as $key => $value) {
                             if(isset($postgroup[$key])&&isset($responsegroup[$value])){
                                 $post_model->where(array('id' => $postgroup[$key]))->save(array('keyword_reaponse' => $responsegroup[$value]));

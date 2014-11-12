@@ -338,6 +338,42 @@ class KeywordviewController extends AdminController {
         }
     }
     /**
+     * 根据Api获取参数
+     */
+    public function ajax_apiparam(){
+        if(IS_AJAX){
+            $addonstype = I('cate',0);
+            $addonsid   = I('cateid',0);
+            if(!in_array($addonstype, array('local','cloud'))){
+                $data['status'] = 0;
+                $data['errmsg'] = '插件不存在';
+                $this->ajaxReturn($data,'JSON');
+            } else {
+                if ($addonstype=='local') {
+                    $addon_name = M('Addons')->where(array('id'=>$addonsid))->getField('name');
+                    $class          =   get_addon_class($addon_name);
+                    if(!class_exists($class)){
+                        $data['status'] = 0;
+                        $data['errmsg'] = '插件不存在';
+                        $this->ajaxReturn($data,'JSON');
+                    }
+                    $addons    =   new $class;
+                    $paramlist = $addons->info['weixinkeyword']['option'];
+                    $newlist   = array();
+                    foreach ($paramlist as $key => $value) {
+                        $newlist[] = array(
+                           '1'=>$key,
+                           '2'=>$value,
+                        );
+                    }
+                    $data['status'] = 1;
+                    $data['msg']    = $newlist;
+                    $this->ajaxReturn($data,'JSON');
+                }
+            }
+        }
+    }
+    /**
      * 根据资源ID读取 字段信息
      * @param cateid 父级资源ID   cate 目标资源ID   id单项ID
      */
