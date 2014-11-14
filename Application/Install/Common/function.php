@@ -75,6 +75,8 @@ function check_dirfile(){
 		array('dir', '可写', 'success', './Addons'),
 		array('dir', '可写', 'success', './Data'),
 		array('dir', '可写', 'success', './Application/Install/Data'),
+		array('dir', '可写', 'success', './Application/Home/Config'),
+		array('dir', '可写', 'success', './Application/Common/Config'),
 	);
 
 	foreach ($items as &$val) {
@@ -160,10 +162,28 @@ function write_config($config, $auth){
 			<p>'.realpath(APP_PATH).'/User/Conf/config.php</p>
 			<textarea name="" style="width:650px;height:125px">'.$user.'</textarea>';
 		}else{
-			if(file_put_contents(APP_PATH . 'Common/Conf/config.php', $conf) &&
-			   file_put_contents(APP_PATH . 'User/Conf/config.php', $user)){
+			//判断文件是否存在 不存在就自动创建  兼容
+			$commonconfig = APP_PATH . 'Common/Conf/config.php';
+			$userconfig   = APP_PATH . 'User/Conf/config.php';
+
+			if(!file_exists($commonconfig)){
+                $files[]  = $commonconfig;
+			}
+			if(!file_exists($userconfig)){
+                $files[]  =  $userconfig;
+			}
+			if(!empty($files)){
+                create_dir_or_files($files);
+			}			
+			if(file_put_contents($commonconfig, $conf) && file_put_contents($userconfig, $user)){
 				show_msg('配置文件写入成功');
 			} else {
+				//写入失败则删除
+				if(!empty($files)){
+                    foreach ($files as $key => $value) {
+                    	unlink($value);
+                    }
+		     	}
 				show_msg('配置文件写入失败！', 'error');
 				session('error', true);
 			}
