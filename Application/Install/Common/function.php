@@ -75,8 +75,8 @@ function check_dirfile(){
 		array('dir', '可写', 'success', './Addons'),
 		array('dir', '可写', 'success', './Data'),
 		array('dir', '可写', 'success', './Application/Install/Data'),
-		array('dir', '可写', 'success', './Application/Home/Config'),
-		array('dir', '可写', 'success', './Application/Common/Config'),
+		array('dir', '可写', 'success', './Application/User/Conf'),
+		array('dir', '可写', 'success', './Application/Common/Conf'),
 	);
 
 	foreach ($items as &$val) {
