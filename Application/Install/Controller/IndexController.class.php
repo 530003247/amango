@@ -42,7 +42,7 @@ class IndexController extends Controller{
 		}
 
         // 写入安装锁定文件
-		Storage::put(MODULE_PATH . 'Data/install.lock', 'lock');
+		//Storage::put(MODULE_PATH . 'Data/install.lock', 'lock');
 		//创建配置文件
 		$this->assign('info',session('config_file'));
 
