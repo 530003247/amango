@@ -4,7 +4,7 @@ define ( 'HEAD_URL', 'http://'.$_SERVER['SERVER_NAME'] );
 define('AMANGO_FILE_ROOT',str_replace('\\','/',realpath(dirname(__FILE__).'/'))."/");
 define ( 'APP_DEBUG', true );
 define ( 'APP_PATH', './Application/' );
-if(!is_file(APP_PATH . 'User/Conf/config.php')){
+if(!is_file(APP_PATH . 'Common/Conf/config.php')){
 	header('Location: ./install.php');
 	exit;
 }
