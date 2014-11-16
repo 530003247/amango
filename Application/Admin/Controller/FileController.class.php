@@ -211,12 +211,8 @@ class FileController extends AdminController {
         $mainparam  = C('EDITOR_UPLOAD');
             if(in_array($uploadpath, $hasfiles)){
                 $mainparam['savePath'] = $uploadpath.'/';
-            } else {
-                $return['error']  = 1;
-                $return['info']   = '请检查目录是否存在';
-                $this->ajaxReturn($return);
+                C('EDITOR_UPLOAD',$mainparam);
             }
-        C('EDITOR_UPLOAD',$mainparam);
         /* 返回标准数据 */
         $return  = array('status' => 1, 'info' => '上传成功', 'data' => '');
         
@@ -313,7 +309,7 @@ class FileController extends AdminController {
                 $file = $current_path . $filename;
                 if (is_dir($file)) {
                     $file_list[$i]['is_dir']   = true; //是否文件夹
-                    $file_list[$i]['has_file'] = ($this->scan_dir($file) > 2); //文件夹是否包含文件
+                    $file_list[$i]['has_file'] = ($this->scan_dir($file)>0) ? true : false;
                     $file_list[$i]['filesize'] = 0; //文件大小
                     $file_list[$i]['is_photo'] = false; //是否图片
                     $file_list[$i]['filetype'] = ''; //文件类别，用扩展名判断
@@ -375,6 +371,7 @@ class FileController extends AdminController {
         readdir($dir);
         $Count=0;
         while($filename=readdir($dir)){
+            if ($filename{0} == '.') continue;
             $New_path=$res.'/'.$filename;
             if(is_dir($New_path)){
                 $Count+=$this->scan_dir($New_path);
