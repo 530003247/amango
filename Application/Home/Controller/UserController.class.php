@@ -126,8 +126,10 @@ class UserController extends HomeController {
 			global $_P;
 			$_P = '';
 			session('p', null);
+			session('P', null);
 	        session('user_auth', null);
 	        session('user_auth_sign', null);
+	        session(null);
 			$this->success('退出成功！', U('User/login'));
 		} else {
 			$this->redirect('User/login');

@@ -258,7 +258,7 @@ class FileController extends AdminController {
             $return['url']   = HEAD_URL.__ROOT__.str_replace('.', '', $saveparam['rootPath']).$info['imgFile']['savepath'].$info['imgFile']['savename'];
         } else {
             $return['error'] = 1;
-            $return['info']   = $Picture->getError();
+            $return['info']   = $File->getError();
         }
 
         /* 返回JSON数据 */

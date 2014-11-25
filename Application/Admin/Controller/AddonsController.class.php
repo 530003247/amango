@@ -788,9 +788,19 @@ str;
 
         if(!empty($_addons) && !empty($_controller) && !empty($_action)){
             define ( 'ADDON_PUBLIC_PATH', __ROOT__ . '/Addons/' . $_addons . '/View/default/Public' );
+            //资源路径
+            $publicurl = __ROOT__.'/Addons/'.$_addons.'/Public';
+            defined ( 'ADDON_PUBLIC' ) or define ( 'ADDON_PUBLIC', $publicurl );
+            defined ( '__ADDONROOT__' ) or define ( '__ADDONROOT__', $publicurl );
+            defined ( 'ADDON_ROOT' ) or define ( 'ADDON_ROOT', __ROOT__ . '/Addons/' . $_addons .'/' );
+            
             defined ( '_ADDONS' ) or define ( '_ADDONS', $_addons );
             defined ( '_CONTROLLER' ) or define ( '_CONTROLLER', $_controller );
             defined ( '_ACTION' ) or define ( '_ACTION', $_action );
+            $TMPL_PARSE_STRING = C('TMPL_PARSE_STRING');
+            $TMPL_PARSE_STRING['__ADDONROOT__'] = $publicurl;
+            $TMPL_PARSE_STRING['ADDON_PUBLIC']  = $publicurl;
+            C('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
             $Addons = A("Addons://{$_addons}/{$_controller}")->$_action();
         } else {
             $this->error('没有指定插件名称，控制器或操作！');

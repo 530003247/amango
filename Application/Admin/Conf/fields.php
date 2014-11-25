@@ -23,6 +23,7 @@ return array(
 		    	'editor'    =>  array('编辑器','text NOT NULL'),
 		    	'picture'   =>  array('上传图片','int(10) UNSIGNED NOT NULL'),
 		    	'kingpicture'   =>  array('图片管理器','varchar(255) NOT NULL'),
+		    	'kinguploadfile' =>  array('文件管理器','varchar(255) NOT NULL'),
 		    	'file'    	=>  array('上传附件','int(10) UNSIGNED NOT NULL'),
 		    	'manyselect'=>  array('多级联动','text NOT NULL'),
 		    	'laiyuan'   =>  array('来源[Select]','char(50) NOT NULL'),

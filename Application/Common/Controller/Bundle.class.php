@@ -110,25 +110,24 @@ abstract class Bundle{
     protected final function execute_rules($param) {
 
     }
-    //自动回复 type：auto hello black 
+    //自动回复 type：auto hello black
+    //为空不回复
     protected final function autoreply($type) {
-            $info = M('Config')->where(array('name'=>'AMANGO_DEFAULT_REPLY'))->getField('value');
-            $data = explode(',', $info);
-            $this->amango = new \Weixin\Model\AmangoModel;
-            switch ($type) {
-                //关注时候
-                case 'hello':
-                    empty($data[0]) ? wx_error('欢迎关注') : $this->amango->response('@',$data[0]);
-                    break;
-                //黑名单
-                case 'black':
-                    empty($data[1]) ? wx_error('对不起，您暂时无法使用该功能') : $this->amango->response('@',$data[1]);
-                    break;
-                //默认超时
-                default:
-                    empty($data[2]) ? wx_error('你所发送的关键词无法匹配,请换个关键词吧') : $this->amango->response('@',$data[2]);
-                    break;
-            }
+        $type = empty($type)?'outtime':strtolower($type);
+        $info = M('Config')->where(array('name'=>'AMANGO_DEFAULT_REPLY'))->getField('value');
+        $data = explode(',', $info);
+        $type_reply = array(
+            'hello'   => $data[0],
+            'balck'   => $data[1],
+            'outtime' => $data[2]
+        );
+        $this->amango = new \Weixin\Model\AmangoModel;
+        $replyid = $type_reply[$type];
+        if(empty($replyid)){
+            echo "";die;
+        } else {
+            $this->amango->response('@',$replyid);
+        }
     }
 /*************************** 请求处理 ****************************/
     //请求映射成请求体
