@@ -1,0 +1,136 @@
+<extend name="Public/base" />
+<block name="body">
+<div class="main-title cf">
+		<h2>微考试-制作考卷</h2>
+	</div>
+    <div class="cf">
+        <button class="btn" onclick="javascript:history.back(-1);return false;">返回上级</button>
+    </div>
+	<form action="__SELF__" class="form-horizontal" method="post">
+        <input type="hidden" name="id" class="text input-large" value="{$info.id}">
+		     <div class="form-item cf">
+					<label class="item-label">
+						考卷Logo:											</label>
+                    {:W('Formfields/show', array(array('type'=>'kingpicture',name=>'logo'),$info,'edit'))}
+		     </div>
+		     <div class="form-item cf">
+					<label class="item-label">
+						关键词:<span class="check-tips">微信激活该考卷的关键词</span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="keyword" class="text input-large" value="{$info.keyword}">
+						</div>
+		     </div>
+		     <div class="form-item cf">
+					<label class="item-label">
+						进入密码:<span class="check-tips">请输9位以内入1-9的不重复数字，建议四位;默认为空</span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="password" class="text input-large" value="{$info.password}">
+						</div>
+		     </div>
+		     <div class="form-item cf">
+					<label class="item-label"></label>
+					    <ul class="tab-nav nav">
+						<li data-tab="tab1" class="current"><a href="javascript:void(0);">卷面信息</a></li>
+						<li data-tab="tab2" ><a href="javascript:void(0);">卷面分数</a></li>	
+						<li data-tab="tab3" ><a href="javascript:void(0);">卷面规范</a></li>
+						</ul>
+                    <div class="tab-content">
+								<div id="tab1" class="tab-pane in tab1">
+					                  <label class="item-label"> 考卷标题:<span class="check-tips">页面默认分享的标题</span></label>
+						              <div class="controls">
+                                      <input type="text" name="title" class="text input-large" value="{$info.title}">
+						              </div>
+					<label class="item-label">
+						出卷人:<span class="check-tips"></span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="author" class="text input-large" value="{$info.author}">
+						</div>
+					<label class="item-label">
+						考卷简介:<span class="check-tips">关于该考卷的简介</span>					
+					</label>
+                   {:W('Formfields/show', array(array('type'=>'textarea',name=>'desc'),$info,'edit'))}
+				   <br>
+								</div>
+					            <div id="tab2" class="tab-pane  tab2">
+					<label class="item-label">
+						卷面总分:<span class="check-tips">只能为数字</span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="score" class="text input-large" value="{$info.score}">
+						</div>
+					<label class="item-label">
+						分数节点:<span class="check-tips">每个节点分数<=总分;格式（80:恭喜你获得80分<换行>78:恭喜你获得78分）;多个分数段请换行;必须设置0分和满分的提示语</span>					
+					</label>
+                   {:W('Formfields/show', array(array('type'=>'textarea',name=>'score_param'),$info,'edit'))}
+					<label class="item-label">
+						答题排序:<span class="check-tips">试题排列顺序:默认自定义;随机排序</span>					
+					</label>
+						<div class="controls">
+							<select name="order">
+									<option value="1" <eq name="info['order']" value="1">selected</eq>>自定义</option>
+									<option value="0" <eq name="info['order']" value="0">selected</eq>>随机</option>
+                            </select>
+						</div>
+                                </div>
+                                <div id="tab3" class="tab-pane  tab3">
+					<label class="item-label">
+						实名考卷:<span class="check-tips">开启后，该考试只允许在本微信公众号上考试</span>				
+					</label>
+						<div class="controls">
+							<select name="has_name">
+									<option value="1" <eq name="info['has_name']" value="1">selected</eq>>实名</option>
+									<option value="0" <eq name="info['has_name']" value="0">selected</eq>>匿名</option>
+                            </select>
+						</div>
+					<label class="item-label">
+						错题分析:<span class="check-tips">考后是否允许查看错题分析</span>					
+					</label>
+						<div class="controls">
+							<select name="has_error">
+									<option value="1" <eq name="info['has_error']" value="1">selected</eq>>开启</option>
+									<option value="0" <eq name="info['has_error']" value="0">selected</eq>>关闭</option>
+                            </select>
+						</div>
+					<label class="item-label">
+						考试排名:<span class="check-tips">是否展示分数排名；单人唯一:一个人只允许考一次排名一次；单人最新:一个人可以考多次，每次刷新自己的分数排名</span>					
+					</label>
+						<div class="controls">
+							<select name="has_paiming">
+									<option value="2" <eq name="info['has_paiming']" value="2">selected</eq>>单人唯一排名</option>
+									<option value="1" <eq name="info['has_paiming']" value="1">selected</eq>>单人最新排名</option>
+									<option value="0" <eq name="info['has_paiming']" value="0">selected</eq>>关闭</option>
+                            </select>
+						</div>
+					<label class="item-label">
+						考卷分享:<span class="check-tips">是否允许将该考试分享到朋友圈</span>					
+					</label>
+						<div class="controls">
+							<select name="has_share">
+									<option value="1" <eq name="info['has_share']" value="1">selected</eq>>开启</option>
+									<option value="0" <eq name="info['has_share']" value="0">selected</eq>>关闭</option>
+                            </select>
+						</div>
+								</div>
+				     </div>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+        </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Exam'))}');
+	if($('ul.tab-nav').length){
+		//当有tab时，返回按钮不显示
+		$('.btn-return').hide();
+	}
+	$(function(){
+		//支持tab
+		showTab();
+	})
+    </script>
+</block>

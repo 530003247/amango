@@ -1,0 +1,48 @@
+    <div class="cf">
+        <button class="btn ajax-post confirm" url="{:addons_url('Exam://Exam/del_test')}" target-form="ids">批量删除</button>
+		<a class="btn" href="{:addons_url('Exam://Exam/add_test')}">制作考卷</a>
+		<a class="btn" href="{:addons_url('Exam://Exam/log_test')}">答题记录</a>
+    </div>
+	<br>
+<table>
+	<thead>
+		<tr>
+		    <th class="row-selected">
+                <input class="checkbox check-all" type="checkbox">
+            </th>
+			<th>ID</th>
+			<th width=100>考卷Logo</th>
+			<volist name="listKey" id="vo">
+				<th>{$vo}</th>
+			</volist>
+			 <th>常用操作</th> 
+		</tr>
+	</thead>
+	<tbody>
+		<volist name="_list" id="lv" key="vo">
+		<tr>
+						<td><input class="ids" type="checkbox" value="{$lv.id}" name="id[]"></td>
+						<td>{$lv.id}</td>
+						<td><img src="{$lv.logo}" width="100px"  height="80px"/></td>
+						<volist name="listKey" id="lk">
+							<td>{$lv.$key}</td>
+						</volist>
+			<td width=190>
+				试题[&nbsp;<a class="update" href="{:addons_url('Exam://Exam/list_question',array('id'=>$lv['id']))}">列表</a>&nbsp;|&nbsp;<a class="update" href="{:addons_url('Exam://Exam/add_question',array('group'=>$lv['id']))}">添加</a>
+				<input type="hidden" value="{:addons_url('Exam://Home/index',array('id'=>$lv['id']),'Home')}" id="txtInvite_{$lv.id}" name="txtInvite_{$lv.id}"/>
+]&nbsp;<a class="update" href="{:addons_url('Exam://Exam/add_test',array('id'=>$lv['id']))}">编辑</a>&nbsp;|&nbsp;<a class="update" href="{:addons_url('Exam://Exam/del_test',array('id'=>$lv['id']))}">删除</a>
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+<block name="script">
+	<script type="text/javascript">
+		$(function(){
+	        //全选节点
+	        $('.check-all').on('change',function(){
+	            $('.ids').prop('checked',this.checked);
+	        });
+		})
+	</script>
+</block>

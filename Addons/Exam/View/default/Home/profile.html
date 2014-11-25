@@ -1,0 +1,26 @@
+<!--  统一风格  采用模板渲染 插件通用模板addons 默认已加载 请参考 Amaze UI的css框架 -->
+<extend name="Base/addons"/>
+<block name="title">微考试中心</block>
+<block name="main">
+<div id="func-event-header" class="func-header">
+    <div class="func-header-title"><h1 >{$nickname}<h1></div>
+    <div>
+        <span class="func-small-num"></span>
+        <span class="func-big-num">{$nums}</span>
+<!--        <span class="func-small-num">个</span>
+-->  </div>
+    
+     <div>
+<!--<span class="balance-today-consumer">今日消费￥:16</span>-->
+     </div>
+</div>
+<ul class="am-list am-list-static am-list-striped">
+<volist name="list" id="info">
+<li class="edu-score-li">
+<div class="edu-score-title-box">{$info['testtitle']}<span class="edu-score-mark">{$info['score']}分</span></div>
+<div><span class="balance-consumer-type">时间：{$info['addtime']|date="Y-m-d h:i:sa",###}</span><span class="edu-score-credit"></span></div>
+</li>
+</volist>
+</ul>
+
+</block>

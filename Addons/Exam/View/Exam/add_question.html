@@ -1,0 +1,127 @@
+<extend name="Public/base" />
+<block name="body">
+<div class="main-title cf">
+		<h2>微考试-<empty name="info.title">添加考题<else />{$info['title']}</empty>-单题添加</h2>
+</div>
+    <div class="cf">
+        <button class="btn" onclick="javascript:history.back(-1);return false;">返回上级</button>
+		<a class="btn" href="#" disabled>单题添加</a>
+		<a class="btn" href="{:addons_url('Exam://Exam/add_questionall',array('group'=>$group))}">Excel批量导入</a>
+    </div>
+	<form action="{:addons_url('Exam://Exam/add_question')}" class="form-horizontal doc-modal-form" method="post">
+	    <input type="hidden" name="id" value="{$info['id']}">
+		<div class="form-item cf">
+					<label class="item-label">
+						当前考卷:				
+					</label>
+						<div class="controls">
+							<select name="group">
+							   <volist name="list" id="menu">
+							        <option value="{$menu.id}" <eq name="menu['id']" value="$group">selected</eq>>{$menu.title}</option>
+							   </volist>
+                            </select>
+						</div>
+		</div>
+		<div class="form-item cf">
+					<label class="item-label">
+						题目排序:<span class="check-tips">默认为底部</span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="paixu" class="text input-large" value="{$info['paixu']}">
+						</div>
+		</div>
+           <div class="form-item cf">
+					<label class="item-label"></label>
+					    <ul class="tab-nav nav">
+						<li data-tab="tab1" class="current"><a href="javascript:void(0);">题目信息</a></li>
+						<li data-tab="tab2" ><a href="javascript:void(0);">答案信息</a></li>	
+						<li data-tab="tab3" ><a href="javascript:void(0);">图片,音频,视频上传提取</a></li>
+						</ul>
+								<div class="tab-content">
+								<div id="tab1" class="tab-pane in tab1">
+					<label class="item-label">
+						题目描述:<span class="check-tips">当类型为填空题时,__下划线代表要填的个数</span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="q_title" class="text input-large" value="{$info.q_title}">
+						</div>
+					<label class="item-label">
+						题目类型:<span class="check-tips">除文本题目外，额外附属的图片，音频，视频等</span>					
+					</label>
+						<div class="controls">
+							<select name="q_titletype">
+									<option value="text" >书面题</option>
+									<option value="image">看图题</option>
+									<option value="audio">听力题</option>
+									<option value="video">视频题</option>
+                            </select>
+						</div>
+					<label class="item-label">
+						题目附加属性:<span class="check-tips">请将您的相关资源链接分别分别换行填入(适用于看图，听力，视频题目)</span>					
+					</label>
+						<div class="controls">
+						<label class="textarea input-large">
+                               <textarea name="a_typedata">{$info.a_typedata}</textarea>
+                        </label>
+						</div>
+
+					</div>
+					<div id="tab2" class="tab-pane  tab2">
+					<label class="item-label">
+						答案类型:<span class="check-tips">不同的题目类型拥有不同的额外属性</span>					
+					</label>
+						<div class="controls">
+							<select name="a_type">
+									<option value="select" >单选</option>
+									<option value="bool">判断</option>
+									<option value="text">填空</option>
+									<option value="checkbox">多选</option>
+                            </select>
+						</div>
+					<label class="item-label">
+						答案选项:<span class="check-tips">每一行为一项</span>					
+					</label>
+						<div class="controls">
+						<label class="textarea input-large">
+                               <textarea name="a_choices">{$info.a_choices}</textarea>
+                        </label>
+						</div>
+					<label class="item-label">
+						正确答案:<span class="check-tips">单选时，请填写选项的序号;填空时，填写正确答案；多选时，请将选项用,隔开</span>					
+					</label>
+						<div class="controls">
+                             <input type="text" name="q_right" class="text input-large" value="{$info.q_right}">
+						</div>
+					</div>								
+					<div id="tab3" class="tab-pane  tab3">
+										<label class="item-label">
+						图片上传:<span class="check-tips">此处仅为调用或者上传图片</span></label>
+                   {:W('Formfields/show', array(array('type'=>'kingpicture',name=>''),'','add'))}
+					<label class="item-label">
+						音频,视频上传:<span class="check-tips">此处仅为调用或者上传音频，视频资源</span></label>
+                   {:W('Formfields/show', array(array('type'=>'kinguploadfile',name=>''),'','add'))}
+
+					</div>
+					</div>
+					</div>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+        </div>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Exam'))}');
+	       Think.setValue('q_titletype', "{$info.q_titletype|default='text'}");
+		   Think.setValue('a_type', "{$info.a_type|default='select'}");
+	if($('ul.tab-nav').length){
+		//当有tab时，返回按钮不显示
+		$('.btn-return').hide();
+	}
+	$(function(){
+		//支持tab
+		showTab();
+	})
+    </script>
+</block>

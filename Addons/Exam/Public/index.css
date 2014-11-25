@@ -1,0 +1,204 @@
+.css-speed {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+  /* Other transform properties here */
+  transform: translateZ(0);
+}
+body {
+  padding: 0;
+  margin: 0;
+  background: url(./body_repeat.jpg) center;
+  background-repeat: repeat-y;
+  padding-bottom: 50px;
+}
+ul,
+li {
+  list-style: none;
+}
+#share-guide {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0px;
+  left: 0px;
+  display: block;
+  cursor: pointer;
+  display: none;
+}
+#share-guide img {
+  max-width: 80%;
+  position: absolute;
+  right: 0px;
+  top: 0;
+}
+.container {
+  margin-top: 20px;
+  max-width: 640px;
+}
+.container .cCell {
+  border-radius: 5px;
+  background: #f9fdff;
+  -webkit-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 17px;
+  margin-bottom: 20px;
+}
+.container .cHeader {
+  padding-bottom: 27px;
+  height: 120px;
+}
+.container .cHeader .leftIcon {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 60px;
+  background: #2fb2e1;
+  text-align: center;
+}
+.container .cHeader .leftIcon i {
+  font-size: 44px;
+  line-height: 84px;
+  color: #fff;
+}
+.container .cHeader .leftIcon img {
+  width: 100%;
+}
+.container .cHeader .rightInfos {
+  margin-left: 60px;
+  color: #288eb3;
+}
+.container .cHeader .rightInfos h2 {
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+  font-size: 23px;
+  
+}
+.container .cHeader .rightInfos .joinPeople {
+  color: #529cb6;
+ 
+}
+.container .cHeader .rightInfos .joinPeop1{
+	display: block;
+	margin: 15px 0 0 0;
+}
+.container .cHeader .rightInfos .joinPeop2{
+	display: block;
+	float: right;
+	margin: 5px -10px 0 0;
+	
+}
+
+.container .cHeader .rightInfos .joinPeop2{
+	display: block;
+	float: right;
+	margin: 5px -10px 0 0;
+}
+.container .cHeader .rightInfos .joinPeople em {
+  font-style: normal;
+  color: #cd7171;
+}
+.cBody .cBodyStart span {
+  font-size: 16px;
+}
+.cBody .cBodyStart .btn {
+  margin-top: 1em;
+}
+.cBody .cBodyEnd {
+  display: none;
+}
+.cBody .cBodyEnd .score-holder {
+  padding: 5px 0;
+  font-size: 30px;
+  color: #d85c5c;
+  border-bottom: 1px solid #e1e1e1;
+  margin-bottom: 10px;
+}
+.cBody .cBodyEnd .score-holder em {
+  font-size: 16px;
+  color: #E07D7D;
+}
+.cBody .cBodyEnd .infos b {
+  font-size: 16px;
+}
+.cBody .cBodyEnd .infos #comment {
+  margin: 10px 0;
+}
+.cBody .cBodyEnd .infos #btn-share {
+  margin-top: 20px;
+}
+.cBody .cBodyQue {
+  display: none;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+  /* Other transform properties here */
+  transform: translateZ(0);
+}
+.cBody .cBodyQue .title {
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #e1e1e1;
+  margin-bottom: 10px;
+  padding: 0 0 10px 0;
+}
+.cBody .cBodyQue ul {
+  padding: 0;
+}
+.cBody .cBodyQue ul li {
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-left: 3px solid #7fcfec;
+  display: block;
+  width: 100%;
+  background: -webkit-linear-gradient(left, #f6f7f7, #f9fdff);
+  padding: 10px;
+  font-size: 16px;
+}
+.cBody .cBodyQue ul li.active {
+  background: #D4E7F0;
+}
+.cFooter{
+	border-radius:5px;background:#f9fdff;box-shadow:4px 4px 0px rgba(0,0,0,0.1);padding:17px;margin:0 0 20px 0;
+}
+.cFooter img {
+  width: 100%;
+}
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+.footer .container {
+  text-align: center;
+}
+.footer .container a {
+  color: #fff;
+}
+.btn {
+  -webkit-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: block;
+  border: none;
+  cursor: pointer;
+}
+.btn-danger {
+  background: #f27774;
+}
+.btn-danger:hover {
+  background: #D4534F;
+}

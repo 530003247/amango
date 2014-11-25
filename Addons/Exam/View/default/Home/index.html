@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0039)http://plux.hlo.cc/jmuer/indexcy.jsp#rd -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>微考试</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0 user-scalable=no">
+<link rel="stylesheet" type="text/css" href="ADDON_PUBLIC/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="ADDON_PUBLIC/index.css">
+<script type="text/javascript" src="ADDON_PUBLIC/jq.1.10.2.js"></script>
+<script>
+{$jstpl}
+</script>
+<script type="text/javascript" src="ADDON_PUBLIC/indexcy.js"></script>
+
+</head>
+
+<body style="">
+	<a id="share-guide" onclick="hideGuide();"> <img src="ADDON_PUBLIC/guide.png" alt=""> </a>
+	<div class="container">
+		<div class="cHeader cCell">
+			<div class="leftIcon">
+				<img src="ADDON_PUBLIC/header-icon.jpg" alt="">
+			</div>
+			<div class="rightInfos">
+				<h2 class="queTitle">{$info['title']}</h2>
+				<span class="joinPeop1"> 已有 <em>{$info['views']}</em>
+					人参与测试 </span> <span class="joinPeop2">共{$nums}题</span>
+			</div>
+		</div>
+		<div class="cCell cBody">
+			<div class="cBodyStart">
+<blockquote>
+  <p>简介:{$info['desc']}</p>
+  <footer>来源： <cite title="Source Title">{$info['author']}</cite></footer>
+</blockquote>
+				<a class="btn btn-lg btn-success" id="btn-start">马上开始答题</a>
+			</div>
+			<div class="cBodyEnd"></div>
+			<div class="cBodyQue"></div>
+		</div>
+		<div class="cFooter">
+			<img src='<empty name="info.logo">ADDON_PUBLIC/ad1.jpg<else />{$info["logo"]}</empty>'>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<a href="#">©
+				Amango</a>
+		</div>
+	</div>
+</body></html>

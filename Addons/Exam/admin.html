@@ -1,0 +1,90 @@
+<div class="main-title cf">
+		<h2>微秀卡片 [ 模板导入 ]</h2>
+	</div>
+	<form action="{:addons_url('Weixiu://Weixiu/create_model')}" class="form-horizontal" method="post">
+		<div class="form-item cf">
+					<label class="item-label">
+						模板分组:				
+					</label>
+						<div class="controls">
+							<select name="config[group]">
+									<option value="moon" >心情日记</option>
+									<option value="photos" >炫动相册</option>
+                            </select>
+						</div>
+		</div>
+		<div class="form-item cf">
+					<label class="item-label">
+						是否支持图片DIY:<span class="check-tips">是否可以自定义图片</span>					
+					</label>
+						<div class="controls">
+							<select name="config[allow_img]">
+									<option value="1" >支持</option>
+									<option value="0" selected>不支持</option>
+                            </select>
+						</div>
+		</div>
+		<div class="form-item cf">
+					<label class="item-label">
+						选择上传模板:											</label>
+							<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css" />
+							<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+                            <script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js"></script>
+									<script>
+			KindEditor.ready(function(K) {
+				var editor = K.editor({
+				          uploadJson : "{:U('File/kinguploadfile',array('session_id'=>session_id(),'type'=>'file','filepath'=>MODULE_NAME))}",
+						  //fileManagerJson : '__STATIC__/kindeditor/php/file_manager_json2.php',
+						  fileManagerJson : "{:U('File/kindmanagefile')}",
+					allowFileManager : true
+				});
+				K('#insertfile').click(function() {
+					editor.loadPlugin('insertfile', function() {
+						editor.plugin.fileDialog({
+							fileUrl : K('#upload_picture').val(),
+							clickFn : function(url, title) {
+								K('#upload_picture').val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+			});
+		</script>
+						<div class="controls">
+						<input type="text" id="upload_picture" name="config[excel_path]" value="" class="text input-large"/> <input type="button" id="insertfile" value="选择文件" class="btn btn-mini"/>
+						</div>
+					</div><div class="form-item cf">
+					<label class="item-label">
+																	</label>
+						<ul class="tab-nav nav">
+									<li data-tab="tab1" class="current"><a href="javascript:void(0);">分享内容</a></li><li data-tab="tab2" ><a href="javascript:void(0);">快捷祝福</a></li>								</ul>
+								<div class="tab-content">
+								<div id="tab1" class="tab-pane in tab1">
+										<label class="item-label">
+											分享标题:	<span class="check-tips">页面默认分享的标题</span>
+										</label>
+										<div class="controls">
+											<input type="text" name="config[share_title]" class="text input-large" value="">
+										</div>
+										<!---
+											<label class="item-label">
+											分享音乐<span class="check-tips">页面默认播放的音乐</span>
+											</label>
+										 <div class="controls">
+											    <input type="text" name="config[share_music]" class="text input-large" value="">
+										 </div>
+										 --->
+							</div><div id="tab2" class="tab-pane  tab2">
+										<label class="item-label">
+											快捷祝福:<span class="check-tips">多条请使用|作为分割符合</span>							
+										</label>
+										<div class="controls">
+											<label class="textarea input-large">
+														<textarea name="config[text]"></textarea>
+													</label>											</div>									</div>								</div>
+					</div>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+        </div>

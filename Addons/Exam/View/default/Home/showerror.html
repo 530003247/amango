@@ -1,0 +1,63 @@
+<!--  统一风格  采用模板渲染 插件通用模板addons 默认已加载 请参考 Amaze UI的css框架 -->
+<extend name="Base/addons"/>
+<block name="title">错题分析</block>
+<block name="main">
+<div id="func-event-header" class="func-header">
+    <div class="func-header-title"><h1 >错题分析<h1></div>
+    <div>
+        <span class="func-small-num"></span>
+        <span class="func-big-num">{$errornums}</span>
+<!--        <span class="func-small-num">个</span>
+-->  </div>
+    
+     <div>
+<!--<span class="balance-today-consumer">今日消费￥:16</span>-->
+     </div>
+</div>
+<ul class="am-list am-list-static am-list-striped">
+<volist name="list" id="info">
+<li class="edu-score-li">
+<div class="edu-score-title-box">{$info['q_title']}<span class="edu-score-credit">
+答案：<?php 
+switch($info['a_type']){
+ case 'bool':
+ $booltype = array('错误','正确');
+ echo $booltype[$info['q_right']];
+ break;
+ case 'select':
+ echo strtr($info['q_right'],$abcd);
+ break;
+ case 'checkbox':
+ echo strtr($info['q_right'],$abcd);
+ break;
+ default:
+ echo $info['q_right'];
+}
+?>|
+<?php
+$param = array();
+switch($info['a_type']){
+ case 'text':
+ echo $info['q_right'];
+ break;
+ case 'select':
+   $param = array_values(parse_config($info['a_choices']));
+   echo $param[$info['q_right']];
+ break;
+ case 'checkbox':
+   $param = array_values(parse_config($info['a_choices']));
+   echo strtr($info['q_right'],$param);
+}
+?>
+</span></div>
+
+</li>
+</volist>
+</ul>
+     <section class="am-panel am-panel-default">
+        <div class="am-panel-hd" onclick='javascript:window.location.href="{$indexurl}";'>我能行,再考一次！</div>
+      </section>
+</block>
+<block name="foot">
+<div style="height:10px;"></div>
+</block>

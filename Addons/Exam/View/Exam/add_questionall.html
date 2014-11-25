@@ -1,0 +1,50 @@
+<extend name="Public/base" />
+<block name="body">
+<div class="main-title cf">
+		<h2>微考试-<empty name="info.title">添加考题<else />{$info['title']}</empty>-单题添加</h2>
+</div>
+    <div class="cf">
+        <button class="btn" onclick="javascript:history.back(-1);return false;">返回上级</button>
+		<a class="btn" href="{:addons_url('Exam://Exam/add_question',array('group'=>$group))}">单题添加</a>
+		<a class="btn" href="#" disabled>Excel批量导入</a>
+    </div>
+	<form action="{:addons_url('Exam://Exam/add_questionall')}" class="form-horizontal doc-modal-form" method="post">
+	    <input type="hidden" name="id" value="{$info['id']}">
+		<div class="form-item cf">
+					<label class="item-label">
+						当前考卷:				
+					</label>
+						<div class="controls">
+							<select name="group">
+							   <volist name="list" id="menu">
+							        <option value="{$menu.id}" <eq name="menu['id']" value="$group">selected</eq>>{$menu.title}</option>
+							   </volist>
+                            </select>
+						</div>
+		</div>
+		<div class="form-item cf">
+					<label class="item-label">
+						Excel上传:<span class="check-tips">仅支持2007版本以上</span></label>
+                   {:W('Formfields/show', array(array('type'=>'kinguploadfile',name=>'excelpath'),'','add'))}
+		</div>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+        </div>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Exam'))}');
+	       Think.setValue('q_titletype', "{$info.q_titletype|default='text'}");
+		   Think.setValue('a_type', "{$info.a_type|default='select'}");
+	if($('ul.tab-nav').length){
+		//当有tab时，返回按钮不显示
+		$('.btn-return').hide();
+	}
+	$(function(){
+		//支持tab
+		showTab();
+	})
+    </script>
+</block>

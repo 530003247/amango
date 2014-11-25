@@ -1,0 +1,77 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>微考试-{$info['title']}-考题列表</h2>
+    </div>
+    <div class="cf">
+		<button class="btn" onclick="javascript:history.back(-1);return false;">返回上级</button>
+		<button class="btn ajax-post confirm" url="{:addons_url('Weixiu://Weixiu/deldiy')}" target-form="ids">批量删除</button>
+		<a class="btn" href="{:addons_url('Exam://Exam/add_question',array('group'=>$info['id']))}">单题添加</a>
+		<a class="btn" href="{:addons_url('Exam://Exam/add_question',array('group'=>$info['id']))}">Excel批量导入</a>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+		    <th class="row-selected">
+                <input class="checkbox check-all" type="checkbox">
+            </th>
+                        <th width=20>ID</th>
+                        <th>问题标题</th>
+						<th width=60>问题类型</th>
+						<th width=80>答案类型</th>
+						<th width=100>答案选项</th>
+                        <th width=80>正确答案</th>
+						<th width=80>排序</th>
+                        <th width=70>常用操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu" key="vo">
+		<tr>
+						<td><input class="ids" type="checkbox" value="{$menu.id}" name="id[]"></td>
+						<td>{$menu.id}</td>
+                        <td>{$menu.q_title}</td>
+                        <td>{$q_typearr[$menu['q_titletype']]}</td>
+                        <td>{$a_typearr[$menu['a_type']]}</td>
+						<td>{$menu.a_choices}</td>
+						<td>{$menu.q_right}</td>
+						<td><input type="text" class="text input-2x" onblur="sort({$menu.id},this.value)" id="q_{$menu.id}" value="{$menu.paixu}"></td>
+			<td>
+				<a  class="update"  href="{:addons_url('Exam://Exam/add_question',array('id'=>$menu['id'],'group'=>$menu['group']))}">编辑</a>&nbsp;|&nbsp;<a  class="update"  href="{:U('deldiy?id='.$menu['id'])}">删除</a>
+			</td>
+		</tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> aOh! 该考卷暂时还没有试题列表哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Exam'))}');
+        });
+//排序方法
+function sort(id,num){
+    $.get('{:addons_url("Exam://Exam/sort_question")}', { id: id,num:num }, function(jsondata){
+		var return_data  = eval(jsondata);
+		$("#q_"+id).attr('value', return_data);
+		location.reload();
+	}); 
+}
+    </script>
+</block>

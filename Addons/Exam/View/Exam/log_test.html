@@ -1,0 +1,66 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>微考试-用户考试记录 </h2>
+    </div>
+    <div class="cf">
+		<a class="btn" href="{:U('Addons/adminList',array('name'=>'Exam'))}">返回上级</a>
+		<button class="btn ajax-post confirm" url="{:addons_url('Exam://Exam/log_del')}" target-form="ids">批量删除</button>
+		<button class="btn ajax-post confirm" url="{:addons_url('Exam://Exam/log_del',array('type'=>'all'))}" target-form="ids">全部清空</button>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+		    <th class="row-selected">
+                <input class="checkbox check-all" type="checkbox">
+            </th>
+                        <th width=20>ID</th>
+                        <th width=40>用户标识</th>
+						<th width=180>参与时间</th>
+						<th width=180>考卷标题</th>
+                        <th>错题ID</th>
+						<th width=40>分数</th>
+                        <th width=60>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu" key="vo">
+		<tr>
+						<td><input class="ids" type="checkbox" value="{$menu.id}" name="id[]"></td>
+						<td>{$menu.id}</td>
+                        <td>{$menu.fromusername}</td>
+                        <td>{$menu['addtime']|date="Y-m-d h:i:sa",###}</td>
+                        <td>{$menu.title}</td>
+                        <td>{$menu.errors}</td>
+						<td>{$menu.score}</td>
+			<td>
+				<a  class="update"  href="{:addons_url('Exam://Exam/log_del',array('id'=>$menu['id']))}">删除</a>
+			</td>
+		</tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> aOh! 暂时还没有自定义查询哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //导航高亮
+            highlight_subnav('{:U('Addons/adminList',array('name'=>'Exam'))}');
+        });
+    </script>
+</block>

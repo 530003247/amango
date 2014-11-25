@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+  <html>
+ <head lang="zh-cn">
+  <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+     <meta charset="UTF-8">
+     <title>输入密码</title>
+     <style type="text/css">
+         html, body {
+padding: 0;
+margin: 0;
+background: url(ADDON_PUBLIC/body_repeat.jpg) center;
+background-repeat: repeat-y;
+          }
+      </style>
+	  <script type="text/javascript" src="ADDON_PUBLIC/jq.1.10.2.js"></script>
+<script>
+(function() {
+  window.style = {
+     "over": "#00FF00",
+    "inint": "#AAAAAA",
+    "click": "#32CD32",
+  };
+  window.post = '{:addons_url("Exam://Home/testlock")}';
+}).call(this);</script>
+	  <script src="ADDON_PUBLIC/lock.js?v={:time()}" type="text/javascript"></script>
+ </head>
+ <body align="center">
+ <br>
+ <h3>《{$title}》</h3>
+ <h1>考卷密码</h1>
+<canvas id="myCanvas"></canvas>
+<a href="__SELF__" style="float:right;margin-right: 10px;">重新输入</a>
+</body>
+<include file="Public/weixinjs"/>
+</html>
