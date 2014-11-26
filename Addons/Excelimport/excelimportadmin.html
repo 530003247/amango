@@ -19,7 +19,7 @@
 			KindEditor.ready(function(K) {
 				var editor = K.editor({
 				          uploadJson : "{:U('File/kinguploadfile',array('session_id'=>session_id(),'type'=>'file','filepath'=>MODULE_NAME))}",
-						  fileManagerJson : '__STATIC__/kindeditor/php/file_manager_json2.php',
+						  fileManagerJson : "{:U('File/kindmanagefile')}",
 					allowFileManager : true
 				});
 				K('#insertfile').click(function() {
@@ -61,7 +61,7 @@
 															<input type="radio" name="config[excel_parxhtml]" value="1" >过滤														</label><label class="radio">
 															<input type="radio" name="config[excel_parxhtml]" value="0" checked>不过滤														</label>											</div>									</div><div id="tab2" class="tab-pane  tab2">
 										<label class="item-label">
-											解析配置:											<span class="check-tips">多个字段请换行，格式: 存表键名|位置信息[例如:  ziduan1|A]</span>										</label>
+											解析配置:											<span class="check-tips">格式: Mysql字段名:Excel列名【例如:  xingming:A】一行代表一个</span>										</label>
 										<div class="controls">
 											<label class="textarea input-large">
 														<textarea name="config[excel_param]"></textarea>
