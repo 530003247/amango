@@ -362,8 +362,8 @@ class KeywordviewController extends AdminController {
                     $newlist   = array();
                     foreach ($paramlist as $key => $value) {
                         $newlist[] = array(
-                           '1'=>$key,
-                           '2'=>$value,
+                           '0'=>$key,
+                           '2'=>$key.'【'.$value.'】',
                         );
                     }
                     $data['status'] = 1;

@@ -792,13 +792,25 @@ function clear_dantw(){
 							<font class="tip" title="调用云端接口(或者第三方接口)进行消息处理">云端接口&nbsp;&nbsp;</font>
 							<input type="radio" value="behavior" name="model_type" <eq name="Api.type" value="behavior">checked</eq>>
 							<font class="tip" title="监听关键词行为并进行消息处理">行为监听&nbsp;&nbsp;</font>
-</label>模块信息&nbsp;:&nbsp;&nbsp;<select class="select" name="apireply" id="apireply" style="width:80%;">
+</label>模块信息&nbsp;:&nbsp;&nbsp;<select class="select" name="apireply" id="apireply" style="width:80%;" onchange="ocparam('apireply','api_param');">
 			<volist name="Api.localapi" id="val">
 			   <option value="{$val.id}" data="{$Api.type}" <eq name="Api.neiron" value="$val['id']">selected</eq>>{$val.title}&nbsp;&nbsp;(&nbsp;{$val.name}&nbsp;|&nbsp;{$val.description})</option>
             </volist></select>
-											<div id="url-block">	附加参数(为空则不传递)	
-											<label class="textarea input-midl"><textarea id="param">{$Api.config}</textarea></label>
-											<label for="" class="block"><font color="red">参数</font>&nbsp;&nbsp;<font color="green">键名:键值</font><br></label>
+												<div id="url-block">可选参数&nbsp;:&nbsp;&nbsp;
+												<label class="textarea input-midl">
+
+      <select id="api_param" onchange="diyparam('api_param','param');">
+
+      </select>
+											</label>
+
+</label>
+											</div>
+												<div id="url-block">	附加参数(为空则不传递)	
+												<label class="textarea input-midl">
+											<textarea id="param">{$Api.config}</textarea></label>
+											<label for="" class="block"><font color="red">参数</font>&nbsp;&nbsp;<font color="green">键名:键值</font><br>											
+</label>
 											</div>
 										</div>
 										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
@@ -1122,6 +1134,45 @@ function oc(zdid,selid){
 			 }
 		},'json');
 	}
+}
+//读取插件预定义
+function ocparam(zdid,selid){
+		   var cate = $("#"+zdid).find("option:selected").attr('data');
+           var ad   = $("#"+zdid).val();
+	       var optonstr = "";
+		   var data = new Object();
+        data.cateid = ad;
+		  data.cate = cate;
+	//排除news  rand 提交
+	if(ad!=""){
+	   $.post('{:U("Keywordview/ajax_apiparam")}',data,function(d){
+	    if(d.status!=0){
+		   $("#"+selid).html('');
+		   if(d.msg!=''){
+              $.each(d.msg, function(i,item){
+			    optonstr = "<option value=\""+item[0]+"\">"+item[2]+"</option>"+optonstr;
+               });
+			    optonstr = "<option value=\"\">不传递参数</option>"+optonstr;
+             $("#"+selid).html(optonstr);
+		   }
+        }else{
+			   alert(d.errmsg);
+			   $("#"+selid).html('');
+			 }
+		},'json');
+	}
+}
+//自定义参数添加
+function diyparam(zdid,selid){
+		   var cate = $("#"+zdid).find("option:selected").val();
+		   var paramstr = $("#"+selid).val();
+      if(paramstr.indexOf(cate)<0){
+		   if(paramstr==""){
+               $("#"+selid).append(cate);
+		   } else {
+               $("#"+selid).append("\n"+cate);
+		   }
+	  }             
 }
 /*3    Api类型选择 start*/	
    $('input[name=model_type]').live('click',function(){
