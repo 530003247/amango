@@ -296,7 +296,8 @@ class AmangoModel {
             $preg = '/<amango:[^>]+>/';
             //通用字符转义
             $content = escape_common(preg_replace($preg,'', $contentStr));
-            return $content;
+            //emoji表情处理
+            return emoji($content);
     }
 
    /**

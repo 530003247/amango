@@ -30,7 +30,7 @@ function wx_error($contentStr,$is_json) {
                  </xml>';
         $time = time();
         $contentStr = empty($is_json)?$contentStr:json_encode($contentStr);
-        $contentStr = "[可怜]:出错咯！\n".$contentStr;
+        $contentStr = "[可怜]:出错咯！\n".emoji($contentStr);
         $resultStr = sprintf($text_tpl,session('from'),session('to'), $time, $contentStr);
         echo $resultStr;die;
 }
@@ -48,7 +48,7 @@ function wx_success($contentStr,$is_json) {
                  </xml>';
         $time = time();
         $contentStr = empty($is_json)?$contentStr:json_encode($contentStr);
-        $contentStr = "[得意]:成功咯！\n".$contentStr;
+        $contentStr = "[得意]:成功咯！\n".emoji($contentStr);
         $resultStr = sprintf($text_tpl,session('from'),session('to'), $time, $contentStr);
         echo $resultStr;die;
 }

@@ -102,7 +102,7 @@
                     $('#answertype').trigger('change');
                 }
                 $('#czselarea').show();
-                $('#cdmcinpo').val($(window.curcd).text());
+                $('#cdmcinpo').val($.trim($(window.curcd).text()));
             }
             function suitdata() {
                 if (window.curcd) {
@@ -211,6 +211,7 @@ function initthedata(){
     <div class="main-title">
         <h2>编辑 菜单模式 菜单ID:{$id}</h2><input type="hidden" id="menuid" value="{$id}">
     </div>
+怎么添加菜单按钮表情？<strong><a href="http://punchdrunker.github.io/iOSEmoji/table_html/bell.html" target="blank"><font color="red">Emoji表情库</font></a>：</strong>复制表情的SB-Unicode值填入[],例<img src="http://punchdrunker.github.io/iOSEmoji/table_html/bells/bells_09_02.png">[E302]
 	    <div class="alert-error"> 提示:必须填写AppId和AppSecret;菜单最多包括3个一级菜单,每个一级菜单最多包含5个二级菜单,一级菜单最多4个汉字,二级菜单最多7个汉字.</div>
 	 <div class="cf">
    <textarea style="display:none;" id="initdatat">
@@ -400,7 +401,7 @@ function initthedata(){
                         <td valign="top">
                             <br>
                             <div style="position: relative;width: 100%">
-                                菜单名称：<input type="text" class="text input-medium" name="sort" id="menutitle" value="">
+                                菜单名称：<input type="text" class="text input-medium" name="sort" id="menutitle" value="{$menuname}">
 								<button class="btn" id="saveOrder" onclick="savedata()">
                                     编辑保存菜单模式
                                 </button>

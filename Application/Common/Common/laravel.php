@@ -8,6 +8,20 @@ const AMANGO_VERSION    = '1.0.131218';
  * 主要定义系统公共函数库
  */
 /**
+ * Emoji表情解析
+ * @return string
+ * @param [string] [$str] [将字符串中的[E537] 这类的emoji标签【仅支持SB Unicode】转化为Unicode值 ]
+ *        emoji标签 详情网址: http://punchdrunker.github.io/iOSEmoji/table_html/index.html
+ */
+
+function emoji($str) {
+        return preg_replace_callback('/\[[a-zA-Z0-9]{4}]/',"emoji_replace",$str);
+}
+function emoji_replace($matches){
+    $strarray = json_decode ( '{"0":"\u'.strtr($matches[0], array('['=>'',']'=>'')).'"}', true );
+    return $strarray ['0'];
+}
+/**
  * @return object
  * @author Kevin
  */

@@ -936,6 +936,7 @@ class KeywordviewController extends AdminController {
         }
         //dump($submenu);die;
         $list = D('KeywordView')->select();
+        $this->assign('menuname',str_replace(" ", '', $menuinfo['title']));
         $this->assign('jsonmenu',urldecode(json_encode($jsonmenu,true)));
         $this->assign('Responselist',$list);
         $this->assign('submenu',$submenu);
@@ -1007,6 +1008,8 @@ class KeywordviewController extends AdminController {
           $clcikmenumodel = M('Clickmenu');
         //获取微信菜单JSON
           $menujson     = $clcikmenumodel->where(array('id'=>I('id')))->getField('postmenu');
+          ///emoji表情解析
+          $menujson     = emoji($menujson);
           $access_token = $this->getToken();
           $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;
           $ch = curl_init();
@@ -1037,7 +1040,7 @@ class KeywordviewController extends AdminController {
             //获取公众号的APPID SECRET
             $account = M('Account')->where(array('account_default'=>'default'))->find();
             if(empty($account['account_appid'])||empty($account['account_secret'])){
-                $this->error('请先配置微信公众号的APPID和SECRET');
+                $this->error('请先配置微信公众号的APPID和SECRET【服务号自带；未认证的订阅号无法使用菜单】');
             }
             //获取TOKEN
             $api  = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$account['account_appid']."&secret=".$account['account_secret'];

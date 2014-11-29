@@ -646,6 +646,7 @@ str;
                         if(!empty($value['keyword_rules'])&&!empty($value['keyword_post'])){
                             $postdata = $postmodel->create_post($value);
                             if(is_array($postdata)){
+                                //TODO 判断是否已经存在 更新OR新增
                                 $datanum  = $post_model->add($postdata);
                                 if($datanum>0){
                                     $postgroup[$key] = $datanum;
@@ -659,6 +660,7 @@ str;
                             $v['apiid'] = $addonsid;
                             $responsedata = $postmodel->create_response($v);
                             if(is_array($responsedata)){
+                                //TODO 判断是否存在 更新OR新增 s:4:"type";s:5:"local";s:3:"num";i:1;s:6:"neiron";i:21;
                                 $responsenum  = $response_model->add($responsedata);
                                 if($responsenum>0){
                                     $responsegroup[$k] = $responsenum;
@@ -708,6 +710,7 @@ str;
             $this->error('卸载插件所挂载的钩子数据失败');
         }
         S('hooks', null);
+        //TODO 卸载相关关键词
         $delete = $addonsModel->where("name='{$db_addons['name']}'")->delete();
         if($delete === false){
             $this->error('卸载插件失败');
