@@ -247,21 +247,22 @@ sql;
                    return $errormsg;
             }
             /* 自定义回复扩展内容 */
-            $status = $this->logic($info['model_id'])->reply(&$data);
-            if(true===$status){
+            $status = $this->logic($info['model_id'])->reply($data);
+            if(true===$status[0]){
+            	$newdata = array_merge($data,$status[1]);
             	//判断用户回复是否唯一
             	if($info['replyunique']==1){
             		//判断该用户是否已经发表过
             		$userreply = $Modelold->where(array('fromusername'=>$userid))->find();
             		if(empty($userreply)){
-                        $Model->add($data);
+                        $Model->add($newdata);
             		} else {
-            			unset($data['fromusername']);
-	                    $Model->where(array('fromusername'=>$userid))->save($data);
+            			unset($newdata['fromusername']);
+	                    $Model->where(array('fromusername'=>$userid))->save($newdata);
             		} 
                     return true;
             	} else {
-	                    $Model->add($data);
+	                    $Model->add($newdata);
             	}
 	            return true;
             } else {

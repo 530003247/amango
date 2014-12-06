@@ -1,0 +1,250 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: weichuncai 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-11 01:32+0800\n"
+"PO-Revision-Date: 2012-02-11 01:32+0800\n"
+"Last-Translator: lmyoaoa <lmyoaoa@gmail.com>\n"
+"Language-Team: SMP <lmyoaoa@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: sm-options.php:17
+msgid "请先选择一个要删除的项目!"
+msgstr "Please select one for delete!"
+
+#: sm-options.php:26
+#: sm-options.php:36
+#: sm-options.php:64
+msgid "设置已保存!"
+msgstr "The Setting has been updated!"
+
+#: sm-options.php:38
+msgid "设置未保存! 你的自言自语设置有点多了哦，删除一些吧."
+msgstr "Save Failed! Your auto-speaking is too more."
+
+#: sm-options.php:46
+msgid "春菜更新成功!"
+msgstr "The Chobits has been updated!"
+
+#: sm-options.php:92
+msgid "附加设置更新成功!"
+msgstr "The Additional Setting has been updated!"
+
+#: sm-options.php:103
+msgid "添加伪春菜成功!"
+msgstr "Create a new Chobits Successed!"
+
+#: sm-options.php:110
+#: sm-weichuncai.php:107
+msgid "伪春菜控制面板"
+msgstr "Manage Chobits"
+
+#: sm-options.php:111
+msgid "通用设置"
+msgstr "General Settings"
+
+#: sm-options.php:111
+msgid "创建伪春菜"
+msgstr "Create a new Chobits"
+
+#: sm-options.php:118
+msgid "设置默认春菜"
+msgstr "Set Default Chobits"
+
+#: sm-options.php:126
+#: sm-options.php:136
+msgid "删除？"
+msgstr "Delete"
+
+#: sm-options.php:146
+msgid "更新春菜"
+msgstr "Update Chobits"
+
+#: sm-options.php:150
+msgid "春菜基本设置"
+msgstr "The Basic Setting"
+
+#: sm-options.php:152
+msgid "你希望伪春菜如何称呼你呢？"
+msgstr "Your nickname, witch nickname you like to be called?"
+
+#: sm-options.php:154
+msgid "公告："
+msgstr "Notice: "
+
+#: sm-options.php:157
+msgid "对话回应"
+msgstr "Q&A (you typed the questions and the chobits to answer.)"
+
+#: sm-options.php:157
+msgid "在这里设置了问题与回答后，在前台的聊天功能中输入相关问题伪春菜就会回答，如输入：早上好，伪春菜会回答：“早上好～”,暂时最多只支持5个问答"
+msgstr "Set Q&A here, the chobits will answer the question in Chat. for example, you typed:\"Good morning.\" the chobits will answer:\"Good morning~~^_^\" "
+
+#: sm-options.php:166
+msgid "更新设置"
+msgstr "Update Setting"
+
+#: sm-options.php:170
+msgid "自言自语设置"
+msgstr "Auto-Speaking Settings"
+
+#: sm-options.php:171
+msgid "设置伪春菜自言自语时说的话，"
+msgstr "Set some interesting for Chobits auto speak itself, "
+
+#: sm-options.php:171
+msgid "最多允许自定义50项。"
+msgstr "you can add not more than 50 sentences."
+
+#: sm-options.php:186
+msgid "新增"
+msgstr "Add new"
+
+#: sm-options.php:186
+msgid "对应表情"
+msgstr "The corresponding expression"
+
+#: sm-options.php:192
+msgid "添加"
+msgstr "Add"
+
+#: sm-options.php:196
+msgid "附加设置"
+msgstr "Additional Setting"
+
+#: sm-options.php:199
+msgid "零食："
+msgstr "Snacks: "
+
+#: sm-options.php:203
+msgid "零食"
+msgstr "Snacks "
+
+#: sm-options.php:203
+msgid "回答"
+msgstr "Ans "
+
+#: sm-options.php:207
+msgid "保存附加设置"
+msgstr "Save Additional Settings"
+
+#: sm-options.php:210
+msgid "基本状态"
+msgstr "Basic Status"
+
+#: sm-options.php:214
+msgid "春菜"
+msgstr "The Chobits"
+
+#: sm-options.php:214
+msgid "已经与主人一起生存了 "
+msgstr "has been with you about "
+
+#: sm-options.php:214
+msgid " 天 "
+msgstr " day "
+
+#: sm-options.php:214
+msgid " 小时 "
+msgstr " hours "
+
+#: sm-options.php:214
+msgid " 分钟 "
+msgstr " minutes and "
+
+#: sm-options.php:214
+msgid " 秒的快乐时光。"
+msgstr " seconds. "
+
+#: sm-options.php:225
+#, fuzzy
+msgid "春菜名字"
+msgstr "New Chobits's Name: "
+
+#: sm-options.php:226
+msgid "提示：复制图片地址到下面文本框。或者你可以到"
+msgstr "Notice: Copy image url paste this input. or first you can go to "
+
+#: sm-options.php:226
+msgid "上传图片"
+msgstr "Upload Image"
+
+#: sm-options.php:226
+msgid "先进行上传。图片应小于160像素。"
+msgstr ", image width and height less than 160 is better."
+
+#: sm-options.php:227
+msgid "表&nbsp;&nbsp;&nbsp;&nbsp;情1(普通)："
+msgstr "&nbsp;&nbsp;&nbsp;&nbsp;Custom Face1(normal)："
+
+#: sm-options.php:228
+msgid "表&nbsp;&nbsp;&nbsp;&nbsp;情2(开心)："
+msgstr "&nbsp;&nbsp;&nbsp;&nbsp;Custom Face2(happy)："
+
+#: sm-options.php:229
+msgid "表&nbsp;&nbsp;&nbsp;&nbsp;情3(悲伤)："
+msgstr "&nbsp;&nbsp;&nbsp;&nbsp;Custom Face3(sad)："
+
+#: sm-options.php:231
+msgid "注：图片可以只上传第一张，发挥想象创造吧～"
+msgstr "Notice: you can only upload the first image for custom face."
+
+#: sm-options.php:232
+msgid "新增春菜"
+msgstr "Add New Chobits"
+
+#: sm-weichuncai.php:160
+msgid "您没有上传表情，暂时无法使用伪春菜的说"
+msgstr "You havn't upload a image."
+
+#~ msgid "是否默认显示公告(选是的话打开博客是伪春菜不说话而是先显示博客公告)"
+#~ msgstr "Do you like the Chobits start with your Notice?"
+
+#~ msgid "默认显示公告 "
+#~ msgstr "Show notice first"
+
+#~ msgid "默认不显示公告"
+#~ msgstr "Don't show notice first"
+
+#~ msgid "说明步骤："
+#~ msgstr "Introductions: "
+
+#~ msgid ""
+#~ "先在本地新建文件夹，在文件夹中添加你们喜欢的角色图片，文件命名格式为face1."
+#~ "gif / face2.gif / face3.gif"
+#~ msgstr ""
+#~ "Create a new folder and add images you like(the most is 3). and rename "
+#~ "them like this: face1.gif / face2.gif / face3.gif"
+
+#~ msgid "上传新春菜的皮肤文件夹到插件目录下的skin目录"
+#~ msgstr "Upload the floder to \"skin\" in the folder of plugin."
+
+#~ msgid "在下面“新春菜名字”输入春菜名字（跟你上传的文件夹名字相同）"
+#~ msgstr ""
+#~ "Type the name about Chobits at \"New Chobits's Name\" (the same with the "
+#~ "folder which you have uploaded)"
+
+#~ msgid "注意："
+#~ msgstr "Notice: "
+
+#~ msgid "图片一定要是GIF格式，大小为宽:160px 高:160px."
+#~ msgstr "The image must be \".gif\", and width is 160px, height 160px."
+
+#~ msgid ""
+#~ "face1.gif对应普通状态下的表情，face2.gif对应高兴时的表情，face3对应悲伤时"
+#~ "春菜的表情。"
+#~ msgstr ""
+#~ "face1.gif is about normal status, face2.gif is about happy status, and "
+#~ "face3.gif is about sad. this order is better. :)"
+
+#~ msgid "图片可以只有一张，但一定要命名成face1.gif"
+#~ msgstr ""
+#~ "if your image only one, it's be ok. But you must rename it \"face1.gif\"."

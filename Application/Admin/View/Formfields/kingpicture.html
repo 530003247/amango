@@ -26,15 +26,15 @@
 </script>
 <eq name="type" value="add">
                                 <div class="controls">
-                                    <a class="btn btn-mini" id="image1_{$field['name']}">上传</a> <input name="{$field.name}" class="text input-8x" type="text" id="url1_{$field['name']}">
-									<br>
-										<div class="upload-pre-item"><br><img height="200" width="400" src="{$data[$field['name']]}" id="one_pic_{$field['name']}"/></div>
-								
+                                    <a id="image1_{$field['name']}" style="cursor:pointer;"><img id="one_pic_{$field['name']}" src="__PUBLIC__/Admin/images/upload-pic.png"  width="135" height="113" ></a> <input name="{$field.name}" class="text input-8x" type="hidden" id="url1_{$field['name']}">
 								</div>
 <else/>
                                 <div class="controls">
-                                   <a class="btn btn-mini" id="image1_{$field['name']}">上传</a> <input name="{$field.name}" class="text input-8x" type="text" id="url1_{$field['name']}" value="{$data[$field['name']]}" >
-									<br>
-										<div class="upload-pre-item"><br><img height="200" width="400" src="{$data[$field['name']]}" id="one_pic_{$field['name']}"/></div>
+                                   <a id="image1_{$field['name']}" style="cursor:pointer;"><img id="one_pic_{$field['name']}" src="
+								   <?php if(is_numeric($data[$field['name']])||empty($data[$field['name']])){
+								       echo '__PUBLIC__/Admin/images/upload-pic.png';
+								   } else {
+								       echo $data[$field['name']];
+								   }?> "  width="135" height="113" ></a> <input name="{$field.name}" class="text input-8x" type="hidden" id="url1_{$field['name']}" value="{$data[$field['name']]}" >
 								</div>
 </eq>

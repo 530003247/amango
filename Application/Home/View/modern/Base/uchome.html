@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head lang="en">
+	<include file="Public/head"/>
+	<block name="diystyle">
+  <style>
+    @media only screen and (min-width: 1200px) {
+      .blog-g-fixed {
+        max-width: 1200px;
+      }
+    }
+    @media only screen and (min-width: 641px) {
+      .blog-sidebar {
+        font-size: 1.4rem;
+      }
+    }
+    .blog-main {
+      padding: 20px 0;
+    }
+    .blog-title {
+      margin: 10px 0 20px 0;
+    }
+    .blog-meta {
+      font-size: 14px;
+      margin: 10px 0 20px 0;
+      color: #222;
+    }
+    .blog-meta a {
+      color: #27ae60;
+    }
+    .blog-pagination a {
+      font-size: 1.4rem;
+    }
+    .blog-team li {
+      padding: 4px;
+    }
+    .blog-team img {
+      margin-bottom: 0;
+    }
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+    
+    .blog-footer {
+      padding: 10px 0;
+      text-align: center;
+    }
+    
+    @media only screen and (min-width: 641px) {
+    .img-album
+    {
+    height:380px;
+    }
+    }
+
+    @media only screen and (max-width: 640px) {
+    .img-album
+    {
+    height:180px;
+    }
+    }    
+
+    .am-list
+    {
+    margin:0px;
+    background-color:#FFF;
+
+    }
+      
+    .am-list-news
+    {
+    margin:0 0 10px 0;
+    }
+    
+    .am-list-item-thumb-left
+    {
+    padding:10px;
+    }
+    
+    
+    
+  </style>
+
+</head>
+
+<body style="background: url(__PUBLIC__/Home/amaze/1.jpg);background-size: cover;">
+
+	<include file="Public/header"/>
+
+
+ <div class="col-md-8" >
+<div data-am-widget="list_news" class="am-list-news am-list-news-default ">
+<div class="am-g" >
+     <block name="body"></block>
+</div>
+  </div>
+  </div>
+  <div class="col-md-4 blog-sidebar">
+    <div class="am-panel-group">
+     <block name="right"></block>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+(function(){
+	var ThinkPHP = window.Think = {
+		"ROOT"   : "__ROOT__", //当前网站地址
+		"APP"    : "__APP__", //当前项目地址
+		"PUBLIC" : "__PUBLIC__", //项目公共目录地址
+		"DEEP"   : "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+		"MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+		"VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+	}
+})();
+</script>
+ <script type="text/javascript">
+ 	        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        window.shareData = {  
+                    "imgUrl": "", 
+              "timeLineLink": "",
+            "sendFriendLink": "",
+                 "weiboLink": "",
+                    "tTitle": "",
+                  "tContent": "",
+                    "fTitle": "",
+                  "fContent": "",
+                  "wContent": "" 
+        };
+        // 发送给好友
+        WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+            WeixinJSBridge.invoke('sendAppMessage', { 
+                   "img_url": window.shareData.imgUrl,
+                 "img_width": "640",
+                "img_height": "640",
+                      "link": window.shareData.sendFriendLink,
+                      "desc": window.shareData.fContent,
+                     "title": window.shareData.fTitle
+            }, function (res) {
+                _report('send_msg', res.err_msg);
+            })
+        });
+
+        // 分享到朋友圈
+        WeixinJSBridge.on('menu:share:timeline', function (argv) {
+            WeixinJSBridge.invoke('shareTimeline', {
+                "img_url": window.shareData.imgUrl,
+                "img_width": "640",
+                "img_height": "640",
+                "link": window.shareData.timeLineLink,
+                "desc": window.shareData.tContent,
+                "title": window.shareData.tTitle
+            }, function (res) {
+                _report('timeline', res.err_msg);
+            });
+        });
+
+        // 分享到微博
+        WeixinJSBridge.on('menu:share:weibo', function (argv) {
+            WeixinJSBridge.invoke('shareWeibo', {
+                "content": window.shareData.wContent,
+                "url": window.shareData.weiboLink,
+            }, function (res) {
+                _report('weibo', res.err_msg);
+            });
+        });
+        }, false)
+    </script>
+  <script> 
+         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+                  WeixinJSBridge.call('hideToolbar');
+                  WeixinJSBridge.call('hideOptionMenu');
+         });
+ </script>
+<script src="__PUBLIC__/Home/amaze/assets/js/zepto.min.js"></script>
+<script src="__PUBLIC__/Home/amaze/assets/js/amui.min.js"></script>
+</html>

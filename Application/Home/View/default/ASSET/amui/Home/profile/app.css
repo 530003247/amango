@@ -1,0 +1,458 @@
+/* Write your styles */
+/*tag*/
+body {
+    background-color: #eaeaea;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+ul {
+    list-style: none;
+}
+
+footer {
+    width: 100%;
+    padding: 2px 0;
+    text-align: center;
+    font-size: 15px;
+    line-height: 30px;
+    background-color: #a7a7a7;
+}
+
+/* class */
+/*功能页面的header样式*/
+.func-header {
+    width: 100%;
+    height: 230px;
+    text-align: center;
+    text-shadow: #000000 0 1px 1px;
+    overflow: hidden;
+    color: #FFFFFF;
+}
+
+/*header下标题样式*/
+.func-header-title {
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+/*header内显示大、小字体样式*/
+.func-big-num {
+    font-family: sans-serif;
+    font-size: 110px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.func-small-num {
+    font-family: sans-serif;
+    font-size: 50px;
+    font-weight: lighter;
+    color: #FFFFFF;
+}
+
+/*header下显示当前所属页名字*/
+.func-name {
+    width: 100%;
+    background-color: lightgray;
+    line-height: 25px;
+}
+
+/*显示功能页内容*/
+.main-content {
+    margin: 0 auto;
+    height: 100%;
+    padding: 15px 0;
+    text-align: center;
+}
+
+/*login样式*/
+/*重构输入框样式*/
+.am-form-set > div {
+    position: relative;
+    top: -1px;
+    border-radius: 0 !important
+}
+
+.am-form-set > div:focus {
+    z-index: 2
+}
+
+.am-form-set > div:first-child {
+    top: 1px;
+    border-top-right-radius: 2px !important;
+    border-top-left-radius: 2px !important
+}
+
+.am-form-set > div:last-child {
+    top: -2px;
+    border-bottom-right-radius: 2px !important;
+    border-bottom-left-radius: 2px !important
+}
+
+/*event样式*/
+.am-tabs-nav > li {
+    width: 50%;
+}
+
+.am-tabs-nav > li > a {
+    width: 100%;
+    margin: 0;
+}
+
+.event-list {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.event-panel {
+    width: 100%;
+    height: 200px;
+    margin: 0 auto 10px auto;
+    background-color: #FFFFFF;
+    border: 1px solid #dedede;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.event-img {
+    width: 100%;
+    height: 200px;
+    float: left;
+    z-index: -1;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.event-favor {
+    width: 40px;
+    height: 40px;
+    margin: 20px 20px 0 0;
+    float: right;
+    z-index: 1;
+    color: #cc3c45;
+}
+
+.event-disfavor {
+    width: 40px;
+    height: 40px;
+    margin: 20px 20px 0 0;
+    float: right;
+    z-index: 1;
+    color: #ffffff;
+}
+
+.event-favor:hover,
+.event-disfavor:hover {
+    color: #FFFFFF;
+}
+
+.event-msg-panel {
+    width: 100%;
+    height: 75px;
+    float: left;
+    background-color: #FFFFFF;
+    z-index: 1;
+    position: relative;
+    bottom: -63px;
+    font-size: 14px;
+    text-align: left;
+    opacity: .68;
+}
+
+.event-title {
+    width: 100%;
+    padding: 5px 10px;
+    color: white;
+    background-color: #000000;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.event-msg-panel > span {
+    display: block;
+    padding: 5px 0 0 5px;
+    line-height: 16px;
+    overflow: hidden;
+}
+
+.event-icon-width {
+    width: 20px;
+    text-align: center;
+}
+
+.event-detail {
+    float: right;
+    position: relative;
+    right: 8px;
+    bottom: 30px;
+}
+
+/*event-detail样式*/
+.am-direction-nav {
+    display: none;
+}
+
+.am-slider-default .am-control-nav {
+    bottom: 15px;
+}
+
+.am-slides > li > img {
+    width: 100%;
+    height: 230px;
+}
+
+.event-detail-title {
+    margin-bottom: 10px;
+    padding: 10px 20px 0 20px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: left;
+    background-color: #eaeaea;
+    opacity: .92;
+}
+
+.event-detail-describe {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    text-align: left;
+    line-height: 25px;
+}
+
+.event-detail-describe > li {
+    padding: 10px 20px;
+}
+
+.event-small-notice {
+    padding: 0 20px;
+    display: block;
+    font-size: 12px;
+    text-align: left;
+}
+
+.event-detail-info {
+    width: 100%;
+    list-style: none;
+    text-align: left;
+}
+
+.event-detail-info > li {
+    padding: 10px 20px;
+}
+
+.event-detail-tips {
+    width: 100%;
+    position: relative;
+    top: -10px;
+    left: -10px;
+}
+
+.event-detail-content {
+    overflow: visible;
+}
+
+.event-tips-tag {
+    width: 65px;
+    margin: 0;
+    padding: 0 5px 15px 20px;
+    color: #FFFFFF;
+    background-color: #cc3c45;
+    font-size: 14px;
+    position: relative;
+    left: -19px;
+    line-height: 0;
+}
+
+.event-tips-tag:before {
+    content: '\20';
+    display: block;
+    width: 0;
+    height: 0;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #932b31 #932b31 transparent transparent;
+    position: relative;
+    left: -20px;
+    bottom: -35px;
+}
+
+.event-tip-content {
+    margin: -10px 0 10px;
+}
+
+/* id */
+/*功能页面具体header颜色*/
+#func-edu-header {
+    background-color: #2f7ddb;
+}
+
+#func-balance-header {
+    background-color: #3da067;
+}
+
+#func-lib-header {
+    background-color: #30a0c8;
+}
+
+#func-event-header {
+    background-color: #cc3c45;
+}
+
+#func-binding-header {
+    background-color: #ee9223;
+}
+
+#func-pre1-header {
+    background-color: #52af3d;
+}
+
+#func-pre2-header {
+    background-color: #7951d5;
+}
+
+#func-pre3-header {
+    background-color: #cc3c45;
+}
+
+#func-pre5-header {
+    background-color: #ffde48;
+}
+
+/*index页面*/
+#bg-mask {
+    padding: 0;
+    width: 100%;
+    height: 230px;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+#my-info {
+    height: 168px;
+    margin: 0 auto;
+    padding: 30px;
+    z-index: 20;
+}
+
+#my-info > img {
+    width: 90px;
+    height: 90px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+}
+
+#my-info > span {
+    line-height: 36px;
+    font-size: 15px;
+    display: block;
+    text-align: center;
+}
+
+.shortcut-panel {
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    padding: 10px 0;
+    height: 62px;
+}
+
+.shortcut-content {
+    width: 33%;
+    float: left;
+    text-align: center;
+    font-size: 13px;
+    border-right: 1px solid #ffffff;
+}
+
+.shortcut-content:last-child {
+    border: 0;
+}
+
+.shortcut-title {
+    color: #999999;
+}
+
+.shortcut-value {
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 23px;
+    color: #ffffff;
+}
+
+.my-function ul {
+    margin: 0;
+    padding: 0 10px;
+    list-style: none;
+}
+
+.my-function ul:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+.my-function li {
+    float: left;
+    margin: 1% 0;
+    padding: 0;
+}
+
+.my-function li:nth-child(1),
+.my-function li:nth-child(2),
+.my-function li:nth-child(3) {
+    margin-top: 0;
+}
+
+.my-function li:last-child {
+    float: left !important;
+}
+
+.function-content {
+    text-align: center;
+    width: 97%;
+    height: 125px;
+    padding: 1%;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin: 0 auto;
+}
+
+.func-anchor-content {
+    margin: 0 auto;
+}
+
+.new-msg-num {
+    padding: 3px 6px;
+    background-color: #39a33c;
+    color: #ffffff;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 2000;
+    position: relative;
+    left: 30px;
+    top: 10px;
+}
+
+.function-img,
+.function-title {
+    position: relative;
+    top: -5px;
+}
+
+.function-img > img {
+    width: 60px;
+    height: 60px;
+}
+
+.function-title {
+    font-size: 13px;
+    line-height: 32px;
+}

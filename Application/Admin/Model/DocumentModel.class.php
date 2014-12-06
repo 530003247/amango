@@ -65,7 +65,7 @@ class DocumentModel extends Model{
 
     public function getDenyuser(){
         $denyuser = I('post.denyuser');
-        return (empty($denyuser)||$denyuser==',')? '':$denyuser;
+        return (empty($denyuser)||$denyuser==',')? '':implode(',', $denyuser);
     }
 
     public function getReplylimit(){
@@ -286,16 +286,18 @@ class DocumentModel extends Model{
      * @return integer 数据状态
      */
     protected function getStatus(){
-    	$id = I('post.id');
-        $cate = I('post.category_id');
-        if(empty($id)){	//新增
-        	$status = 1;
-        }else{				//更新
-			$status = $this->getFieldById($id, 'status');
-			//编辑草稿改变状态
-			if($status == 3){
-				$status = 1;
-			}
+        $id = I('post.id');
+        if(empty($id)){ //新增
+            $cate = I('post.category_id');
+            $check  =   M('Category')->getFieldById($cate,'check');     
+            $status =   $check ? 2 : 1;
+        }else{              //更新
+            //$status = $this->getFieldById($id, 'status');
+            $status = I('post.status');
+            //编辑草稿改变状态
+            if($status == 3){
+                $status = 1;
+            }
         }
         return $status;
     }

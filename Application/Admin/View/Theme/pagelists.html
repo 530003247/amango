@@ -1,0 +1,115 @@
+<extend name="Public/base"/>
+
+<block name="body">
+		<style>
+			.status1 {background-color: #2d7200;}
+			.status0 {background-color: #ff2610;}
+		</style>
+    <div class="main-title">
+        <h2>单页面  列表[路径<i class="ca"></i>{$diypath}] </h2><br><br><div> 提示：适用于网站页面模型的前台模板(例如：资讯，活动等页面)，或者用于微信响应体模板.</div>
+    </div>
+
+    <div class="cf">
+        <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">批 量 删 除</button>
+		<a class="btn" href="{:U('addpages')}">新 增 单 页 面</a>
+    </div>
+
+    <div class="data-table table-striped">
+        <form class="ids">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="row-selected">
+                            <input class="checkbox check-all" type="checkbox">
+                        </th>
+                        <th>ID</th>
+						<th>名称</th>
+                        <th>标识</th>
+						<th>类型</th>
+                        <th>路径</th>
+                        <th>简介</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				<notempty name="list">
+                <volist name="list" id="menu">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
+                        <td>{$menu.id}</td>
+                        <td>{$menu.fromusername}</td>
+                        <td>{$menu.ucusername}</td>
+                        <td>{$menu.nickname}</td>
+                        <td>{$menu.cate_group}</td>
+                        <td>
+                            Ta的&nbsp;&nbsp;[<a title="编辑" href="{:U('edit?id='.$menu['id'])}">&nbsp;信息&nbsp;</a>|<a title="收藏" href="{:U('ucenter',array('type'=>'plus','id'=>$menu['id']))}">&nbsp;发布&nbsp;</a>|<a title="收藏" href="{:U('ucenter',array('type'=>'canyu','id'=>$menu['id']))}">&nbsp;参与&nbsp;</a>|<a title="收藏" href="{:U('ucenter',array('type'=>'marks','id'=>$menu['id']))}">&nbsp;收藏&nbsp;</a>]
+                        </td>
+                    </tr>
+                </volist>
+				<else/>
+				<td colspan="11" class="text-center"> aOh! 暂时还没有自定义页面哦! </td>
+				</notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+             {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function() {
+            //搜索功能
+            $("#search").click(function() {
+                var url = $(this).attr('url');
+                var query = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
+                query = query.replace(/^&/g, '');
+                if (url.indexOf('?') > 0) {
+                    url += '&' + query;
+                } else {
+                    url += '?' + query;
+                }
+                window.location.href = url;
+            });
+            //回车搜索
+            $(".search-input").keyup(function(e) {
+                if (e.keyCode === 13) {
+                    $("#search").click();
+                    return false;
+                }
+            });
+            //导航高亮
+            highlight_subnav('{:U('pagelists')}');
+
+            //点击排序
+        	$('.list_sort').click(function(){
+        		var url = $(this).attr('url');
+        		var ids = $('.ids:checked');
+        		var param = '';
+        		if(ids.length > 0){
+        			var str = new Array();
+        			ids.each(function(){
+        				str.push($(this).val());
+        			});
+        			param = str.join(',');
+        		}
+
+        		if(url != undefined && url != ''){
+        			window.location.href = url + '/ids/' + param;
+        		}
+        	});
+        });
+//排序方法
+function sort(id,num){
+    $.get('{:U("Keywordview/sort")}', { id: id,num:num }, function(jsondata){
+		var return_data  = eval(jsondata);
+		$("#7_"+id).attr('value', return_data);
+		location.reload();
+	}); 
+}
+    </script>
+</block>

@@ -1,0 +1,33 @@
+<volist name="tree" id="list">
+	<dl class="cate-item">
+		<dt class="cf">
+				<div class="btn-toolbar opt-btn cf">
+				
+				<if condition="$list['is_dir'] eq 0 "><a title="编辑" href="{:U('tpllists',array('dir'=>$list['dir_path'],'filename'=>$list['filename'],'type'=>$list['filetype']))}">修改</a>
+				<else />
+				{$theme_files_desc[$list['filename']]}
+                </if>
+				|<font color="red"><a style="color: #ff2610;" title="删除" href="{:U('deltpllists',array('dir'=>$list['dir_path'],'filename'=>$list['filename'],'type'=>$list['filetype']))}">删除</a></font>
+				</div>
+				<div class="fold"><i></i></div>
+              
+				<div class="name">
+				<img src="__PUBLIC__/Admin/images/ext/<empty name='list.filetype'>dir<else />{$list['filetype']}</empty>.gif">
+					<span class="tab-sign"></span>
+					<input type="hidden" name="id" value="{$list.id}">
+					<input type="text" name="title" class="text" value="<empty name='list.filetype'>{$list.filename}<else />{$list.filename}.{$list['filetype']}</empty>" disabled>
+					<if condition="$list['is_dir'] eq 1 ">
+					<a class="add-sub-cate" title="添加子分类" href="{:U('tpllists',array('dir'=>$list['dir_path'],'filename'=>$list['filename'],'type'=>$list['filetype']))}">
+						<i class="icon-add"></i>
+					</a>
+					</if>
+					<span class="help-inline msg"><if condition="$list['is_dir'] eq 0 "><em>{$list.filesize}</em></if></span>
+				</div>
+		</dt>
+		<notempty name="list['_']">
+			<dd>
+				{:R('Theme/tree', array($list['_']))}
+			</dd>
+		</notempty>
+	</dl>
+</volist>

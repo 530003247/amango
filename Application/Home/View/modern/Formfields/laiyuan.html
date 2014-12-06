@@ -1,0 +1,19 @@
+<eq name="type" value="add">
+                                <select name="{$field.name}" class="{$style.class}" id="{$style.id}" style="{$style.style}">
+                                    <eq name="field.default" value="1">
+									<option value="" cate="" >默认为空</option>
+                                    </eq>
+                                    <volist name=":parse_laiyuan_attr($field['extra'],$field['sortfields'])" id="vo">
+                                        <option value="{$vo.1}" cate="{$vo.0}" <eq name="default" value="$vo[1]">selected</eq>>{$vo.2}</option>
+                                    </volist>
+                                </select>
+<else/>
+                                <select name="{$field.name}" class="{$style.class}" id="{$style.id}" style="{$style.style}">
+								    <eq name="field.default" value="1">
+									<option value="" cate="" >默认为空</option>
+                                    </eq>
+                                    <volist name=":parse_laiyuan_attr($field['extra'],$field['sortfields'])" id="vo">
+                                        <option value="{$vo.1}" cate="{$vo.0}" <eq name="data[$field['name']]" value="$vo[1]">selected</eq>>{$vo.2}</option>
+                                    </volist>
+                                </select>
+</eq>

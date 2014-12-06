@@ -1,0 +1,66 @@
+<extend name="Public/base"/>
+<block name="body">
+	<div class="main-title cf">
+		<h2>{$title}模板 [ <notempty name='nowpath'>路径<i class="ca"></i>{$nowpath} </notempty> ] </h2>
+	</div>
+	<div class="tb-unit posr">
+		<div class="tb-unit-bar">
+			<a class="btn">返回上级</a>
+		</div>
+	</div>
+<div id="main" class="main">
+	<form action="__SELF__" method="post" class="form-horizontal">
+	  <input type="hidden" name="createpath" value="{$editpath}">
+		<div class="form-item cf">
+			<label class="item-label">文件类型</label>
+			<div class="controls">
+				<select name="createtype">
+					<option value="dir" <eq name="filetype" value="dir">selected</eq>
+>文件夹</option><option value="file" <eq name="filetype" value="file">selected</eq>>文件</option></select>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">文件标识<span class="check-tips">（如果是文件,请加上后缀名）</span></label>
+			<div class="controls">
+				<input type="text" value="{$fileinfo}" name="createname"  class="text input-large" <notempty name='fileinfo'>readonly</notempty>>
+			</div>
+		</div>
+		<div class="form-item cf">
+			<label class="item-label">文件内容<span class="check-tips">（当生成文件夹时，此处可不填写）</span></label>
+			<div class="controls">
+				<label class="textarea input-large" style="width:95%; height:400px">
+				<textarea id="content" style="width:100%; height:400px" name="content">{$content}</textarea>
+				</label>
+			</div>
+		</div>
+		<button type="submit" class="btn submit-btn" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</form>
+
+        </div>
+</block>
+
+<block name="script">
+<script language="Javascript" type="text/javascript" src="__STATIC__/edit_area/edit_area_full.js"></script>
+<script language="Javascript" type="text/javascript">
+		// initialisation
+		editAreaLoader.init({
+            id: "content"	// id of the textarea to transform		
+            , start_highlight: true	// if start with highlight
+            , allow_resize: "both"
+            , allow_toggle: false
+            , word_wrap: true
+            , language: "zh"
+            , syntax: "html"
+		});
+$('#content').on('input',function(){
+    $(this).val(editAreaLoader.getValue("content"));
+})
+	</script>
+    <script type="text/javascript">
+        $(function() {
+            //导航高亮
+            highlight_subnav('{:U('edit')}');
+        });
+    </script>
+</block>

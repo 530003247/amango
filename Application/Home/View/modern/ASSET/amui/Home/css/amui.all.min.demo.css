@@ -1,0 +1,318 @@
+/*!
+ * Amaze UI 1.0.0 alpha
+ *
+ * @author: Amaze UI Team
+ * @copyright:   AllMobilize Inc.
+ * @license: MIT
+ * @contact: minwe@yunshipie.com, hzp@yunshipei.com
+ */*
+.demo-am-list-thumb img
+{
+width:100%;
+padding-left:0;
+max-height:200px;
+display:block
+}
+ 
+.act-list-img
+{
+width:41.66667%;
+min-width:200px;
+min-height:220px;
+}
+
+.act-list-times
+{
+max-width:100px;
+z-index:1;
+position:absolute;
+overflow:auto;
+}
+
+.act-list-times-font
+{
+margin:15%;
+z-index:2;
+transform: rotate(-45deg);
+font-size:2.2rem;
+color:#FFFFFF;
+position:absolute;
+overflow:auto;
+
+}
+
+.act-list-xx
+{
+padding-top:2%;
+ font-size: 2.0rem;
+}
+
+.icon-padding
+{
+font-size: 2.2rem;
+max-width:2.4rem;
+min-width:2.4rem;
+text-align:left;
+padding:0.8% 2% 0 0;
+}
+
+.act-list-heart
+{
+font-size:2rem;
+float:right;
+color:red;
+}
+
+.join-act-buttom
+{
+float:left;
+width:110px;
+height:28px;
+text-align:center;
+background-color:#15afef;
+}
+
+.unjoin-act-buttom
+{
+float:left;
+width:110px;
+height:28px;
+text-align:center;
+border:1px solid #15afef;
+}
+
+.join-act a
+{
+color:rgb(255,255,255);
+}
+
+.join-act-box
+{
+float:left;
+width:45%
+}
+
+.join-act-seclet
+{
+padding-left:40px;
+}
+
+.join-act-list
+{
+padding-bottom:8px;
+}
+
+.ucenter-pic
+{
+margin:2px;
+}
+
+.ucenter-data
+{
+float:left;
+}
+
+.sidepanel-am-list
+{
+margin-bottom:1.6rem;
+padding-left:0;
+}
+
+.sidepanel-am-list>li
+{
+position:relative;
+display:block;
+margin-bottom:-1px;
+border:1px solid #dedede;
+border-width:1px 0
+}
+
+.sidepanel-am-list>li>a
+{
+display:block;
+padding:1rem 0;
+}
+
+.sidepanel-pic
+{
+float:left;
+width:80px;
+height:80px;
+border:2px solid #dedede;
+border-radius:50%;
+margin:5% 0 5% 0;
+}
+
+.lost-box
+{
+float:left;
+width:255px;
+}
+
+.lost
+{
+border-radius:2%;
+padding:1rem;
+border:1px solid #15afef;
+}
+
+.lost-img
+{
+padding:1rem;
+width:100%;
+height:170px;
+}
+
+.lost-img-big
+{
+padding:1rem;
+height:170px;
+}
+
+.text-input
+{
+width:30%;
+float:left;
+}
+
+.bule-text
+{
+color:#15afef;
+}
+
+.am-accordion-gapped-new{margin:0}
+
+.am-accordion-gapped-new .am-accordion-item{border:1px solid rgba(0,0,0,.1);margin:.5rem 0}
+
+.am-accordion-gapped-new .am-accordion-title{color:rgba(0,0,0,.6);-webkit-transition:background-color .2s ease-out;transition:background-color .2s ease-out;padding:.8rem 2rem .8rem 1rem;position:relative}
+
+.am-accordion-gapped-new .am-accordion-title::after{content:"\f105";display:inline-block;font-family:FontAwesome;font-weight:400;font-style:normal;vertical-align:baseline;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-transition:all .2s linear;transition:all .2s linear;position:absolute;right:8px;top:50%;margin-top:-.8rem}
+
+.am-accordion-gapped-new .am-accordion-title:hover{color:rgba(0,0,0,.8)}
+
+.am-accordion-gapped-new .am-accordion-content{padding:0 1rem;color:#666;font-size:1.4rem}
+
+.am-accordion-gapped-new .am-active .am-accordion-title{background-color:rgba(0,0,0,.1);color:rgba(0,0,0,.8)}
+
+.am-accordion-gapped-new .am-active .am-accordion-title::after{-webkit-transform:rotate(90deg);-ms-transform:rotate(90deg);transform:rotate(90deg)}
+
+.am-accordion-gapped-new .am-active .am-accordion-content{padding:1rem 1rem 1.5rem}
+
+//***nav***//
+@media only screen and (max-width:680px){.oam-topbar-collapse .am-btn,.oam-topbar-collapse .am-topbar-btn{display:block;width:100%}}
+.oam-topbar-toggle{position:relative;float:right;margin-right:10px}
+@media only screen and (min-width:681px){.oam-topbar-toggle{display:none}}
+
+
+.oam-collapse{display:none}
+
+.oam-topbar-collapse{width:100%;overflow-x:visible;padding:10px;clear:both;-webkit-overflow-scrolling:touch}
+
+.oam-topbar-collapse:after,.oam-topbar-collapse:before{content:" ";display:table}
+
+@media only screen and (min-width:681px){.oam-topbar-collapse{margin-top:0;padding:0;width:auto;clear:none}.oam-topbar-collapse.oam-collapse{display:block!important;height:auto!important;padding:0;overflow:visible!important}.oam-topbar-collapse.oam-in{overflow-y:visible}}
+//***nav***//
+
+
+.body-wapper
+{  
+    position: relative;   /*ÖØÒª£¡±£Ö¤footerÊÇÏà¶ÔÓÚwapperÎ»ÖÃ¾ø¶Ô*/  
+    height: auto;          /* ±£Ö¤Ò³ÃæÄÜ³Å¿ªä¯ÀÀÆ÷¸ß¶ÈÊ±ÏÔÊ¾Õý³£*/  
+    min-height: 100%;  /* IE6²»Ö§³Ö£¬IE6Òªµ¥¶ÀÅäÖÃ*/ 
+    background: url(__PUBLIC__/Home/amaze/1.png);
+    background-size: cover;
+    overflow:auto; 
+}  
+
+
+.main-content
+{  
+   padding-bottom: 60px; /*ÖØÒª£¡¸øfooterÔ¤ÁôµÄ¿Õ¼ä*/  
+}  
+
+
+.footer-pt
+{  
+  position:relative;
+  top:100%;
+}  
+
+.cb-box
+{
+color:#0099CC;
+background-color:White;
+border-color:#0099CC;
+border-width:1px;
+border-style:solid;
+font-family:Verdana;
+font-size:12pt;
+border-collapse:collapse;
+}
+
+.cb-box-tr
+{
+height:80px;
+}
+
+.cb-box-td-js
+{
+
+padding:2px 4px 2px 4px;
+color:#2aa5de;
+background-color:#eeeeee;
+border-color:LightBlue;
+border-width:1px;
+border-style:solid;
+width:10px;
+}
+
+.cb-box-td-cm
+{
+border-color:LightBlue;
+border-width:1px;
+border-style:solid;
+width:320px;
+}
+
+.tab_content
+{
+width:100%;
+height:800px;
+text-align:center;
+background:#FFF;
+overflow:hidden;
+}
+
+.term
+{
+width:100%;
+height:800px;
+}
+
+
+
+#we-nav, #we-nav ul { 
+}
+
+#we-nav li { 
+}
+
+#we-nav a:link, #we-nav a:visited {
+	display: block;
+}
+
+#we-nav ul { 
+	display: none;
+}
+
+#we-nav ul:active { 
+	display: block;
+}
+
+#we-nav ul li {
+}
+
+#we-nav li:hover ul {
+	display: block;
+}
+

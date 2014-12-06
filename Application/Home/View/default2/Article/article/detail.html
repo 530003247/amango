@@ -1,0 +1,181 @@
+<extend name="Base/common"/>
+<block name="diystyle">
+  <style>
+    @media only screen and (min-width: 1200px) {
+      .blog-g-fixed {
+        max-width: 1200px;
+      }
+    }
+    @media only screen and (min-width: 641px) {
+      .blog-sidebar {
+        font-size: 1.4rem;
+      }
+    }
+    .blog-main {
+      padding: 20px 0;
+    }
+    .blog-title {
+      margin: 10px 0 20px 0;
+    }
+    .blog-meta {
+      font-size: 14px;
+      margin: 10px 0 20px 0;
+      color: #222;
+    }
+    .blog-meta a {
+      color: #27ae60;
+    }
+    .blog-pagination a {
+      font-size: 1.4rem;
+    }
+    .blog-team li {
+      padding: 4px;
+    }
+    .blog-team img {
+      margin-bottom: 0;
+    }
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+    .blog-footer {
+      padding: 10px 0;
+      text-align: center;
+    }
+  
+    body
+    { 
+    background-image: url(__PUBLIC__/Home/amaze/detailbg.png);
+    background-repeat: repeat-y repeat-x;
+    background-size: cover;
+    }
+    .am-article-title
+    {
+    font-size:2.0rem;
+    font-weight:bold;
+    margin:0;
+    }
+
+  </style>
+</block>
+<block name="header">
+<include file="Public/header"/>
+</block>
+<block name="body">
+<div class="col-md-8">
+    <article class="blog-main">
+      <h2 class="am-article-title blog-title">
+        <a href="#">{$info.title}</a>
+      </h2>
+<!--      <h4 class="am-article-meta blog-meta">by <a href="">{$info.uid|get_username}</a> 发布于 {$info.create_time|date='Y-m-d H:i',###}</h4>  -->
+      <div style="margin:0 0 10px 0;">
+      <span style="font-size:1.2rem;color:#8C8C8C;margin:0 10px 0 0;">{$info.create_time|date='Y-m-d',###}</span>
+<!--      <span style="font-size:1.2rem;color:#46C1EC;margin:0 10px 0 0;">{$info.uid|get_username}</span>  -->
+      <span style="font-size:1.2rem;color:#607FA6;margin:0 10px 0 0;"><a style="color:#607FA6;" href="{$accountsub}">{:C('WEB_SITE_TITLE')}</a></span> 
+      </div>
+      <div class="am-g blog-content">
+        <div class="col-lg-12">
+{$info.content}
+        </div>
+      </div>
+    </article>
+       
+    
+    <fieldset style="border-width: 0px 0px 0px 0.4em; border-style: none none none solid; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; padding: 0.5em; margin: 0px; border-color: rgb(21, 175, 239); color: rgb(51, 51, 51); font-size: 1em; line-height: 1.4; text-align: justify;">
+    <span style="font-size: 1em; font-family: inherit; font-style: normal; font-weight: inherit; text-align: inherit; text-decoration: inherit; color: rgb(51, 51, 51);">如果你喜欢这篇文章，<br>请关注我们<a style="color:#46C1EC;" href="{$accountsub}">{:C('WEB_SITE_TITLE')}</a>吧~</span>
+    </fieldset>    
+    
+    <hr class="am-article-divider blog-hr">
+    <ul class="am-pagination blog-pagination">
+					<article:prev name="prev" info="info">
+                        <li class="am-pagination-next"><a href="{:U('?id='.$prev['id'])}">下一篇</a></li>
+                    </article:prev>
+                    <article:next name="next" info="info">
+                        <li class="am-pagination-prev"><a href="{:U('?id='.$next['id'])}">上一篇</a></li>
+                    </article:next>
+    </ul>
+ <!-- UY BEGIN 
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1967783"></script>
+ UY END -->
+    <hr class="am-article-divider blog-hr">
+        {:hook('documentDetailAfter',$info)}
+  </div>
+
+<div class="col-md-4 blog-sidebar">
+    <div class="am-panel-group">
+<include file="Public/cate"/>
+<!--
+      <section class="am-panel am-panel-default">
+	  <div class="am-panel-hd">热门应用</div>
+<ul data-am-widget="gallery" class="am-gallery sm-block-grid-2
+  md-block-grid-3 lg-block-grid-4 am-gallery-default" data-am-gallery="">
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://cn.bing.com/az/hprichv/LondonTrainStation_GettyRR_139321755_ZH-CN742316019.jpg">
+              <img src="http://cn.bing.com/az/hprichv/LondonTrainStation_GettyRR_139321755_ZH-CN742316019.jpg" alt="远方 有一个地方 那里种有我们的梦想">
+                <h3 class="am-gallery-title">远方 有一个地方 那里种有我们的梦想</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+          
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/CardinalsBerries_ZH-CN10679090179_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/CardinalsBerries_ZH-CN10679090179_1366x768.jpg" alt="某天 也许会相遇 相遇在这个好地方">
+              
+                <h3 class="am-gallery-title">某天 也许会相遇 相遇在这个好地方</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+          
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg" alt="不要太担心 只因为我相信">
+              
+                <h3 class="am-gallery-title">不要太担心 只因为我相信</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/FennecFox_ZH-CN13720911949_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/FennecFox_ZH-CN13720911949_1366x768.jpg" alt="终会走过这条遥远的道路">
+              
+                <h3 class="am-gallery-title">终会走过这条遥远的道路</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+  </ul>
+      </section>
+	  -->
+<include file="base/qr"/>
+    </div>
+  </div>
+</block>

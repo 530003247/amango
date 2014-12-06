@@ -32,14 +32,23 @@
 		<volist name=":parse_config_attr($model['field_group'])" id="group">
         <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
             <volist name="fields[$key]" id="field">
-                <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
+              <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
                 <div class="form-item cf">
                     <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
-                    <div class="controls">
+					<div class="controls">
+                <!-- 多选框除外 -->
+				<if condition="$field['name'] == 'position' ">
+                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                	<label class="checkbox">
+                                    <input type="checkbox" value="{$key}" name="{$field.name}[]" <if condition="check_document_position($data[$field['name']],$key)">checked="checked"</if>>{$vo}
+                                	</label>
+                                </volist>
+				<else />
                        {:W('Formfields/show', array($field,$data,'edit'))}
+				</if>
                     </div>
                 </div>
-                </if>
+              </if>
             </volist>
         </div>
 		</volist>

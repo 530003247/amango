@@ -20,33 +20,12 @@ class HomeController extends Controller {
 	public function _empty(){
 		$this->redirect('Index/index');
 	}
-
-
     protected function _initialize(){
-        /* 读取数据库中的配置 */
-        $config =   S('DB_CONFIG_DATA');
-        if(!$config){
-            $config =   api('Config/lists');
-            S('DB_CONFIG_DATA',$config);
-        }
-        C($config); //添加配置
-		global $_W;//申明全局变量   默认网站信息
-		       $_W    = $config;
-		$accountmodel = M('Account');
-		$map = array();
-		$defaultlist  = $accountmodel->where(array('account_default'=>'default'))->find();
-		    $map['account_default']  = array('neq','default');
-        $otherlist    = $accountmodel->where($map)->select();
-		global $_K;//申明全局变量   默认微信公众号信息
-	     	   $_K['DEFAULT'] = $defaultlist;
-               $_K['OTHER']   = $otherlist;
-        if(!C('WEB_SITE_CLOSE')){
-            $this->error('站点已经关闭，请稍后访问~');
-        }
-        //微信自动登陆
+        //初始化主题 参数
+        A('Amangotheme')->init_config();
+            //微信自动登陆
             if(!empty($_GET['ucusername'])&&!empty($_GET['ucpassword'])){
                 $this->auto_login($_GET['ucusername'],$_GET['ucpassword']);
-	         	$selfurl = __SELF__;
 	         	//判断是否存在
 	         	$replace_list = array();
 	         	if(!empty($_GET['ucusername'])){
@@ -55,13 +34,9 @@ class HomeController extends Controller {
 	         	if(!empty($_GET['ucpassword'])){
                     $replace_list['/ucpassword/'.$_GET['ucpassword']] = '';
 	         	}
-	         	$selfurl   = strtr($selfurl,$replace_list);
-				redirect($selfurl);
+	         	$redirect_url   = strtr(__SELF__,$replace_list);
+				redirect($redirect_url);
             }
-
-		// !empty($_GET['nickname']) || session('autonickname',$_GET['nickname']);
-		// !empty($_GET['ucusername']) || session('autoucusername',$_GET['ucusername']);
-		// !empty($_GET['ucpassword']) || session('autoucpassword',$_GET['ucpassword']);
     }
     //自动登陆
     protected function auto_login($username, $password){
@@ -80,15 +55,12 @@ class HomeController extends Controller {
 			        session('user_auth_sign', data_auth_sign($auth));
 			        return true;
 				}
-				return false;
 			}
 			    return false;
-                
     }
 	/* 用户登录检测 */
 	protected function login(){
 		/* 用户登录检测 */
 		is_login() || $this->error('您还没有登录，请先登录！', U('User/login'));
 	}
-
 }

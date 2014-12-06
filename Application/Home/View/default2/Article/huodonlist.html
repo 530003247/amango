@@ -1,0 +1,176 @@
+<extend name="Base/common"/>
+<block name="diystyle">
+    <link rel="stylesheet" href="__PUBLIC__/Home/huodon/css/amui.all.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/Home/huodon/css/app.css"/>
+    <script src="__PUBLIC__/Home/huodon/js/zepto.min.js"></script>
+    <script src="__PUBLIC__/Home/huodon/js/amui.min.js"></script>
+</block>
+<block name="header">
+<include file="Public/header"/>
+</block>
+<block name="body">
+ <div class="col-md-8">
+ <!--- 
+ <header id="func-event-header" class="func-header">
+    <div class="func-header-title">已收藏活动</div>
+    <div>
+        <a href="event-favor.html">
+            <span class="func-big-num">4</span>
+            <span class="func-small-num">个</span>
+        </a>
+    </div>
+</header>
+--->
+<div class="main-content">
+    <div class="am-tabs" data-am-tabs>
+        <ul class="am-tabs-nav am-nav am-nav-tabs scrollspy-nav" 
+            style="background-color: rgba(234,234,234,.9);">
+            <li class="am-active">
+                <a href="#tab1">本校</a>
+            </li>
+            <li>
+                <a href="#tab2">附近</a>
+            </li>
+        </ul>
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <ul class="event-list col-sm12">
+<volist name="list" id="data">
+                    <li class="event-panel" style="background: url('{$data.cover_id}') no-repeat;background-size: 100% 100%">
+                        <a href="{:U('Article/detail?id='.$data['id'])}">
+                            <i class="event-favor am-icon-heart am-icon-md"></i>
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">{$data.title}</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>{$data.huodontime|date='Y年m月d日',###}</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>{$data.huodonaddress} </span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+</volist>
+                </ul>
+				<div style="font-size:3.2rem;"><article:page cate="$category['id']" listrow="$category['list_row']" /></div>
+            </div>
+            <div class="am-tab-panel am-fade" id="tab2">
+                <ul class="event-list col-sm12">
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+								<div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="event-panel" style="background: url('img/WP.jpg') no-repeat;background-size: 100% 100%">
+                        <a href="event-detail.html">
+                            <!---<i class="event-favor am-icon-heart am-icon-md"></i> --->
+
+                            <div class="event-msg-panel">
+                                <div class="event-title">idea “重建思维”主题演讲</div>
+                                <span><i class="am-icon-clock-o event-icon-width"></i>2014年9月30日</span>
+                                <span><i class="am-icon-map-marker event-icon-width"></i>集美大学本部美岭楼 | 1.6KM</span>
+
+                                <div class="event-detail">详情</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+  </div>
+<!---
+  <div class="col-md-4 blog-sidebar">
+    <div class="am-panel-group">
+      <include file="Public/cate"/>
+    </div>
+  </div>
+  --->
+</block>

@@ -1,0 +1,222 @@
+<extend name="Base/common"/>
+<block name="diystyle">
+  <style>
+    @media only screen and (min-width: 1200px) {
+      .blog-g-fixed {
+        max-width: 1200px;
+      }
+    }
+    @media only screen and (min-width: 641px) {
+      .blog-sidebar {
+        font-size: 1.4rem;
+      }
+    }
+    .blog-main {
+      padding: 20px 0;
+    }
+    .blog-title {
+      margin: 10px 0 20px 0;
+    }
+    .blog-meta {
+      font-size: 14px;
+      margin: 10px 0 20px 0;
+      color: #222;
+    }
+    .blog-meta a {
+      color: #27ae60;
+    }
+    .blog-pagination a {
+      font-size: 1.4rem;
+    }
+    .blog-team li {
+      padding: 4px;
+    }
+    .blog-team img {
+      margin-bottom: 0;
+    }
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+    
+    .blog-footer {
+      padding: 10px 0;
+      text-align: center;
+    }
+    
+    @media only screen and (min-width: 641px) {
+    .img-album
+    {
+    height:380px;
+    }
+    }
+
+    @media only screen and (max-width: 640px) {
+    .img-album
+    {
+    height:180px;
+    }
+    }
+    
+    .am-list-thumb
+    {
+    max-height:140px;
+    overflow:hidden;
+    }
+    
+
+    .am-list
+    {
+    margin:0px;
+    background-color:#FFF;
+
+    }
+      
+    .am-list-news
+    {
+    margin:0 0 10px 0;
+    }
+    
+    .am-list-item-thumb-left
+    {
+    padding:10px;
+    }
+    
+    
+    
+  </style>
+</block>
+<block name="header">
+<include file="Public/header"/>
+</block>
+<block name="body">
+ <div class="col-md-8">
+<div data-am-widget="slider" class="am-slider am-slider-c3" data-am-slider='{&quot;controlNav&quot;:false}'>
+<ul class="am-slides">
+ <article:list name="article" category="1" child="true" row="4">
+   <li class="img-album">
+   <a href="{:U('Article/detail?id='.$article['id'])}"><img style="height:100%;" src="{$article.cover_id}" alt="{$article.title}！" draggable="false" /></a>
+    <div class="am-slider-desc">
+     <div class="am-slider-counter">
+      <span class="am-active">{$i}</span>/4
+     </div><a href="{:U('Article/detail?id='.$article['id'])}">{$article.title}</a>
+    </div>
+  </li>
+ </article:list>
+</ul>
+</div>
+
+<div data-am-widget="list_news" class="am-list-news am-list-news-default ">
+  <!--列表标题-->
+    <div class="am-list-news-hd am-cf">
+       <!--带更多链接-->
+          <h2>精彩推荐</h2>
+    </div>
+ 
+  <ul class="am-list am-list-border">
+     <!--缩略图在标题左边-->
+			   <article:list name="article" category="1" child="true">
+	<li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left" >
+        <div class="am-col col-sm-4 am-list-thumb">
+          <a href="{:U('Article/detail?id='.$article['id'])}">
+            <img src="{$article.cover_id}" alt="{$article.title}！">
+          </a>
+        </div>
+        <div class="am-col col-sm-8 am-list-main">
+          
+            <h3 class="am-list-item-hd"><a href="{:U('Article/detail?id='.$article['id'])}">{$article.title}</a></h3>
+    
+            <div class="am-list-item-text">{$article.description}</div>
+        </div>
+      </li>
+            </article:list>
+  </ul>
+
+  </div>
+  </div>
+  <div class="col-md-4 blog-sidebar">
+    <div class="am-panel-group">
+	 <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">资讯导航</div>
+        <ul class="am-list blog-list">
+		{:W('Category/lists', array(1, true))}
+		{:W('Category/lists', array(43, true))}
+        </ul>
+      </section>
+<!---
+      <section class="am-panel am-panel-default">
+	  <div class="am-panel-hd">热门应用</div>
+<ul data-am-widget="gallery" class="am-gallery sm-block-grid-2
+  md-block-grid-3 lg-block-grid-4 am-gallery-default" data-am-gallery="">
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://cn.bing.com/az/hprichv/LondonTrainStation_GettyRR_139321755_ZH-CN742316019.jpg">
+              <img src="http://cn.bing.com/az/hprichv/LondonTrainStation_GettyRR_139321755_ZH-CN742316019.jpg" alt="远方 有一个地方 那里种有我们的梦想">
+                <h3 class="am-gallery-title">远方 有一个地方 那里种有我们的梦想</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+          
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/CardinalsBerries_ZH-CN10679090179_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/CardinalsBerries_ZH-CN10679090179_1366x768.jpg" alt="某天 也许会相遇 相遇在这个好地方">
+              
+                <h3 class="am-gallery-title">某天 也许会相遇 相遇在这个好地方</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+          
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg" alt="不要太担心 只因为我相信">
+              
+                <h3 class="am-gallery-title">不要太担心 只因为我相信</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/FennecFox_ZH-CN13720911949_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/FennecFox_ZH-CN13720911949_1366x768.jpg" alt="终会走过这条遥远的道路">
+              
+                <h3 class="am-gallery-title">终会走过这条遥远的道路</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+  </ul>
+      </section>
+	    --->
+
+<include file="base/qr"/>
+
+
+    </div>
+  </div>
+</block>

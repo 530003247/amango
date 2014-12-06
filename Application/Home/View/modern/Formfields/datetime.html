@@ -1,0 +1,16 @@
+<eq name="type" value="add">
+<input type="text" name="{$field.name}" class="time"  value="" placeholder="请选择时间" />
+<else/>
+<input type="text" name="{$field.name}" class="time" value="{$data[$field['name']]|date='Y-m-d H:i',###}" placeholder="请选择时间" />
+</eq>
+<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+	var $j = jQuery.noConflict();
+	$j(function(){
+    $j(".time").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    });
+</script>

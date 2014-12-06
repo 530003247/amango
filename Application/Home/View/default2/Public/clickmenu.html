@@ -1,0 +1,35 @@
+<neq name="HideFastmenu" value="1">
+<header>
+<div class="am-dropdown am-dropdown-indexz" data-am-dropdown>
+<button type="button" class="am-btn am-btn-default mg-btn-radius am-dropdown-toggle" data-am-modal="{target: '#doc-modal-1'}"><span class="am-icon-home am-icon-sm"></span></button>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+  <ul class="am-dropdown-content">
+
+	<think:nav name="nav" tree="true">
+           <if condition="is_array($nav['_'])">
+           <else />
+		   <li class="am-dropdown-content-li"><a href="{$nav.url|get_nav_url}"><img src="{$nav.iconurl}" target="<neq name='nav.target' value='1'>_blank<else/>_self</neq>"/><span>{$nav.title}</span></a></li>
+           </if>
+    </think:nav>
+	<!-----
+    <li><hr data-am-widget="divider" style="height: 0px;" class="am-divider am-divider-default"/></li>
+    <li class="am-dropdown-header">应用中心</li>
+	------->
+	<!---
+	<span class="am-badge am-badge-success">{:Amango_Tips('addons',$addon['name'])}</span>
+	--->
+<amango:addonsuserlist name="addon">
+    <li class="am-dropdown-content-li">
+	   <a href="{:addons_url($addon['name'].'://Home/index')}"><img src="__ROOT__/Addons/{$addon['name']}/icon.png"/><span>{$addon.profilename}</span></a>
+	</li>
+</amango:addonsuserlist>
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+    <li class="am-dropdown-header">芒果，是一个校园生活方式。
+	<span><if condition="is_login()"><a href="{:U('User/profile')}" class="am-badge am-badge-primary am-radius">个人中心<else/><a href="{:U('User/login')}" class="am-badge am-badge-success">快速登陆</if></a></span>
+	</li>
+
+  </ul>
+</div>
+</header>
+</neq>

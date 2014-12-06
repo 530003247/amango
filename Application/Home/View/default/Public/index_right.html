@@ -1,0 +1,28 @@
+ <if condition="$browser_type eq 'pc'">
+ <section class="am-panel am-panel-primary">
+<div class="am-panel-hd">快捷导航</div>
+<ul data-am-widget="gallery" class="am-gallery sm-block-grid-2
+  md-block-grid-3 lg-block-grid-3 am-gallery-default" data-am-gallery="">
+		{:W('Category/lists', array(1, true, true))}
+		{:W('Category/lists', array(43, true, true))}
+        </ul>
+      </section>
+	 <section class="am-panel am-panel-primary">
+        <div class="am-panel-hd  " >阅读推荐</div>
+<ul class="am-list am-list-static am-list-border">
+ <article:position pos="4" cate="42" limit="4"  name="article">
+   <li class="am-rf"><a href="{:U('Article/detail?id='.$article['id'])}" target="blank">
+     {$article.title}<span class="am-badge am-badge-danger" style="float: right;">{$article.view}℃</span>
+	 </a>
+  </li>
+ </article:position>
+
+  </ul>
+      </section>
+	 <section class="am-panel am-panel-primary">
+        <div class="am-panel-hd  " >粉丝动态</div>
+<ul class="am-list am-list-static am-list-border">
+  <li>暂无相关</li>
+  <li>
+      </section>
+</if>

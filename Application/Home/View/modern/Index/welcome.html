@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Amaze UI| examples landing</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" href="__PUBLIC__/Home/amaze/assets/css/amui.all.min.css"/>
+  <style>
+    .head-fixed {
+      padding-top: 50px;
+    }
+    .head {
+      margin-bottom: 0;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+    }
+    .get {
+      background: #1E5B94;
+      color: #fff;
+      text-align: center;
+      padding: 100px 0;
+    }
+
+    .get-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      padding: 20px;
+      display: inline-block;
+    }
+    .get-btn {
+      background: #fff;
+    }
+    .detail {
+      background: #fff;
+    }
+
+    .detail-h2 {
+      text-align: center;
+      font-size: 150%;
+      margin: 40px 0;
+    }
+
+    .detail-h3 {
+      color: #1f8dd6;
+    }
+
+    .detail-p {
+      color: #7f8c8d;
+    }
+
+    .detail-mb {
+      margin-bottom: 30px;
+    }
+
+    .hope {
+      background: #0bb59b;
+      padding: 50px 0;
+    }
+
+    .hope-img {
+      text-align: center;
+    }
+
+    .hope-hr {
+      border-color: #149C88;
+    }
+
+    .hope-title {
+      font-size: 140%;
+    }
+
+    .about {
+      background: #fff;
+      padding: 40px 0;
+      color: #7f8c8d;
+    }
+
+    .about-color {
+      color: #34495e;
+    }
+
+    .about-title {
+      font-size: 180%;
+      padding: 30px 0 50px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+  </style>
+</head>
+<body class="head-fixed">
+
+<header class="am-topbar head">
+  <h1 class="am-topbar-brand">
+    <a href="#">Amango</a>
+  </h1>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only" data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="collapse-head">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="am-active"><a href="#">欢迎</a></li>     
+	  <li><a href="http://bbs.amango.net/">芒果论坛</a></li>
+	  <li><a href="http://www.topthink.com/group/onethink.html">OneThink论坛</a></li>
+	  <li><a href="http://mp.weixin.qq.com/wiki/index.php?title=%E9%A6%96%E9%A1%B5">微信开发文档</a></li>
+	  <li><a href="#">探索群：163556458</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="get">
+  <div class="am-g">
+    <div class="col-lg-12">
+      <h1 class="get-title">Amango - 微信 公众号开发框架</h1>
+      <p>
+        我们只做一件事,为微信公众号管理创造价值
+      </p>
+      <p>
+        <a href="{:U('index')}" class="am-btn am-btn-sm get-btn">进入首页</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="detail">
+  <div class="am-g am-container">
+    <div class="col-lg-12">
+      <h2 class="detail-h2">One Wechat 、More Ideas，期待与您一起去探索!</h2>
+
+      <div class="am-g">
+        <div class="col-lg-3 col-md-6 col-sm-12 detail-mb">
+
+          <h3 class="detail-h3">
+            <i class="am-icon-mobile am-icon-sm"></i>
+            一站式
+          </h3>
+
+          <p class="detail-p">
+            Amango 采用业内先进的 CMS 理念，基于Onethink框架进行二次开发，从CMS逐步扩展到微信公众号管理，最终实现所有资源的统一调配，适应大数据入口潮流。
+          </p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 detail-mb">
+          <h3 class="detail-h3">
+            <i class="am-icon-cogs am-icon-sm"></i>
+            模块化
+          </h3>
+
+          <p class="detail-p">
+            Amango 除了支持Onethink插件的开发模式、也支持独有的微信插件开发，双插件机制，可快速构建界面出色、体验优秀的跨屏微信公众管理系统，大幅度提升你营销效率。
+          </p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 detail-mb">
+          <h3 class="detail-h3">
+            <i class="am-icon-check-square-o am-icon-sm"></i>
+            本地化
+          </h3>
+
+          <p class="detail-p">
+            Amango紧紧围绕关键词展开，关键词可调用本站所有资源、接口、插件，为了公众号的个性化，我们提供了多种特色性的微信机制玩法。充分利用平台良好的拓展性。
+          </p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 detail-mb">
+          <h3 class="detail-h3">
+            <i class="am-icon-send-o am-icon-sm"></i>
+            高性能
+          </h3>
+
+          <p class="detail-p">
+            Amango 非常注重性能，基于轻量的 Onethink 开发，并使用 Amaze 来做前台css框架，让你的 微信 + Web 应用可以高速载入。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>© 2014 <a href="http://bbs.amango.net" target="_blank">Amango, Inc.</a> 芒果科技有限公司 版权所有</p>
+</footer>
+<script src="__PUBLIC__/Home/amaze/assets/js/zepto.min.js"></script>
+<script src="__PUBLIC__/Home/amaze/assets/js/amui.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<eq name="type" value="add">
+                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                	<label class="radio">
+                                    <input type="radio" value="{$key}" name="{$field.name}">{$vo}
+                                	</label>
+                                </volist>
+<else/>
+                                <volist name=":parse_field_attr($field['extra'])" id="vo">
+                                	<label class="radio">
+                                    <input type="radio" value="{$key}" name="{$field.name}" <eq name="data[$field['name']]" value="$key">checked="checked"</eq>>{$vo}
+                                	</label>
+                                </volist>
+</eq>

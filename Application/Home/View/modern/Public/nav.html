@@ -1,0 +1,93 @@
+<neq name="HideFastmenu" value="1">
+<if condition="$browser_type eq 'wap'">
+<header>
+<div class="am-dropdown am-dropdown-indexz" data-am-dropdown>
+<button type="button" class="am-btn am-btn-default mg-btn-radius am-dropdown-toggle" data-am-modal="{target: '#doc-modal-1'}"><span class="am-icon-home am-icon-sm"></span></button>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+  <ul class="am-dropdown-content">
+	<think:nav name="nav" tree="true">
+           <if condition="is_array($nav['_'])">
+           <else />
+		   <li class="am-dropdown-content-li"><a href="{$nav.url|get_nav_url}"><img src="{$nav.iconurl}" target="<neq name='nav.target' value='1'>_blank<else/>_self</neq>"/><span>{$nav.title}</span></a></li>
+           </if>
+    </think:nav>
+	<!-----
+    <li><hr data-am-widget="divider" style="height: 0px;" class="am-divider am-divider-default"/></li>
+    <li class="am-dropdown-header">应用中心</li>
+	------->
+	<!---
+	<span class="am-badge am-badge-success">{:Amango_Tips('addons',$addon['name'])}</span>
+	--->
+<amango:addonsuserlist name="addon">
+    <li class="am-dropdown-content-li">
+	   <a href="{:addons_url($addon['name'].'://Home/index')}"><img src="__ROOT__/Addons/{$addon['name']}/icon.png"/><span>{$addon.profilename}</span></a>
+	</li>
+</amango:addonsuserlist>
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+    <li><hr data-am-widget="divider" style="" class="am-divider am-divider-default"/></li>
+    <li class="am-dropdown-header">芒果，演绎不同精彩。
+	<span><if condition="is_login()"><a href="{:U('User/profile')}" class="am-badge am-badge-primary am-radius">个人中心<else/><a href="{:U('User/login')}" class="am-badge am-badge-success">快速登陆</if></a></span>
+	</li>
+  </ul>
+</div>
+</header>
+<else />
+<header class="am-topbar ">
+<style>
+@media only screen and (max-width:680px){.oam-topbar-collapse .am-btn,.oam-topbar-collapse .am-topbar-btn{display:block;width:100%}}
+.oam-topbar-toggle{position:relative;float:right;margin-right:10px}
+@media only screen and (min-width:681px){.oam-topbar-toggle{display:none}}
+.oam-collapse{display:none}
+.oam-topbar-collapse{width:100%;overflow-x:visible;padding:10px;clear:both;-webkit-overflow-scrolling:touch}
+.oam-topbar-collapse:after,.oam-topbar-collapse:before{content:" ";display:table}
+@media only screen and (min-width:681px){.oam-topbar-collapse{margin-top:0;padding:0;width:auto;clear:none}.oam-topbar-collapse.oam-collapse{display:block!important;height:auto!important;padding:0;overflow:visible!important}.oam-topbar-collapse.oam-in{overflow-y:visible}}
+.touming{background-color:rgba(255, 255, 255,0);}
+.am-topbar a {
+color: white;
+}
+</style>
+  <h1 class="am-topbar-brand">
+    <a href="{:U('Index/index')}">{:C('WEB_SITE_TITLE')}</a>
+  </h1>
+  <if condition="is_login()">
+        <a href="{:U('User/profile')}"><button class="am-topbar-btn oam-topbar-toggle am-btn am-btn-sm am-btn-success"><span class="am-sr-only">面板</span> <span class="am-icon-user"></span></button></a>
+</if>
+  <a href="#doc-oc-demo1"  data-am-offcanvas>
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span><span class="am-icon-bars"></span></button>
+    </a>
+  <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse" style="background-color: #227dc5;">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+	<think:nav name="nav" tree="true">
+     <if condition="is_array($nav['_'])">
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          {$nav.title} <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+		  <volist name="nav['_']" id="vo">
+          <li><a href="{$vo.url|get_nav_url}" target="<eq name='vo.target' value='1'>_blank<else/>_self</eq>">{$vo.title}</a></li>
+		  </volist>
+        </ul>
+      </li>
+            <else />
+             <li><a href="{$nav.url|get_nav_url}" target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a></li>
+            </if>
+    </think:nav>
+   </ul>
+   <!--
+    <div class="am-topbar-right">
+      <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span> 绑定</button>
+    </div>
+  -->
+    <div class="am-topbar-right">
+<if condition="is_login()">
+          <a href="{:U('User/profile')}"><button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 个人中心</button></a>
+		  <a href="{:U('User/logout')}"><button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 退出</button></a>
+<else/>
+          <a href="{:U('User/login')}"><button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button></a>
+</if>
+    </div>
+  </div>
+</header>
+</if>
+</neq>

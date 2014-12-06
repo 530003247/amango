@@ -1,0 +1,40 @@
+<extend name="Base/common"/>
+<block name="body">
+<div class="content" id="lastest">
+	<div class="content-wrapper">
+	          <div class="category">
+					<div class="category-header cf">
+						<div class="category-header__info cf">
+							<h2 class="category-header__title left">分类</h2>
+							<div class="category-header__status right cf">
+								<span class="week">6<i>Weekly</i></span>
+								<span class="total">1109<i>Total</i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div class="articles">
+            <article:list name="list" category="$category['id']" child="true">
+                <div class="">
+                    <h3><a href="{:U('Article/detail?id='.$list['id'])}">{$list.title}</a></h3>
+                </div>
+                <div>
+                    <p class="lead">{$list.description}</p>
+                </div>
+                <div>
+                    <span><a href="{:U('Article/detail?id='.$list['id'])}">查看全文</a></span>
+                    <span class="pull-right">
+                        <span class="author">{$list.uid|get_username}</span>
+                        <span>于 {$list.create_time|date='Y-m-d H:i',###}</span> 发表在 <span>
+                        <a href="{:U('Article/lists?category='.get_category_name($list['category_id']))}">{$list.category_id|get_category_title}</a></span> 
+                        <span>阅读( {$list.view} )</span>&nbsp;&nbsp;
+                    </span>
+                </div>
+                <hr/>
+            </article:list>
+			</div>
+			</div>
+		</div>
+</block>
+<block name="left"><include file="Public/left"/></block>
+<block name="right"><include file="Public/right"/></block>

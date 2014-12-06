@@ -30,7 +30,7 @@ class AddonsController extends Controller{
 			$_addons = ucfirst(parse_name($_addons, 1));
 			$_controller = parse_name($_controller,1);
 		}
-
+            A('Home/Amangotheme')->init_config('addons');
 		if(!empty($_addons) && !empty($_controller) && !empty($_action)){
 			//插件状态是否启用判断
 			$addon_status = M('Addons')->where(array('name'=>ucfirst($_addons),'status'=>1))->count();
@@ -64,7 +64,6 @@ class AddonsController extends Controller{
             $TMPL_PARSE_STRING['__ADDONROOT__'] = __ROOT__.'/Addons/'.$_addons.'/Public';
             $TMPL_PARSE_STRING['ADDON_PUBLIC']  = __ROOT__.'/Addons/'.$_addons.'/Public';
             C('TMPL_PARSE_STRING', $TMPL_PARSE_STRING);
-
 			$Addons = $addonsmodel->$_action();
 		} else {
 			$this->error('没有指定插件名称，控制器或操作！');

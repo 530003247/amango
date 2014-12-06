@@ -1,0 +1,201 @@
+<extend name="Base/common"/>
+<block name="diystyle">
+    <link rel="stylesheet" href="__PUBLIC__/Home/huodon/css/amui.all.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/Home/huodon/css/app.css"/>
+    <script src="__PUBLIC__/Home/huodon/js/zepto.min.js"></script>
+    <script src="__PUBLIC__/Home/huodon/js/amui.min.js"></script>
+</block>
+<block name="header">
+<include file="Public/header"/>
+</block>
+<block name="body">
+<div class="col-md-8">
+<h1>{$info.title}        <span class="event-small-notice" style="padding: 0;color: #cc3c45;">
+            <i class="am-icon-heart"></i><span id="event-people-collected">12</span>人已收藏
+        </span></h1>
+<div class="am-slider am-slider-default" style="margin-bottom: 0;">
+    <ul class="am-slides">
+        <li><img src="{$info.cover_id}" alt=""/></li>
+    </ul>
+</div>
+<div class="main-content">
+    <ul class="am-list event-detail-info">
+        <li><i class="am-icon-clock-o event-icon-width"></i>{$info.huodontime|date='Y年m月d日',###}</li>
+        <li><i class="am-icon-map-marker event-icon-width"></i>{$info.huodonaddress}</li>
+        <li><i class="am-icon-ticket event-icon-width"></i>{$info.extra|default="不限制"}</li>
+    </ul>
+	<span class="event-small-notice">活动详情</span>
+    <ul class="am-list event-detail-describe">
+        <li>
+           {$info.huodondesc}
+        </li>
+    </ul>
+	<!---
+    <span class="event-small-notice">其他</span>
+    <ul class="am-list event-detail-describe">
+        <li>idea(Desire to spread, spread to desirers)是一个服务于集大学子的独立团队，旨在建立一个互动和分享的思想交流平台。</li>
+        <li>
+            <div class="event-tips-tag">TIPS</div>
+            <p class="am-article-lead event-tip-content">
+                </p>
+        </li>
+    </ul>
+	--->
+    <button type="button" class="am-btn am-btn-danger col-sm-5" data-am-modal="{target: '#event-add-favor'}">
+        <i class="am-icon-heart event-icon-width"></i>收藏
+    </button>
+
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="event-add-favor">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <a href="" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                收藏成功！
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="am-btn am-btn-success col-sm-5" data-am-modal="{target: '#event-share-event'}">
+        <i class="am-icon-share-alt event-icon-width"></i>分享
+    </button>
+
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="event-share-event">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <a href="" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                轻触屏幕右上角 <br/>
+                <i class="am-icon-mail-forward"></i>分享给朋友们
+            </div>
+        </div>
+    </div>
+</div>
+
+    <ul class="am-pagination blog-pagination">
+					<article:prev name="prev" info="info">
+                        <li class="am-pagination-prev"><a href="{:U('?id='.$prev['id'])}">上一篇</a></li>
+                    </article:prev>
+                    <article:next name="next" info="info">
+                        <li class="am-pagination-next"><a href="{:U('?id='.$next['id'])}">下一篇</a></li>
+                    </article:next>
+    </ul>
+	{:hook('documentDetailAfter',$info)}
+  </div>
+
+<div class="col-md-4 blog-sidebar">
+    <div class="am-panel-group">
+
+		<eq name="reply" value="1">
+	<section data-am-widget="accordion" class="am-accordion am-accordion-gapped"
+data-accordion-settings='{  }'>
+  <dl class="am-accordion-item">
+    <dt class="am-accordion-title  am-btn-success" align="center">我要报名</dt>
+    <dd class="am-accordion-content">					
+	       <eq name="reply" value="1">
+				 	<form accept-charset="UTF-8" action="{:U('reply')}" class="am-form col-sm-centered" data-remote="true" id="new_reply" method="post">
+				<div class="am-g" id="fqhd" >
+			   <volist name="fields" id="field">
+                         {:W('Formfields/show', array($field, '','add'))}
+              </volist>
+					    <input type="hidden" name="id" value="{$info.id|default=''}"/>
+			            <input type="hidden" name="pid" value="{$pid|default=''}"/>
+			            <input type="hidden" name="model_id" value="{$model_id|default=''}"/>
+						<input type="hidden" name="type" value="2">
+			            <input type="hidden" name="category_id" value="{$category_id|default=''}">
+					</div><hr>
+					 <input type="submit" name="" value="立即报名" class="am-btn am-btn-success am-btn-sm am-fr">
+				  </div>
+                     </form>
+		</eq>
+	</dd>
+  </dl>
+</section>
+							</eq>
+						
+<!---
+<include file="Public/cate"/>
+
+      <section class="am-panel am-panel-default">
+	  <div class="am-panel-hd">热门应用</div>
+<ul data-am-widget="gallery" class="am-gallery sm-block-grid-2
+  md-block-grid-3 lg-block-grid-4 am-gallery-default" data-am-gallery="">
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://cn.bing.com/az/hprichv/LondonTrainStation_GettyRR_139321755_ZH-CN742316019.jpg">
+              <img src="http://cn.bing.com/az/hprichv/LondonTrainStation_GettyRR_139321755_ZH-CN742316019.jpg" alt="远方 有一个地方 那里种有我们的梦想">
+                <h3 class="am-gallery-title">远方 有一个地方 那里种有我们的梦想</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+          
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/CardinalsBerries_ZH-CN10679090179_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/CardinalsBerries_ZH-CN10679090179_1366x768.jpg" alt="某天 也许会相遇 相遇在这个好地方">
+              
+                <h3 class="am-gallery-title">某天 也许会相遇 相遇在这个好地方</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+          
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg" alt="不要太担心 只因为我相信">
+              
+                <h3 class="am-gallery-title">不要太担心 只因为我相信</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.cn.bing.net/az/hprichbg/rb/FennecFox_ZH-CN13720911949_1366x768.jpg">
+              <img src="http://s.cn.bing.net/az/hprichbg/rb/FennecFox_ZH-CN13720911949_1366x768.jpg" alt="终会走过这条遥远的道路">
+              
+                <h3 class="am-gallery-title">终会走过这条遥远的道路</h3>
+              
+              
+                <div class="am-gallery-desc">2375-09-26</div>
+              
+            </a>
+          
+        </div>
+      </li>
+    
+  </ul>
+      </section>
+	 
+<section data-am-widget="accordion" class="am-accordion am-accordion-gapped"
+data-accordion-settings='{  }'>
+  <dl class="am-accordion-item">
+    <dt class="am-accordion-title">关注我们</dt>
+    <dd class="am-accordion-content"><image src="Public/{:C('WEB_SITE_QR')}"></image></dd>
+  </dl>
+</section>
+ --->
+    </div>
+  </div>
+  <script>
+    Zepto(function ($) {
+        $('.am-slider').flexslider();
+    })
+</script>
+</block>

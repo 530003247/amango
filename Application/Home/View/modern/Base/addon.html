@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>{$Title|default="个人中心"} By Amango</title>
+  <meta name="description" content="{$Description}} By Amango" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="stylesheet" href="__PUBLIC__/Home/amaze/assets/css/amui.all.min.css"/>
+  <block name="diystyle"></block>
+  {:hook('addonHeader')}
+</head>
+<body>
+<block name="header"></block>
+<block name="body"></block>
+<block name="foot"></block>
+{:hook('addonFooter')}
+<footer class="footer">
+  <p>© 2014 <a href="http://bbs.amango.net" target="_blank">Amango, Inc.</a> by the Amango Team.</p>
+</footer>
+</body>
+<script type="text/javascript">
+(function(){
+	var ThinkPHP = window.Think = {
+		"ROOT"   : "__ROOT__", //当前网站地址
+		"APP"    : "__APP__", //当前项目地址
+		"PUBLIC" : "__PUBLIC__", //项目公共目录地址
+		"DEEP"   : "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+		"MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+		"VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+	}
+})();
+</script>
+<include file="Public/weixinjs"/>
+<script src="__PUBLIC__/Home/amaze/assets/js/zepto.min.js"></script>
+<script src="__PUBLIC__/Home/amaze/assets/js/amui.min.js"></script>
+</html>
