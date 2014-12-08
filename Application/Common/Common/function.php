@@ -832,22 +832,48 @@ function get_model_attribute($model_id, $group = true){
 }
 
 /**
- * 调用系统的API接口方法（静态方法）
- * api('User/getName','id=5'); 调用公共模块的User接口的getName方法
- * api('Admin/User/getName','id=5');  调用Admin模块的User接口
+ * 调用系统的API接口方法（动/静态方法）
+ * staic  是否为静态的接口方法
+ * false api('User','id=5');         调用公共模块的User接口并且实例化时候附带参数array('id'=>5)
+ * true  api('User/getName','id=5'); 调用公共模块的User接口的getName方法
+ * true  api('Admin/User/getName','id=5');  调用Admin模块的User接口
  * @param  string  $name 格式 [模块名]/接口名/方法名
  * @param  array|string  $vars 参数
  */
-function api($name,$vars=array()){
+function api($name,$vars=array(),$static=true){
     $array     = explode('/',$name);
-    $method    = array_pop($array);
-    $classname = array_pop($array);
-    $module    = $array? array_pop($array) : 'Common';
-    $callback  = $module.'\\Api\\'.$classname.'Api::'.$method;
-    if(is_string($vars)) {
-        parse_str($vars,$vars);
+    if($static){
+        $method    = array_pop($array);
+        $classname = array_pop($array);
+        $module    = $array? array_pop($array) : 'Common';
+        if(is_string($vars)) {
+            parse_str($vars,$vars);
+        }
+        $callback  = $module.'\\Api\\'.$classname.'Api::'.$method;
+        return call_user_func_array($callback,$vars);
+    } else {
+        static $_action = array();
+        $classname   = array_pop($array);
+        $module      = $array? array_pop($array) : 'Common';
+        if(empty($module)){
+            $module = MODULE_NAME;
+        }
+        if(empty($classname)){
+            $classname = $module;
+            $module    = 'Common';
+        }
+        $class       = '\\'.$module.'\\Api\\'.$classname.'Api';
+        if(isset($_action[$class])){
+            return $_action[$class];
+        }
+        if(class_exists($class)) {
+            $action                =   new $class($vars);
+            $_action[$name.$layer] =   $action;
+            return $action;
+        }else {
+            return false;
+        }
     }
-    return call_user_func_array($callback,$vars);
 }
 
 /**
