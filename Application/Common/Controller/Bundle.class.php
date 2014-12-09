@@ -110,20 +110,21 @@ abstract class Bundle{
     protected final function execute_rules($param) {
 
     }
-    //自动回复 type：auto hello black
+    //自动回复 type：auto hello black empty
     //为空不回复
     protected final function autoreply($type) {
-        $type = empty($type)?'outtime':strtolower($type);
+        $type = in_array($type,array('hello','auto','outtime','black','empty'))?strtolower($type):'auto';
         $info = M('Config')->where(array('name'=>'AMANGO_DEFAULT_REPLY'))->getField('value');
         $data = explode(',', $info);
         $type_reply = array(
             'hello'   => $data[0],
-            'balck'   => $data[1],
-            'outtime' => $data[2]
+            'black'   => $data[1],
+            'outtime' => $data[2],
+            'auto'    => $data[2],
         );
         $this->amango = new \Weixin\Model\AmangoModel;
         $replyid = $type_reply[$type];
-        if(empty($replyid)){
+        if(empty($replyid)||$type=='empty'){
             echo "";die;
         } else {
             $this->amango->response('@',$replyid);
