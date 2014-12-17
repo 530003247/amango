@@ -32,4 +32,16 @@ return array(
         'Weixin\Behavior\WxShowTrace', // 关闭模板输出替换
         '_overlay'=>1
     ),
+    // 微信入口数据过滤
+    'weixin_begin_filter'   =>  array(
+        'Weixin\Behavior\WeixinFilter',
+    ),
+    // 微信系统预处理
+    'weixin_begin'   =>  array(
+        'Weixin\Behavior\WeixinInit',
+    ),
+     // 微信系统内容过滤
+    'weixin_xml_filter'   =>  array(
+        'Weixin\Behavior\WeixinXmlFilter',
+    ),
 );

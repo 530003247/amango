@@ -24,18 +24,7 @@ abstract class Factory{
     //链式参数存储
     protected $options    = array();
     protected $data       = array();
-    protected $type       = null;    //0 为 数组  1 为XML  2 为字符串   
-
-    /**
-     * 架构函数
-     */
-    public function __construct() {
-        // 初始化
-        $this->_initialize();
-    }
-    // 回调方法 初始化模型
-    protected function _initialize() {}
-
+    protected $type       = null;    //0 为 数组  1 为XML  2 为字符串
     /**
      * 加载数据 数组 或XML
      * @param array $data 格式: 微信键名=>键值
@@ -68,51 +57,47 @@ abstract class Factory{
     }
     //标签解析合并
     protected function parax_tags($where) {
-        $tags   = $this->_tags;
-        $fields = $this->_fields;
         if($where=='*'){
-            unset($tags);
+            unset($this->_tags);
         } else {
             foreach ($where as $key => $value) {
-                if(is_numeric($key)&&in_array($value,$fields)){
-                        unset($tags[$value]);
+                if(is_numeric($key)&&in_array($value,$this->_fields)){
+                        unset($this->_tags[$value]);
                 } else {
-                    if(in_array($key,$fields)&&in_array($value,$tags[$key])){
-                        unset($tags[$key][$value]);
+                    if(in_array($key,$this->_fields)&&in_array($value,$this->_tags[$key])){
+                        unset($this->_tags[$key][$value]);
                     }
                 }
             }
         }
-        return $tags;
+        return $this->_tags;
     }
+
     //XML形式返回  全部
 	public function select(){
-        $tags  = self::parax_tags($this->options['tags']);
-        $level = $this->_level;
-        $data  = $this->data;
-        $group = $this->_group;
-        $top   = $this->_top;
-            if(true===$level&&is_2array($data)){
-
+        self::parax_tags($this->options['tags']);
+        //$data  = $this->data;
+        //$group = $this->_group;
+        //$top   = $this->_top;
+            if($this->_level&&self::judgeData($this->data)){
                 //单项GROUP循环
                 $msgnums = count($this->data)-1;
                 $xml     = '';
                 //子项标识
-                
-                foreach ($group as $key => $value) {
+                foreach ($this->_group as $key => $value) {
                         for ($i=0; $i <= $msgnums; $i++) { 
                             $head = creat_amango_tag($value['head'],$i).'<'.$key.'>';
                             $end  = '</'.$key.'>'.creat_amango_tag($value['end'],$i);
-                            $xml .= $head.array_to_xml($data[$i],$tags,$i).$end;
+                            $xml .= $head.array_to_xml($this->data[$i],$this->_tags,$i).$end;
                         }
                 }
             } else {
-
-                    $xml = self::find($tags);
+                    $xml = self::createItem($this->_tags);
             }
+
                 //头部包裹
-                if(!empty($top)){
-                    foreach ($top as $key => $value) {
+                if(!empty($this->_top)){
+                    foreach ($this->_top as $key => $value) {
                             $tophead = '<'.$key.'>'.creat_amango_tag($value['head']);
                             $topend  = creat_amango_tag($value['end']).'</'.$key.'>';
                     }
@@ -123,22 +108,47 @@ abstract class Factory{
 
     //XML形式返回  单项
     public function find($tags){
+        return $this->createItem($tags);
+    }
+    public function createItem($tags){
         $tags    =  empty($tags) ? self::parax_tags($this->options['tags']) : $tags;
-        $group   = $this->_group;
-        $data    = $this->data;
-        $top     = $this->_top;
-        $newdata = (is_2array($data)) ? $data[0] : $data;
-        $xml     = array_to_xml($newdata,$tags);
-        if(true===$this->_level&&!empty($group)){
-            foreach ($group as $key => $value) {
-                $head = creat_amango_tag($value['head']).'<'.$key.'>';
-                $end  = '</'.$key.'>'.creat_amango_tag($value['end']);
+        $newdata = self::judgeData($this->data) ? $this->data[0] : $this->data;
+        $xml     = self::array_to_xml($newdata,$tags);
+        if($this->_level&&!empty($this->_group)){
+            foreach ($this->_group as $key => $value) {
+                $head = self::creat_amango_tag($value['head']).'<'.$key.'>';
+                $end  = '</'.$key.'>'.self::creat_amango_tag($value['end']);
             }
                 $xml = $head.$xml.$end;
         }
         return $xml;
     }
-
+    public static function array_to_xml($packet,$tags='',$pre='') {
+            if(is_array($packet)) {
+                $xml = '';
+                foreach ($packet as $key => $value) {
+                    $titlekey  = ucfirst($key);
+                         $xml .=  self::creat_amango_tag($tags[$titlekey]['head'],$pre)."<{$titlekey}><![CDATA[".self::creat_amango_tag($tags[$titlekey]['_before'],$pre).$value.self::creat_amango_tag($tags[$titlekey]['after_'],$pre)."]]></{$titlekey}>".self::creat_amango_tag($tags[$titlekey]['end'],$pre);
+                }
+                return $xml;
+            } else {
+                return null;
+            }
+    }
+    public static function creat_amango_tag($tagname,$pre) {
+        return empty($tagname) ? '' : '<amango:'.$tagname.'tag'.$pre.'>';
+    }
+    public static function judgeData($array){
+        if(is_array($array)){
+            if (count($array)==count($array, 1)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
     //XML形式返回Item
     public function setItem($param,$fields){
         $fields     =  array_values(empty($fields) ? $this->_fields : $fields);
